@@ -1,0 +1,239 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.pro-profile-container {
+  max-width: 1200px;
+  margin: 120px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.pro-profile-header {
+  background: linear-gradient(135deg, #4a90e2, #f5a623);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.pro-profile-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.pro-profile-header p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+.pro-profile-content {
+  display: flex;
+  padding: 40px;
+  gap: 40px;
+}
+
+.pro-profile-sidebar {
+  flex: 1;
+  max-width: 300px;
+}
+
+.pro-profile-image-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pro-profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #4a90e2;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pro-image-upload-label {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pro-image-upload-label:hover {
+  background-color: #3a7bd5;
+}
+
+.pro-image-upload-label input {
+  display: none;
+}
+
+.pro-profile-stats {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f0f4f8;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.pro-stat-item {
+  text-align: center;
+}
+
+.pro-stat-value {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #4a90e2;
+}
+
+.pro-stat-label {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.pro-profile-main {
+  flex: 2;
+}
+
+.pro-profile-details,
+.pro-enrolled-courses,
+.pro-achievements {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.pro-profile-details h2,
+.pro-enrolled-courses h2,
+.pro-achievements h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #4a90e2;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.pro-profile-field {
+  margin-bottom: 20px;
+}
+
+.pro-profile-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #64748b;
+}
+
+.pro-profile-field input,
+.pro-profile-field textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.pro-profile-field input:focus,
+.pro-profile-field textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.pro-profile-field textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.pro-course-list,
+.pro-achievement-list {
+  list-style: none;
+  padding: 0;
+}
+
+.pro-course-item,
+.pro-achievement-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.pro-course-item:last-child,
+.pro-achievement-item:last-child {
+  border-bottom: none;
+}
+
+.pro-course-info {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.pro-course-name,
+.pro-achievement-name {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #4a90e2;
+}
+
+.pro-progress-bar {
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.pro-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4a90e2, #f5a623);
+  transition: width 0.3s ease;
+}
+
+.pro-course-progress,
+.pro-achievement-description {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.pro-course-percentage {
+  font-weight: 600;
+  color: #4a90e2;
+}
+
+@media (max-width: 768px) {
+  .pro-profile-content {
+    flex-direction: column;
+  }
+
+  .pro-profile-sidebar {
+    max-width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .pro-profile-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .pro-profile-stats {
+    flex-wrap: wrap;
+  }
+
+  .pro-stat-item {
+    flex: 1 0 33%;
+    margin-bottom: 15px;
+  }
+}
