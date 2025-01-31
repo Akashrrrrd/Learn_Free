@@ -16,7 +16,8 @@ import Profile from "./pages/Profile/Profile";
 import Semesters from "./components/Semesters/Semesters";
 import Subjects from "./components/Subjects/Subjects";
 import Loading from "./components/Loading/Loading"; // Import Loading component
-import CSE_Subjects from "./pages/CSE_Subjects/CSE_Subjects";
+
+import Room from "./pages/Room/Room";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -74,7 +75,7 @@ const App = () => {
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/department/:department/semester/:semester" element={<Subjects />} />
-      <Route path="/cse_subjects" element={<CSE_Subjects />} />
+      <Route path="/room" element={<Room/>}/>
     </Routes>
   )}
 </Router>

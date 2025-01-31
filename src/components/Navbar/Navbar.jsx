@@ -55,6 +55,11 @@ const Navbar = ({ onLogout }) => {
             </Link>
           </li>
           <li className="navbar-item">
+            <Link to="/room" className="navbar-links" onClick={toggleMenu}>
+              Rooms
+            </Link>
+          </li>
+          <li className="navbar-item">
             <Link to="/ai" className="navbar-links" onClick={toggleMenu}>
               AI
             </Link>
