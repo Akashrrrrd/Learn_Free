@@ -1037,6 +1037,27 @@ export const departmentsData = [
 export const resourcesData = {
   // Semester 1
   MA101: {
+    lectureVideos: [
+      {
+        title: "Introduction to Programming Concepts",
+        duration: "45:30",
+        thumbnail: "/thumbnails/cs101/intro.jpg",
+        url: "https://example.com/videos/cs101/intro",
+      },
+      {
+        title: "Introduction to Programming Concepts",
+        duration: "45:30",
+        thumbnail: "/thumbnails/cs101/intro.jpg",
+        url: "https://example.com/videos/cs101/intro",
+      },
+      {
+        title: "Introduction to Programming Concepts",
+        duration: "45:30",
+        thumbnail: "/thumbnails/cs101/intro.jpg",
+        url: "https://example.com/videos/cs101/intro",
+      },
+    ],
+
     lectureNotes: [
       { title: "Unit 1 - Calculus", url: "/files/MA101/unit1.pdf" },
       { title: "Unit 2 - Linear Algebra", url: "/files/MA101/unit2.pdf" },

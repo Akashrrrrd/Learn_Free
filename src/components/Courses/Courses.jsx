@@ -76,6 +76,7 @@ const Courses = () => {
   const getSubjectResources = (subjectCode) => {
     return (
       resourcesData[subjectCode] || {
+        lectureVideos: [],
         lectureNotes: [],
         assignments: [],
         referenceBooks: [],
@@ -170,9 +171,38 @@ const Courses = () => {
         </div>
         <div className="resources-container">
           <div className="resource-section">
+            <h2>Lecture Videos</h2>
+            <div className="resource-list video-list">
+              {resources.lectureVideos?.map((video, index) => (
+                <div key={index} className="resource-item video-item">
+                  <div className="resource-icon">🎥</div>
+                  <div className="resource-details">
+                    <h3>{video.title}</h3>
+                    <p>Duration: {video.duration}</p>
+                    <div className="video-thumbnail">
+                      <img src={video.thumbnail} alt={video.title} />
+                      <div className="play-overlay">
+                        <span className="play-icon">▶️</span>
+                      </div>
+                    </div>
+                    <a
+                      href={video.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="watch-btn"
+                    >
+                      Watch Video
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="resource-section">
             <h2>Lecture Notes</h2>
             <div className="resource-list">
-              {resources.lectureNotes.map((note, index) => (
+              {resources.lectureNotes?.map((note, index) => (
                 <div key={index} className="resource-item">
                   <div className="resource-icon">📚</div>
                   <div className="resource-details">
@@ -189,10 +219,11 @@ const Courses = () => {
               ))}
             </div>
           </div>
+
           <div className="resource-section">
             <h2>Assignments</h2>
             <div className="resource-list">
-              {resources.assignments.map((assignment, index) => (
+              {resources.assignments?.map((assignment, index) => (
                 <div key={index} className="resource-item">
                   <div className="resource-icon">📝</div>
                   <div className="resource-details">
@@ -210,10 +241,11 @@ const Courses = () => {
               ))}
             </div>
           </div>
+
           <div className="resource-section">
             <h2>Reference Books</h2>
             <div className="resource-list">
-              {resources.referenceBooks.map((book, index) => (
+              {resources.referenceBooks?.map((book, index) => (
                 <div key={index} className="resource-item">
                   <div className="resource-icon">📖</div>
                   <div className="resource-details">
