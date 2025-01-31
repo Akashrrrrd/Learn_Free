@@ -133,8 +133,10 @@ const AI = () => {
       <header className="ai-header">
         <h1>LearnFree AI Assistant</h1>
         <p className="ai-intro">
-          Discover knowledge with LearnFree. Ask me anything about our courses,
-          learning paths, or specific subjects you're interested in.
+          Track your academic progress effortlessly with LearnFree AI. Get
+          real-time insights on grades, attendance, and feedback while
+          identifying potential risks to enhance learning outcomes and reduce
+          dropout rates.
         </p>
       </header>
       <div className="ai-chatbox" ref={chatboxRef}>

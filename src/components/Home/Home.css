@@ -1,188 +1,156 @@
-/* Base styles */
+/* Home.css */
 .home {
-    font-family: 'Arial', sans-serif;
-    color: #ffffff;
-    min-height: 100vh;
-    background: linear-gradient(to bottom, #1a365d, #2c5282);
+  font-family: "Poppins", sans-serif; /* Modern font */
+  min-height: 100vh;
+  background-color: #f9fafb; /* Softer white */
+  color: #333333;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e3f2fd, #ffffff); /* Subtle gradient */
+}
+
+.hero-content {
+  text-align: center;
+  padding: 0 20px;
+  max-width: 850px;
+}
+
+.hero-content h1 {
+  font-size: 3.8rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #123456; /* Darker blue for emphasis */
+  letter-spacing: 1px;
+  animation: fadeInDown 1s ease-out;
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  color: #4a5568;
+  line-height: 1.6;
+  animation: fadeInUp 1s ease-out;
+}
+
+/* CTA Button */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #1e40af
+  ); /* Vibrant blue gradient */
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button:hover {
+  background: linear-gradient(90deg, #1e40af, #2563eb); /* Inverted gradient */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:active {
+  transform: scale(0.98);
+}
+
+.arrow-icon {
+  margin-left: 10px;
+  font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  /* Hero section */
-  .hero {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .hero-background img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.2;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 0 20px;
-    max-width: 800px;
-  }
-  
-  .hero-content h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-  }
-  
-  .hero-content p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-  }
-  
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-down,
+  .animate-fade-in-up,
+  .feature-card,
   .cta-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.375rem;
-    background-color: #ffffff;
-    color: #2c5282;
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.8rem;
+  }
+
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+
+  .cta-button {
     font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    padding: 12px 22px;
   }
-  
-  .cta-button:hover {
-    background-color: #e2e8f0;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .arrow-icon {
-    margin-left: 0.5rem;
-  }
-  
-  /* Features section */
-  .features {
-    padding: 4rem 2rem;
-  }
-  
+
   .features h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 3rem;
+    font-size: 2.3rem;
   }
-  
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2.4rem;
   }
-  
-  .feature-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    text-align: center;
-    transition: transform 0.3s ease;
+
+  .hero-content p {
+    font-size: 1rem;
   }
-  
-  .feature-card:hover {
-    transform: translateY(-5px);
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 10px 18px;
   }
-  
-  .icon-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 4rem;
-    height: 4rem;
-    margin: 0 auto 1rem;
-    background-color: #4299e1;
-    border-radius: 50%;
+
+  .features h2 {
     font-size: 2rem;
   }
-  
-  .feature-card h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
-  
-  .feature-card p {
-    font-size: 1rem;
-    color: #e2e8f0;
-  }
-  
-  /* Animations */
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-fade-in-down {
-    animation: fadeInDown 1s ease-out;
-  }
-  
-  .animate-fade-in-up {
-    animation: fadeInUp 1s ease-out;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .hero-content h1 {
-      font-size: 2.5rem;
-    }
-  
-    .hero-content p {
-      font-size: 1rem;
-    }
-  
-    .features h2 {
-      font-size: 2rem;
-    }
-  }
-  
-  /* Accessibility */
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in-down,
-    .animate-fade-in-up,
-    .feature-card,
-    .cta-button {
-      animation: none;
-      transition: none;
-    }
-  }
+}

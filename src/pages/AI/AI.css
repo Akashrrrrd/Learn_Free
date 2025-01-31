@@ -7,16 +7,13 @@
   --chat-background: #e0e7ff;
 }
 
-body {
-  background: linear-gradient(to bottom, #1a365d, #2c5282);
-}
-
 .ai-container {
-  max-width: 1200px;
-  margin: 120px auto;
+  max-width: 1600px;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
   background: var(--chat-background);
-  border-radius: 20px;
-  padding: 30px;
+  padding: 40px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 

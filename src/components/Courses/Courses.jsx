@@ -1,379 +1,359 @@
-import React, { useState, useEffect } from "react";
-import "./Courses.css";
-import courses_img_1 from "../../assets/courses_img_1.png";
-import courses_img_2 from "../../assets/courses_img_2.png";
-import courses_img_3 from "../../assets/courses_img_3.png";
-import courses_img_4 from "../../assets/courses_img_4.png";
-import courses_img_5 from "../../assets/courses_img_5.png";
-import courses_img_6 from "../../assets/courses_img_6.png";
-import courses_img_7 from "../../assets/courses_img_7.png";
-import courses_img_8 from "../../assets/courses_img_8.png";
-import courses_img_9 from "../../assets/courses_img_9.png";
-import courses_img_10 from "../../assets/courses_img_10.png";
-import courses_img_11 from "../../assets/courses_img_11.png";
-import courses_img_12 from "../../assets/courses_img_12.png";
-import courses_img_13 from "../../assets/courses_img_13.png";
-import courses_img_14 from "../../assets/courses_img_14.png";
-import courses_img_15 from "../../assets/courses_img_15.png";
-import courses_img_16 from "../../assets/courses_img_16.png";
-import courses_img_17 from "../../assets/courses_img_17.png";
-import courses_img_18 from "../../assets/courses_img_18.png";
-import courses_img_19 from "../../assets/courses_img_19.png";
-import courses_img_20 from "../../assets/courses_img_20.png";
-import courses_img_21 from "../../assets/courses_img_21.png";
-import courses_img_22 from "../../assets/courses_img_22.png";
-import courses_img_23 from "../../assets/courses_img_23.png";
-import courses_img_24 from "../../assets/courses_img_24.png";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const coursesData = [
-  {
-    id: 1,
-    title: "Introduction to Blockchain",
-    description:
-      "Learn the fundamentals of blockchain technology and its applications.",
-    category: "Technology",
-    duration: "6 weeks",
-    level: "Beginner",
-    image: courses_img_1,
-    videoLink: "https://www.youtube.com/embed/SSo_EIwHSd4?si=Ha0w-C6u0v87gcIA",
-  },
-  {
-    id: 2,
-    title: "Web Development Basics",
-    description:
-      "Get started with HTML, CSS, and JavaScript to build dynamic websites.",
-    category: "Programming",
-    duration: "8 weeks",
-    level: "Beginner",
-    image: courses_img_2,
-    videoLink: "https://www.youtube.com/embed/Q33KBiDriJY?si=vhy_rX7F4N7DE6Ga",
-  },
-  {
-    id: 3,
-    title: "Data Science Essentials",
-    description:
-      "Explore the basics of data science, including data analysis and visualization.",
-    category: "Data",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_3,
-    videoLink: "https://www.youtube.com/embed/ua-CiDNNj30?si=Sw6JZxWKAAEpnwEm",
-  },
-  {
-    id: 4,
-    title: "Machine Learning 101",
-    description:
-      "An introductory course on machine learning concepts and algorithms.",
-    category: "AI",
-    duration: "12 weeks",
-    level: "Intermediate",
-    image: courses_img_4,
-    videoLink: "https://www.youtube.com/embed/GwIo3gDZCVQ?si=rQVgdtTVCD97hohA",
-  },
-  {
-    id: 5,
-    title: "Cybersecurity Fundamentals",
-    description:
-      "Understand the basics of cybersecurity, including threats and protection methods.",
-    category: "Security",
-    duration: "8 weeks",
-    level: "Beginner",
-    image: courses_img_5,
-    videoLink: "https://www.youtube.com/embed/lpa8uy4DyMo?si=rUS0Gs-Rjif7lXyY",
-  },
-  {
-    id: 6,
-    title: "Digital Marketing Strategies",
-    description:
-      "Learn how to effectively market products and services online.",
-    category: "Marketing",
-    duration: "6 weeks",
-    level: "Beginner",
-    image: courses_img_6,
-    videoLink: "https://www.youtube.com/embed/rXtaM3x7kHA?si=ZI_j8b3nivpZv6qP",
-  },
-  {
-    id: 7,
-    title: "User Experience Design",
-    description:
-      "Discover the principles of UX design and how to create user-friendly interfaces.",
-    category: "Design",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_7,
-    videoLink: "https://www.youtube.com/embed/BU_afT-aIn0?si=ZWyWaW2vMR__Kuy-",
-  },
-  {
-    id: 8,
-    title: "Introduction to Cloud Computing",
-    description:
-      "Get familiar with cloud concepts, services, and deployment models.",
-    category: "Cloud",
-    duration: "8 weeks",
-    level: "Beginner",
-    image: courses_img_8,
-    videoLink: "https://www.youtube.com/embed/EN4fEbcFZ_E?si=35fzWyPKb6bY-zqo",
-  },
-  {
-    id: 9,
-    title: "Full Stack Web Development",
-    description:
-      "Become proficient in both front-end and back-end web development technologies.",
-    category: "Programming",
-    duration: "12 weeks",
-    level: "Advanced",
-    image: courses_img_9,
-    videoLink: "https://www.youtube.com/embed/YLpCPo0FDtE?si=ENKI06djMXP1CRnH",
-  },
-  {
-    id: 10,
-    title: "Introduction to Artificial Intelligence",
-    description:
-      "Learn the basics of AI, including its history, applications, and future trends.",
-    category: "AI",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_10,
-    videoLink: "https://www.youtube.com/embed/MqffbpjhriQ?si=Wo_29O_4a14ojJeZ",
-  },
-  {
-    id: 11,
-    title: "React.js for Beginners",
-    description:
-      "Master the fundamentals of React.js for building dynamic user interfaces.",
-    category: "Programming",
-    duration: "8 weeks",
-    level: "Beginner",
-    image: courses_img_11,
-    videoLink: "https://www.youtube.com/embed/bMknfKXIFA8?si=teVlhqfA74-ObOh9",
-  },
-  {
-    id: 12,
-    title: "Introduction to SQL Databases",
-    description: "Learn how to manage and query databases using SQL.",
-    category: "Data",
-    duration: "6 weeks",
-    level: "Beginner",
-    image: courses_img_12,
-    videoLink: "https://www.youtube.com/embed/5OdVJbNCSso?si=ox6PY20Rl9z1VVzb",
-  },
-  {
-    id: 13,
-    title: "Data Structures & Algorithms",
-    description:
-      "Master data structures and algorithms to solve complex programming problems efficiently.",
-    category: "Programming",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_21,
-    videoLink: "https://www.youtube.com/embed/xWLxhF3b5P8?si=iwMXDMHX2EQv_PBH",
-  },
-  {
-    id: 14,
-    title: "Deep Learning with TensorFlow",
-    description:
-      "Learn deep learning fundamentals and how to implement neural networks using TensorFlow.",
-    category: "AI",
-    duration: "12 weeks",
-    level: "Advanced",
-    image: courses_img_22,
-    videoLink: "https://www.youtube.com/embed/DooxDIRAkPA?si=obwAND3duTYLM5lR",
-  },
-  {
-    id: 15,
-    title: "Advanced Python Programming",
-    description:
-      "Enhance your Python skills with advanced concepts, including multithreading, OOP, and more.",
-    category: "Programming",
-    duration: "8 weeks",
-    level: "Advanced",
-    image: courses_img_23,
-    videoLink: "https://www.youtube.com/embed/UrsmFxEIp5k?si=P7NmvEd8HYAKKiUu",
-  },
-  {
-    id: 16,
-    title: "Natural Language Processing (NLP)",
-    description:
-      "Explore NLP techniques for processing and understanding human language using Python.",
-    category: "AI",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_24,
-    videoLink: "https://www.youtube.com/embed/68lIfswwG2A?si=XGzUZLXpDCfYihX4",
-  },
-  {
-    id: 17,
-    title: "Embedded Systems Programming",
-    description:
-      "Learn to program microcontrollers and design embedded systems using C/C++.",
-    category: "Electronics",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_13,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 18,
-    title: "Introduction to VLSI Design",
-    description:
-      "Understand the fundamentals of VLSI design and how integrated circuits are developed.",
-    category: "Electronics",
-    duration: "12 weeks",
-    level: "Advanced",
-    image: courses_img_14,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 19,
-    title: "Real-Time Operating Systems (RTOS)",
-    description:
-      "Learn how to design and implement real-time operating systems for embedded systems.",
-    category: "Electronics",
-    duration: "8 weeks",
-    level: "Advanced",
-    image: courses_img_15,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 20,
-    title: "Signal Processing Basics",
-    description:
-      "Explore digital signal processing techniques for communication systems.",
-    category: "Electronics",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_16,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 21,
-    title: "Power Electronics Fundamentals",
-    description:
-      "Learn about the principles and applications of power electronics in modern devices.",
-    category: "Electrical",
-    duration: "8 weeks",
-    level: "Intermediate",
-    image: courses_img_17,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 22,
-    title: "Control Systems Engineering",
-    description:
-      "Understand the basics of control systems and how they are applied in automation.",
-    category: "Electrical",
-    duration: "10 weeks",
-    level: "Intermediate",
-    image: courses_img_18,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 23,
-    title: "System Design with FPGA",
-    description:
-      "Learn how to design and implement hardware systems using FPGA technology.",
-    category: "Electronics",
-    duration: "12 weeks",
-    level: "Advanced",
-    image: courses_img_19,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-  {
-    id: 24,
-    title: "Electric Vehicle Technology",
-    description:
-      "Understand the working principles behind electric vehicles and their components.",
-    category: "Electrical",
-    duration: "8 weeks",
-    level: "Intermediate",
-    image: courses_img_20,
-    videoLink: "https://www.youtube.com/embed/t-832_RIJ-Y?si=IiPdlg3U1Jhrjfmf",
-  },
-];
+import { resourcesData } from "../../assets/assets";
+import { departmentsData } from "../../assets/assets";
+import { studentsData } from "../../assets/assets";
+import "./Courses.css";
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("All");
-  const [filteredCourses, setFilteredCourses] = useState(coursesData);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedSemester, setSelectedSemester] = useState(null);
+  const [view, setView] = useState("departments");
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [showResources, setShowResources] = useState(false);
+  const [enteredPin, setEnteredPin] = useState("");
+  const [isPinValid, setIsPinValid] = useState(false);
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [showStudentList, setShowStudentList] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const filtered = coursesData.filter((course) => {
-      return (
-        (filter === "All" || course.category === filter) &&
-        course.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-    setFilteredCourses(filtered);
-  }, [searchTerm, filter]);
+  const filteredDepartments = departmentsData.filter(
+    (dept) =>
+      dept.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dept.code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const categories = [
-    "All",
-    ...new Set(coursesData.map((course) => course.category)),
-  ];
-
-  const handleEnroll = (course) => {
-    navigate("/enroll", { state: { course } });
+  const handleDepartmentClick = (dept) => {
+    setSelectedDepartment(dept);
+    setShowPinModal(true);
   };
 
-  return (
-    <div className="courses">
-      <div className="courses-header">
-        <h1>Ignite Your Curiosity</h1>
-        <p>
-          Dive into our rich selection of courses and kick-start your path to
-          success today.
-        </p>
+  const validatePin = () => {
+    if (enteredPin === selectedDepartment.pin) {
+      setIsPinValid(true);
+      setShowPinModal(false);
+      setView("semesters");
+    } else {
+      alert("Invalid PIN. Please try again.");
+    }
+  };
+
+  const handleSemesterClick = (semester) => {
+    setSelectedSemester(semester);
+    setView("subjects");
+  };
+
+  const handleBack = () => {
+    if (showStudentList) {
+      setShowStudentList(false);
+    } else if (view === "subjects") {
+      setView("semesters");
+      setSelectedSemester(null);
+    } else if (view === "semesters") {
+      setView("departments");
+      setSelectedDepartment(null);
+      setIsPinValid(false);
+    } else if (showResources) {
+      setShowResources(false);
+      setSelectedSubject(null);
+    } else {
+      navigate(-1);
+    }
+  };
+
+  const handleViewResources = (subject) => {
+    setSelectedSubject(subject);
+    setShowResources(true);
+  };
+
+  const handleViewStudents = (e, dept) => {
+    e.stopPropagation();
+    setSelectedDepartment(dept);
+    setShowStudentList(true);
+  };
+
+  const getSubjectResources = (subjectCode) => {
+    return (
+      resourcesData[subjectCode] || {
+        lectureNotes: [],
+        assignments: [],
+        referenceBooks: [],
+      }
+    );
+  };
+
+  const renderPinModal = () => {
+    return (
+      <div className="pin-modal-overlay">
+        <div className="pin-modal">
+          <h2>Enter Department PIN</h2>
+          <input
+            type="password"
+            placeholder="Enter PIN"
+            value={enteredPin}
+            onChange={(e) => setEnteredPin(e.target.value)}
+            className="pin-input"
+          />
+          <button onClick={validatePin} className="submit-pin-btn">
+            Submit
+          </button>
+          <button onClick={() => setShowPinModal(false)} className="cancel-btn">
+            Cancel
+          </button>
+        </div>
       </div>
-      <div className="courses-controls">
+    );
+  };
+
+  const renderStudentList = () => {
+    if (!selectedDepartment || !studentsData[selectedDepartment.code]) {
+      return null;
+    }
+
+    const departmentStudents = studentsData[selectedDepartment.code];
+
+    return (
+      <div
+        className="sl-modal-overlay"
+        onClick={() => setShowStudentList(false)}
+      >
+        <div className="sl-student-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="sl-modal-header">
+            <h2>{selectedDepartment.name} - Student List</h2>
+            <button
+              className="sl-close-button"
+              onClick={() => setShowStudentList(false)}
+            >
+              ×
+            </button>
+          </div>
+          <div className="sl-modal-content">
+            <div className="sl-student-list-container">
+              <div className="sl-student-list-header">
+                <div>Roll No</div>
+                <div>Name</div>
+                <div>Year</div>
+                <div>CGPA</div>
+              </div>
+              <div className="sl-student-list-body">
+                {departmentStudents.map((student) => (
+                  <div key={student.rollNo} className="sl-student-list-item">
+                    <div>{student.rollNo}</div>
+                    <div>{student.name}</div>
+                    <div>{student.year}</div>
+                    <div>{student.cgpa}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (showStudentList && selectedDepartment) {
+    return renderStudentList();
+  }
+
+  if (showResources && selectedSubject) {
+    const resources = getSubjectResources(selectedSubject.code);
+    return (
+      <div className="courses-container">
+        <div className="courses-header">
+          <button onClick={handleBack} className="back-button-header">
+            Back
+          </button>
+          <h1>{selectedSubject.name} - Resources</h1>
+          <p>Access study materials, assignments, and reference books</p>
+        </div>
+        <div className="resources-container">
+          <div className="resource-section">
+            <h2>Lecture Notes</h2>
+            <div className="resource-list">
+              {resources.lectureNotes.map((note, index) => (
+                <div key={index} className="resource-item">
+                  <div className="resource-icon">📚</div>
+                  <div className="resource-details">
+                    <h3>{note.title}</h3>
+                    <a
+                      href={note.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download PDF
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="resource-section">
+            <h2>Assignments</h2>
+            <div className="resource-list">
+              {resources.assignments.map((assignment, index) => (
+                <div key={index} className="resource-item">
+                  <div className="resource-icon">📝</div>
+                  <div className="resource-details">
+                    <h3>{assignment.title}</h3>
+                    <p>Due Date: {assignment.dueDate}</p>
+                    <a
+                      href={assignment.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Assignment
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="resource-section">
+            <h2>Reference Books</h2>
+            <div className="resource-list">
+              {resources.referenceBooks.map((book, index) => (
+                <div key={index} className="resource-item">
+                  <div className="resource-icon">📖</div>
+                  <div className="resource-details">
+                    <h3>{book.title}</h3>
+                    <p>Author: {book.author}</p>
+                    <p>Edition: {book.edition}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "subjects" && selectedDepartment && selectedSemester) {
+    return (
+      <div className="courses-container">
+        <div className="courses-header">
+          <button onClick={handleBack} className="back-button-header">
+            Back
+          </button>
+          <h1>
+            {selectedDepartment.name} - Semester {selectedSemester.number}
+          </h1>
+          <p>Course subjects and their details</p>
+        </div>
+        <div className="subjects-grid">
+          {selectedSemester.subjects.map((subject) => (
+            <div key={subject.code} className="subject-card">
+              <div className="subject-header">
+                <span className="subject-code">{subject.code}</span>
+              </div>
+              <div className="subject-content">
+                <h2>{subject.name}</h2>
+                <p>Credits: {subject.credits}</p>
+                <button
+                  className="explore-btn"
+                  onClick={() => handleViewResources(subject)}
+                >
+                  View Resources
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (view === "semesters" && selectedDepartment && isPinValid) {
+    return (
+      <div className="courses-container">
+        <div className="courses-header">
+          <button onClick={handleBack} className="back-button-header">
+            Back
+          </button>
+          <h1>{selectedDepartment.name}</h1>
+          <p>Select a semester to view subjects</p>
+        </div>
+        <div className="semesters-grid">
+          {selectedDepartment.semesters.map((semester) => (
+            <div
+              key={semester.number}
+              className="semester-card"
+              onClick={() => handleSemesterClick(semester)}
+            >
+              <div className="semester-content">
+                <h2>Semester {semester.number}</h2>
+                <p>{semester.subjects.length} Subjects</p>
+                <button className="explore-btn">View Subjects</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="courses-container">
+      <div className="courses-header">
+        <button onClick={handleBack} className="back-button-header">
+          Back
+        </button>
+        <h1>Academic Departments</h1>
+        <p>Explore our diverse range of engineering and technology programs</p>
+      </div>
+      <div className="search-container">
         <input
           type="text"
-          placeholder="Search courses..."
+          placeholder="Search departments..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
-        <div className="category-filters">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setFilter(category)}
-              className={`category-button ${
-                filter === category ? "active" : ""
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
       </div>
-      <div className="courses-list">
-        {filteredCourses.map((course) => (
-          <div key={course.id} className="course-card">
-            <img
-              src={course.image}
-              alt={course.title}
-              className="course-image"
-            />
-            <div className="course-content">
-              <h2>{course.title}</h2>
-              <p className="course-description">{course.description}</p>
-              <div className="course-details">
-                <span className="course-category">{course.category}</span>
-                <span className="course-duration">{course.duration}</span>
-                <span className="course-level">{course.level}</span>
+      <div className="departments-grid">
+        {filteredDepartments.map((dept) => (
+          <div
+            key={dept.id}
+            className="department-card"
+            onClick={() => handleDepartmentClick(dept)}
+          >
+            <div className="department-image">
+              <img src={dept.image} alt={dept.name} />
+              <div className="department-overlay">
+                <span className="dept-code">{dept.code}</span>
               </div>
-              <button
-                className="enroll-button"
-                onClick={() => handleEnroll(course)}
-              >
-                Enroll Now
-              </button>
+            </div>
+            <div className="department-content">
+              <h2>{dept.name}</h2>
+              <p className="description">{dept.description}</p>
+              <div className="department-stats">
+                <span>{studentsData[dept.code]?.length || 0} Students</span>
+                <span>{dept.facultyCount} Faculty</span>
+              </div>
+              <div className="department-buttons">
+                <button
+                  className="explore-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDepartmentClick(dept);
+                  }}
+                >
+                  Explore Department
+                </button>
+                <button
+                  className="explore-btn"
+                  onClick={(e) => handleViewStudents(e, dept)}
+                >
+                  View Students
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
+      {showPinModal && renderPinModal()}
     </div>
   );
 };

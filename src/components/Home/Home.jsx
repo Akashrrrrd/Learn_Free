@@ -1,7 +1,6 @@
+// Home.jsx
 import React from "react";
 import "./Home.css";
-import home_img from "../../assets/home_img.png";
-import Courses from "../Courses/Courses";
 import { Link } from "react-router-dom";
 
 const IconPlaceholder = ({ children }) => (
@@ -20,73 +19,23 @@ const Home = () => {
   return (
     <div className="home">
       <header className="hero">
-        <div className="hero-background">
-          <img src={home_img} alt="Education background" />
-        </div>
         <div className="hero-content">
           <h1 className="animate-fade-in-down">
-            Unlock Your Potential with Free Learning
+            Track, Improve, and Succeed with LearnFree
           </h1>
           <p className="animate-fade-in-up">
-            Explore a wide range of courses designed to empower learners of all
-            backgrounds. Join us and enhance your skills with blockchain-secured
-            credentials.
+            Monitor academic progress, analyze performance trends, and identify
+            at-risk students in real-time. LearnFree empowers educators and
+            students with data-driven insights to enhance learning outcomes and
+            ensure academic success.
           </p>
-          <Link to="/courses">
-            <a href="/courses" className="cta-button">
-              Browse Courses
-              <span className="arrow-icon">→</span>
-            </a>
+
+          <Link to="/courses" className="cta-button">
+            Select Department
+            <span className="arrow-icon">→</span>
           </Link>
         </div>
       </header>
-
-      <section className="features">
-        <h2>Why Choose Us?</h2>
-        <div className="feature-grid">
-          <FeatureCard
-            icon={<IconPlaceholder>📚</IconPlaceholder>}
-            title="Free Learning Platform"
-            description="Access high-quality educational content without any cost."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>🔒</IconPlaceholder>}
-            title="Blockchain Implementation"
-            description="Keep your data safe and secure with blockchain technology."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>💻</IconPlaceholder>}
-            title="User-Friendly Interface"
-            description="Enjoy a compact UI experience designed for seamless learning."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>🎥</IconPlaceholder>}
-            title="Top YouTube Courses"
-            description="Learn from the best with video courses sourced from top YouTube channels."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>🤖</IconPlaceholder>}
-            title="AI Assistance"
-            description="Utilize AI to get instant answers to your questions."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>📝</IconPlaceholder>}
-            title="Interactive Quizzes"
-            description="Refresh your knowledge with quizzes after each course."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>❓</IconPlaceholder>}
-            title="FAQ Section"
-            description="Get to know our platform better with frequently asked questions."
-          />
-          <FeatureCard
-            icon={<IconPlaceholder>🏅</IconPlaceholder>}
-            title="Achievement Badges"
-            description="Earn badges for completing courses to boost your motivation."
-          />
-        </div>
-      </section>
-      <Courses />
     </div>
   );
 };

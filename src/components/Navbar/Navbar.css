@@ -1,80 +1,37 @@
 .navbar {
-  background-color: #1a365d;
+  background-color: #fff;
   padding: 1rem 2rem;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: auto;
+  padding: 0 1rem;
 }
 
+/* Logo */
 .navbar-logo {
-  color: #ffffff;
+  display: flex;
+  align-items: center;
+  color: #007bff;
   font-size: 1.8rem;
   font-weight: bold;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
 .navbar-logo:hover {
-  color: #3498db;
-}
-
-.navbar-menu {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
-}
-
-.navbar-item {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-links {
-  color: #ecf0f1;
-  text-decoration: none;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-.navbar-links:hover {
-  background-color: rgba(52, 152, 219, 0.2);
-  color: #ffffff;
-}
-
-.menu-icon {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 2rem;
-  height: 2rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 1001;
-}
-
-.menu-icon span {
-  width: 100%;
-  height: 0.25rem;
-  background-color: #ecf0f1;
-  border-radius: 10px;
-  transition: all 0.3s ease;
+  color: #0056b3;
 }
 
 .logo-container {
@@ -83,51 +40,107 @@
 }
 
 .navbar-logo-image {
-  height: 40px;
+  height: 45px;
   margin-right: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
-@media (max-width: 768px) {
-  .menu-icon {
-    display: flex;
-  }
+.navbar-logo-image:hover {
+  transform: scale(1.1);
+}
 
+/* Navigation Menu */
+.navbar-menu {
+  list-style: none;
+  display: flex;
+  gap: 1.8rem;
+  margin: 0;
+  align-items: center;
+}
+
+.navbar-item {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.navbar-links:hover {
+  background-color: rgba(0, 123, 255, 0.2);
+  color: #007bff;
+}
+
+/* Hamburger Menu for Mobile */
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 2rem;
+  height: 1.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-icon span {
+  width: 100%;
+  height: 3px;
+  background-color: #333;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 900px) {
   .navbar-menu {
+    display: none;
     flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    right: -100%;
     width: 100%;
-    height: 100vh;
-    padding-top: 5rem;
-    background-color: #2c3e50;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    text-align: center;
     transition: all 0.3s ease-in-out;
   }
 
   .navbar-menu.active {
-    right: 0;
-  }
-
-  .navbar-item {
-    margin: 1rem 0;
+    display: flex;
   }
 
   .navbar-links {
+    display: block;
+    padding: 1rem;
     font-size: 1.2rem;
     width: 100%;
-    text-align: center;
   }
 
-  .menu-icon.open span:nth-child(1) {
-    transform: rotate(45deg) translateY(8px);
+  .menu-icon {
+    display: flex;
   }
+}
 
-  .menu-icon.open span:nth-child(2) {
-    opacity: 0;
-  }
+/* Active State for Mobile Menu */
+.menu-icon.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
 
-  .menu-icon.open span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-8px);
-  }
+.menu-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-icon.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }

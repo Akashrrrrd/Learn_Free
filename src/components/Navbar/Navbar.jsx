@@ -51,12 +51,12 @@ const Navbar = ({ onLogout }) => {
           </li>
           <li className="navbar-item">
             <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
-              Courses
+              Departments
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/quiz" className="navbar-links" onClick={toggleMenu}>
-              Quiz
+            <Link to="/ai" className="navbar-links" onClick={toggleMenu}>
+              AI
             </Link>
           </li>
           {isLoggedIn ? (

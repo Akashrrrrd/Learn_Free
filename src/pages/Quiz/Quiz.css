@@ -2,11 +2,12 @@
 
 /* Container Styles */
 .qz-quiz-container {
-  max-width: 1000px;
-  margin: 100px auto;
+  max-width: 1600px;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 30px;
   background: #ffffff;
-  border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 

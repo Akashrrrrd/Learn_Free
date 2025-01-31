@@ -5,16 +5,14 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 4rem;
 }
 
 .login-content {
   display: flex;
   width: 100%;
-  max-width: 1200px;
-  height: 650px;
+  max-width: 1600px;
   background-color: white;
-  border-radius: 24px;
+  margin: 0 auto;
   overflow: hidden;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
   position: relative;
