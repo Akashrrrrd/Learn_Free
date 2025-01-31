@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
@@ -15,70 +21,72 @@ import Courses from "./components/Courses/Courses";
 import Profile from "./pages/Profile/Profile";
 import Semesters from "./components/Semesters/Semesters";
 import Subjects from "./components/Subjects/Subjects";
-import Loading from "./components/Loading/Loading"; // Import Loading component
-
+import Loading from "./components/Loading/Loading";
 import Room from "./pages/Room/Room";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state for page transitions
-
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
-  // Trigger loading state during navigation
-  const startLoading = () => {
-    setLoading(true);
-  };
-
-  const stopLoading = () => {
-    setLoading(false);
-  };
+  const [loading, setLoading] = useState(true);
+  const auth = getAuth();
 
   useEffect(() => {
-    // This function simulates loading when navigating or loading resources.
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      setLoading(false);
+    });
+
     const handlePageChange = () => {
-      startLoading(); // Show loading state when navigating
+      setLoading(true);
       setTimeout(() => {
-        stopLoading(); // Stop loading after a delay (simulate a network or page load)
-      }, 1500); // Adjust delay as needed
+        setLoading(false);
+      }, 1500);
     };
 
-    // Add event listener for page transitions (optional)
     window.addEventListener("beforeunload", handlePageChange);
 
     return () => {
+      unsubscribe();
       window.removeEventListener("beforeunload", handlePageChange);
     };
-  }, []);
+  }, [auth]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Router>
-  <ScrollToTop />  {/* This will ensure every page scrolls to top */}
-  <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <ScrollToTop />
+      {isLoggedIn && <Navbar />}
 
-  {loading ? <Loading /> : (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/courses" element={<Courses />} />
-      <Route path="/enroll" element={<Enroll />} />
-      <Route path="/video-page" element={<VideoPage />} />
-      <Route path="/ai" element={<AI />} />
-      <Route path="/faq" element={<FAQ />} />
-      <Route path="/semesters" element={<Semesters />} />
-      <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
-      <Route path="/quiz" element={<Quiz />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/department/:department/semester/:semester" element={<Subjects />} />
-      <Route path="/room" element={<Room/>}/>
-    </Routes>
-  )}
-</Router>
+      <Routes>
+        {!isLoggedIn ? (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/enroll" element={<Enroll />} />
+            <Route path="/video-page" element={<VideoPage />} />
+            <Route path="/ai" element={<AI />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/semesters" element={<Semesters />} />
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/department/:department/semester/:semester"
+              element={<Subjects />}
+            />
+            <Route path="/room" element={<Room />} />
+            <Route path="/login" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
+        )}
+      </Routes>
+    </Router>
   );
 };
 
