@@ -1,13 +1,15 @@
+// Room.jsx
 import React, { useState, useEffect, useRef } from "react";
 import "./Room.css";
 
 const Room = ({
-  roomName = "Professional Learning Room",
+  roomName = "Professional Learning Environment",
   user = "Anonymous",
 }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [participants, setParticipants] = useState(3); // Mock participant count
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const chatAreaRef = useRef(null);
@@ -17,14 +19,14 @@ const Room = ({
       {
         id: 1,
         sender: "System",
-        text: "Welcome to the professional learning environment. Please maintain professional etiquette during discussions.",
+        text: "Welcome to the professional learning environment. Please maintain academic integrity and professional etiquette during discussions.",
         time: formatTime(new Date()),
         type: "system",
       },
       {
         id: 2,
-        sender: "Instructor",
-        text: "Welcome everyone. We'll begin our session shortly.",
+        sender: "Dr. Smith",
+        text: "Welcome to today's session on Advanced Computer Science Concepts. Please feel free to ask questions throughout the session.",
         time: formatTime(new Date()),
         type: "instructor",
       },
@@ -42,6 +44,7 @@ const Room = ({
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
+      timeZoneName: "short",
     });
   };
 
@@ -71,6 +74,8 @@ const Room = ({
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
+    } else if (e.key === "Enter" && e.shiftKey) {
+      setInput((prev) => prev + "\n");
     }
   };
 
@@ -95,15 +100,27 @@ const Room = ({
   };
 
   return (
-    <div className="room">
+    <div className="learning-room">
       <header className="room-header">
-        <h2>{roomName}</h2>
-        <span className="room-status">Active Session</span>
+        <div className="room-header-main">
+          <div className="room-header-info">
+            <h2>{roomName}</h2>
+          </div>
+          <div className="room-header-stats">
+            <span className="room-status">Live Session</span>
+            <span className="participant-count">
+              {participants} Participants
+            </span>
+          </div>
+        </div>
+        <div className="room-header-subtitle">
+          Facilitating collaborative learning and academic discussions
+        </div>
       </header>
 
       <main className="chat-area" ref={chatAreaRef}>
         <div className="messages-container">
-          {messages.map((msg, index) => (
+          {messages.map((msg) => (
             <div
               key={msg.id}
               className={`message-group ${
@@ -130,22 +147,25 @@ const Room = ({
 
       <footer className="input-area">
         <div className="input-container">
-          <input
+          <textarea
             ref={inputRef}
-            type="text"
             className="message-input"
-            placeholder="Type your message..."
+            placeholder="Type your message (Shift + Enter for new line)..."
             value={input}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
+            rows={1}
           />
           <button
             className={`send-button ${isTyping ? "active" : ""}`}
             onClick={sendMessage}
             disabled={!input.trim()}
           >
-            Send
+            <span className="button-text">Send</span>
           </button>
+        </div>
+        <div className="input-info">
+          Press Enter to send, Shift + Enter for new line
         </div>
       </footer>
     </div>

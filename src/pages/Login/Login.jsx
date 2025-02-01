@@ -448,23 +448,6 @@ const Login = ({ onLoginSuccess }) => {
                   <span>or</span>
                 </div>
 
-                {/* <div className="social-login">
-                  <button
-                    className="google-btn"
-                    onClick={() => handleSocialLogin(googleProvider)}
-                    disabled={loading}
-                  >
-                    <span>Continue with Google</span>
-                  </button>
-                  <button
-                    className="facebook-btn"
-                    onClick={() => handleSocialLogin(facebookProvider)}
-                    disabled={loading}
-                  >
-                    <span>Continue with Facebook</span>
-                  </button>
-                </div> */}
-
                 <p className="toggle-form">
                   {isSignUp
                     ? "Already part of our community?"

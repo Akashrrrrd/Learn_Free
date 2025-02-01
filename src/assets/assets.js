@@ -1295,3 +1295,216 @@ export const resourcesData = {
     ],
   },
 };
+
+export const sampleStudents = {
+  "Computer Science": [
+    {
+      id: 1,
+      rollNo: "CS20001",
+      name: "John Doe",
+      branch: "CSE",
+      cgpa: 3.85,
+      grades: {
+        semester1: {
+          gpa: 3.8,
+          subjects: [
+            { name: "Mathematics", grade: "A", attendance: 92, credits: 4 },
+            { name: "Programming", grade: "A+", attendance: 95, credits: 4 },
+            {
+              name: "Digital Logic",
+              grade: "A-",
+              attendance: 88,
+              credits: 3,
+            },
+            { name: "Physics", grade: "B+", attendance: 90, credits: 3 },
+          ],
+        },
+        semester2: {
+          gpa: 3.9,
+          subjects: [
+            { name: "Physics", grade: "A", attendance: 88, credits: 4 },
+            {
+              name: "Data Structures",
+              grade: "A+",
+              attendance: 94,
+              credits: 4,
+            },
+            {
+              name: "Computer Architecture",
+              grade: "A",
+              attendance: 91,
+              credits: 3,
+            },
+            {
+              name: "Technical Writing",
+              grade: "A-",
+              attendance: 87,
+              credits: 2,
+            },
+          ],
+        },
+      },
+      attendance: 92.5,
+      activities: {
+        academic: [
+          {
+            title: "Python Programming Competition",
+            date: "2023-10-15",
+            position: "1st Place",
+            description:
+              "Won first place in the university-wide Python programming contest",
+          },
+          {
+            title: "IEEE Paper Presentation",
+            date: "2023-11-20",
+            description:
+              "Presented research paper on Machine Learning Applications",
+          },
+          {
+            title: "Technical Workshop",
+            date: "2023-12-05",
+            description: "Conducted a workshop on Web Development basics",
+          },
+        ],
+        certifications: [
+          {
+            name: "AWS Cloud Practitioner",
+            issuer: "Amazon Web Services",
+            date: "2023-09-01",
+            validUntil: "2026-09-01",
+          },
+          {
+            name: "Google Data Analytics",
+            issuer: "Google",
+            date: "2023-08-15",
+          },
+        ],
+        attendance_history: [
+          { month: "Jan", percentage: 95 },
+          { month: "Feb", percentage: 92 },
+          { month: "Mar", percentage: 88 },
+          { month: "Apr", percentage: 94 },
+          { month: "May", percentage: 91 },
+          { month: "Jun", percentage: 89 },
+        ],
+      },
+    },
+    {
+      id: 2,
+      rollNo: "CS20002",
+      name: "Alice Smith",
+      branch: "CSE",
+      cgpa: 3.75,
+      grades: {
+        semester1: {
+          gpa: 3.7,
+          subjects: [
+            { name: "Algorithms", grade: "A", attendance: 89, credits: 4 },
+            {
+              name: "Software Engineering",
+              grade: "A-",
+              attendance: 93,
+              credits: 4,
+            },
+            {
+              name: "Database Systems",
+              grade: "B+",
+              attendance: 87,
+              credits: 3,
+            },
+            {
+              name: "Computer Networks",
+              grade: "A",
+              attendance: 90,
+              credits: 3,
+            },
+          ],
+        },
+      },
+      attendance: 91.2,
+      activities: {
+        academic: [],
+        certifications: [],
+        attendance_history: [],
+      },
+    },
+  ],
+  "Information Technology": [
+    {
+      id: 3,
+      rollNo: "IT20001",
+      name: "Michael Brown",
+      branch: "IT",
+      cgpa: 3.65,
+      grades: {
+        semester1: {
+          gpa: 3.6,
+          subjects: [
+            {
+              name: "Operating Systems",
+              grade: "A-",
+              attendance: 85,
+              credits: 4,
+            },
+            {
+              name: "Web Development",
+              grade: "A",
+              attendance: 90,
+              credits: 4,
+            },
+            {
+              name: "Cloud Computing",
+              grade: "B+",
+              attendance: 87,
+              credits: 3,
+            },
+          ],
+        },
+      },
+      attendance: 88.7,
+      activities: {
+        academic: [
+          {
+            title: "Python Programming Competition",
+            date: "2023-10-15",
+            position: "1st Place",
+            description:
+              "Won first place in the university-wide Python programming contest",
+          },
+          {
+            title: "IEEE Paper Presentation",
+            date: "2023-11-20",
+            description:
+              "Presented research paper on Machine Learning Applications",
+          },
+          {
+            title: "Technical Workshop",
+            date: "2023-12-05",
+            description: "Conducted a workshop on Web Development basics",
+          },
+        ],
+        certifications: [
+          {
+            name: "AWS Cloud Practitioner",
+            issuer: "Amazon Web Services",
+            date: "2023-09-01",
+            validUntil: "2026-09-01",
+          },
+          {
+            name: "Google Data Analytics",
+            issuer: "Google",
+            date: "2023-08-15",
+          },
+        ],
+        attendance_history: [
+          { month: "Jan", percentage: 95 },
+          { month: "Feb", percentage: 92 },
+          { month: "Mar", percentage: 88 },
+          { month: "Apr", percentage: 94 },
+          { month: "May", percentage: 91 },
+          { month: "Jun", percentage: 89 },
+        ],
+      },
+    },
+  ],
+};

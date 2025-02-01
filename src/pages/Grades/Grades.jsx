@@ -12,6 +12,7 @@ import {
   Clock,
   Target,
 } from "lucide-react";
+import { sampleStudents } from "../../assets/assets";
 
 const Grades = () => {
   const [selectedBatch, setSelectedBatch] = useState(null);
@@ -35,102 +36,6 @@ const Grades = () => {
     { name: "Electronics Engineering", icon: <BarChart2 size={24} /> },
     { name: "Information Technology", icon: <GraduationCap size={24} /> },
   ];
-
-  const sampleStudents = {
-    "Computer Science": [
-      {
-        id: 1,
-        rollNo: "CS20001",
-        name: "John Doe",
-        branch: "CSE",
-        cgpa: 3.85,
-        grades: {
-          semester1: {
-            gpa: 3.8,
-            subjects: [
-              { name: "Mathematics", grade: "A", attendance: 92, credits: 4 },
-              { name: "Programming", grade: "A+", attendance: 95, credits: 4 },
-              {
-                name: "Digital Logic",
-                grade: "A-",
-                attendance: 88,
-                credits: 3,
-              },
-              { name: "Physics", grade: "B+", attendance: 90, credits: 3 },
-            ],
-          },
-          semester2: {
-            gpa: 3.9,
-            subjects: [
-              { name: "Physics", grade: "A", attendance: 88, credits: 4 },
-              {
-                name: "Data Structures",
-                grade: "A+",
-                attendance: 94,
-                credits: 4,
-              },
-              {
-                name: "Computer Architecture",
-                grade: "A",
-                attendance: 91,
-                credits: 3,
-              },
-              {
-                name: "Technical Writing",
-                grade: "A-",
-                attendance: 87,
-                credits: 2,
-              },
-            ],
-          },
-        },
-        attendance: 92.5,
-        activities: {
-          academic: [
-            {
-              title: "Python Programming Competition",
-              date: "2023-10-15",
-              position: "1st Place",
-              description:
-                "Won first place in the university-wide Python programming contest",
-            },
-            {
-              title: "IEEE Paper Presentation",
-              date: "2023-11-20",
-              description:
-                "Presented research paper on Machine Learning Applications",
-            },
-            {
-              title: "Technical Workshop",
-              date: "2023-12-05",
-              description: "Conducted a workshop on Web Development basics",
-            },
-          ],
-          certifications: [
-            {
-              name: "AWS Cloud Practitioner",
-              issuer: "Amazon Web Services",
-              date: "2023-09-01",
-              validUntil: "2026-09-01",
-            },
-            {
-              name: "Google Data Analytics",
-              issuer: "Google",
-              date: "2023-08-15",
-            },
-          ],
-          attendance_history: [
-            { month: "Jan", percentage: 95 },
-            { month: "Feb", percentage: 92 },
-            { month: "Mar", percentage: 88 },
-            { month: "Apr", percentage: 94 },
-            { month: "May", percentage: 91 },
-            { month: "Jun", percentage: 89 },
-          ],
-        },
-      },
-    ],
-  };
 
   const handleClose = () => {
     if (showActivities) setShowActivities(false);
