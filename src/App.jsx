@@ -23,6 +23,8 @@ import Semesters from "./components/Semesters/Semesters";
 import Subjects from "./components/Subjects/Subjects";
 import Loading from "./components/Loading/Loading";
 import Room from "./pages/Room/Room";
+import Grades from "./pages/Grades/Grades";
+
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -83,6 +85,7 @@ const App = () => {
             <Route path="/room" element={<Room />} />
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/grades" element={<Grades/>}/>
           </>
         )}
       </Routes>

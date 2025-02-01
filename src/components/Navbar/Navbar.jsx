@@ -65,15 +65,20 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="navbar-item">
+            <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
+              Grades
+            </Link>
+          </li>
+          <li className="navbar-item">
             <Link to="/room" className="navbar-links" onClick={toggleMenu}>
               Rooms
             </Link>
           </li>
-          <li className="navbar-item">
+          {/* <li className="navbar-item">
             <Link to="/ai" className="navbar-links" onClick={toggleMenu}>
               AI
             </Link>
-          </li>
+          </li> */}
           {isLoggedIn ? (
             <li className="navbar-item">
               <Link className="navbar-links" onClick={handleLogout}>

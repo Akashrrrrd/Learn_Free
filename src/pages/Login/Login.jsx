@@ -448,7 +448,7 @@ const Login = ({ onLoginSuccess }) => {
                   <span>or</span>
                 </div>
 
-                <div className="social-login">
+                {/* <div className="social-login">
                   <button
                     className="google-btn"
                     onClick={() => handleSocialLogin(googleProvider)}
@@ -463,7 +463,7 @@ const Login = ({ onLoginSuccess }) => {
                   >
                     <span>Continue with Facebook</span>
                   </button>
-                </div>
+                </div> */}
 
                 <p className="toggle-form">
                   {isSignUp
