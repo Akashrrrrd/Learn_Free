@@ -145,8 +145,8 @@ const Room = ({
         </div>
       </main>
 
-      <footer className="input-area">
-        <div className="input-container">
+      <footer className="cr-input-area">
+        <div className="cr-input-container">
           <textarea
             ref={inputRef}
             className="message-input"
