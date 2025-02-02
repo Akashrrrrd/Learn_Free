@@ -25,7 +25,7 @@ import Loading from "./components/Loading/Loading";
 import Room from "./pages/Room/Room";
 import Grades from "./pages/Grades/Grades";
 import Chatbot from "./pages/Chatbot/Chatbot";
-
+import Attendance from "./pages/Attendance/Attendance";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -86,11 +86,12 @@ const App = () => {
             <Route path="/room" element={<Room />} />
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/grades" element={<Grades/>}/>
+            <Route path="/grades" element={<Grades />} />
+            <Route path="/attendance" element={<Attendance />} />
           </>
         )}
       </Routes>
-      <Chatbot/>
+      <Chatbot />
     </Router>
   );
 };

@@ -31,7 +31,7 @@ const Home = () => {
           </p>
 
           <Link to="/courses" className="cta-button">
-            Select Department
+            Go to Departments
             <span className="arrow-icon">→</span>
           </Link>
         </div>

@@ -9,16 +9,7 @@ import {
   signInWithPopup,
   FacebookAuthProvider,
 } from "firebase/auth";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,28 +31,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Generate Unique Student Code
-const generateStudentCode = () => {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let code = "";
-  for (let i = 0; i < 8; i++) {
-    code += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return code;
-};
-
 const Login = ({ onLoginSuccess }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [role, setRole] = useState("Student");
   const [department, setDepartment] = useState("Computer Science");
   const [loading, setLoading] = useState(false);
-  const [selectedRoleAccess, setSelectedRoleAccess] = useState("");
-  const [studentCode, setStudentCode] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
 
   // Validation functions
   const validateEmail = (email) => {
@@ -83,44 +60,6 @@ const Login = ({ onLoginSuccess }) => {
     // Reset form when switching
     setEmail("");
     setPassword("");
-    setUsername("");
-    setSelectedRoleAccess("");
-    setStudentCode("");
-    setVerificationCode("");
-  };
-
-  // Verify Student Code
-  const verifyStudentCode = async (code) => {
-    try {
-      const studentCodeRef = collection(db, "student_codes");
-      const q = query(
-        studentCodeRef,
-        where("code", "==", code),
-        where("used", "==", false)
-      );
-      const querySnapshot = await getDocs(q);
-
-      return !querySnapshot.empty;
-    } catch (error) {
-      console.error("Error verifying student code:", error);
-      return false;
-    }
-  };
-
-  // Mark Student Code as Used
-  const markStudentCodeAsUsed = async (code) => {
-    try {
-      const studentCodeRef = collection(db, "student_codes");
-      const q = query(studentCodeRef, where("code", "==", code));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const docRef = querySnapshot.docs[0].ref;
-        await setDoc(docRef, { used: true }, { merge: true });
-      }
-    } catch (error) {
-      console.error("Error marking student code as used:", error);
-    }
   };
 
   // Handle Social Login
@@ -138,11 +77,8 @@ const Login = ({ onLoginSuccess }) => {
       if (!userDoc.exists()) {
         await setDoc(userDocRef, {
           email: user.email,
-          username: user.displayName || user.email.split("@")[0],
           role: "Student",
           department: "Computer Science",
-          roleAccess: "student",
-          studentCode: generateStudentCode(), // Generate unique code for social login
           createdAt: new Date(),
         });
       }
@@ -174,16 +110,6 @@ const Login = ({ onLoginSuccess }) => {
       return;
     }
 
-    // Student Code Verification for Student Role
-    if (role === "Student" && isSignUp) {
-      const isValidCode = await verifyStudentCode(studentCode);
-      if (!isValidCode) {
-        toast.error("Invalid or already used student code.");
-        setLoading(false);
-        return;
-      }
-    }
-
     try {
       if (isSignUp) {
         // Sign Up Process
@@ -197,19 +123,10 @@ const Login = ({ onLoginSuccess }) => {
         // Create user profile in Firestore
         await setDoc(doc(db, "users", user.uid), {
           email,
-          username: username || email.split("@")[0],
           role,
           department,
-          roleAccess: selectedRoleAccess.toLowerCase(),
-          studentCode: role === "Student" ? studentCode : null,
-          verificationCode: generateStudentCode(), // Additional verification code
           createdAt: new Date(),
         });
-
-        // Mark student code as used
-        if (role === "Student") {
-          await markStudentCodeAsUsed(studentCode);
-        }
 
         toast.success("Account created successfully!");
       } else {
@@ -257,28 +174,8 @@ const Login = ({ onLoginSuccess }) => {
     "Artificial Intelligence and Machine Learning",
   ];
 
-  // Roles List with Access Options
-  const rolesWithAccess = [
-    { role: "Student", accessOptions: ["Student Portal", "Study Materials"] },
-    { role: "Staff", accessOptions: ["Course Management", "Content Upload"] },
-    {
-      role: "HOD",
-      accessOptions: [
-        "Department Overview",
-        "Staff Management",
-        "Course Approval",
-      ],
-    },
-    {
-      role: "Principal",
-      accessOptions: [
-        "Department Overview",
-        "Staff Management",
-        "Course Approval",
-        "Students Grades",
-      ],
-    },
-  ];
+  // Roles List
+  const roles = ["Student", "Staff", "HOD", "Principal"];
 
   return (
     <div className="login-container">
@@ -326,66 +223,18 @@ const Login = ({ onLoginSuccess }) => {
                   {isSignUp && (
                     <>
                       <div className="form-group">
-                        <input
-                          type="text"
-                          id="username"
-                          placeholder="Choose a username"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          required
-                        />
-                      </div>
-
-                      <div className="form-group">
                         <label htmlFor="role">Select Role:</label>
                         <select
                           id="role"
                           value={role}
-                          onChange={(e) => {
-                            setRole(e.target.value);
-                            setSelectedRoleAccess(""); // Reset role access when role changes
-                          }}
+                          onChange={(e) => setRole(e.target.value)}
                           required
                         >
-                          {rolesWithAccess.map((roleObj) => (
-                            <option key={roleObj.role} value={roleObj.role}>
-                              {roleObj.role}
+                          {roles.map((role) => (
+                            <option key={role} value={role}>
+                              {role}
                             </option>
                           ))}
-                        </select>
-                      </div>
-
-                      {role === "Student" && (
-                        <div className="form-group">
-                          <input
-                            type="text"
-                            id="studentCode"
-                            placeholder="Enter your unique student code"
-                            value={studentCode}
-                            onChange={(e) => setStudentCode(e.target.value)}
-                            required
-                          />
-                        </div>
-                      )}
-
-                      <div className="form-group">
-                        <label htmlFor="roleAccess">Select Role Access:</label>
-                        <select
-                          id="roleAccess"
-                          value={selectedRoleAccess}
-                          onChange={(e) =>
-                            setSelectedRoleAccess(e.target.value)
-                          }
-                          required
-                        >
-                          <option value="">Select Access Level</option>
-                          {rolesWithAccess
-                            .find((r) => r.role === role)
-                            ?.accessOptions.map((access) => (
-                              <option key={access} value={access}>
-                                {access}
-                              </option>
-                            ))}
                         </select>
                       </div>
 

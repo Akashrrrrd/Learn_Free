@@ -1,0 +1,393 @@
+.att-container {
+  padding: 20px;
+  min-height: calc(100vh - 60px);
+  margin-top: 75px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.att-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.att-header h2 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.att-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.att-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #666;
+}
+
+.att-date input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.att-controls {
+  margin-bottom: 20px;
+}
+
+.att-filters {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.att-filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+}
+
+.att-filter-item label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.att-filter-item select,
+.att-search-input {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.att-search-input {
+  min-width: 250px;
+}
+
+.att-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.att-btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+.att-btn:hover {
+  opacity: 0.9;
+}
+
+.att-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.att-btn-present {
+  background: #10b981;
+}
+
+.att-btn-absent {
+  background: #ef4444;
+}
+
+.att-btn-submit {
+  background: #3b82f6;
+  min-width: 150px;
+}
+
+.att-btn-download {
+  background: #8b5cf6;
+}
+
+.att-btn-secondary {
+  background: #6b7280;
+}
+
+.att-table {
+  margin: 20px 0;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.att-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.att-table th {
+  background: #f8fafc;
+  padding: 12px;
+  text-align: left;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #e1e1e1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.att-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e1e1e1;
+  color: #555;
+}
+
+.att-table tr:last-child td {
+  border-bottom: none;
+}
+
+.att-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.att-attendance-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.att-attendance-radio input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.att-attendance-radio span {
+  font-size: 14px;
+  color: #666;
+}
+
+.att-submit {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.att-no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #e1e1e1;
+}
+
+.att-alert {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.att-alert-danger {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.att-alert-warning {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .att-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .att-header-right {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .att-filters {
+    flex-direction: column;
+  }
+
+  .att-filter-item {
+    width: 100%;
+  }
+
+  .att-search-input {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .att-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .att-btn {
+    width: 100%;
+  }
+
+  .att-table {
+    margin: 10px -20px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .att-container {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .att-controls,
+  .att-submit,
+  .att-btn {
+    display: none;
+  }
+
+  .att-table {
+    border: none;
+  }
+
+  .att-table th {
+    background-color: #fff;
+    color: #000;
+  }
+
+  .att-attendance-radio input {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .att-attendance-radio span {
+    color: #000;
+  }
+}
+
+/* Animation for alerts */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.att-alert {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Custom checkbox styles */
+.att-attendance-radio input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+.att-attendance-radio input[type="checkbox"]:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.att-attendance-radio input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.att-attendance-radio input[type="checkbox"]:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Loading state styles */
+.att-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.att-loading::after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state styles */
+.att-error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.att-error::before {
+  content: "⚠️";
+}

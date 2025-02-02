@@ -93,6 +93,11 @@ const Navbar = () => {
             Grades
           </Link>
         </li>,
+        <li key="attendance" className="navbar-item">
+          <Link to="/attendance" className="navbar-links" onClick={toggleMenu}>
+            Attendance
+          </Link>
+        </li>,
         <li key="rooms" className="navbar-item">
           <Link to="/room" className="navbar-links" onClick={toggleMenu}>
             Rooms
@@ -108,6 +113,11 @@ const Navbar = () => {
         <li key="grades" className="navbar-item">
           <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
             Grades
+          </Link>
+        </li>,
+        <li key="attendance" className="navbar-item">
+          <Link to="/attendance" className="navbar-links" onClick={toggleMenu}>
+            Attendance
           </Link>
         </li>,
         <li key="rooms" className="navbar-item">
