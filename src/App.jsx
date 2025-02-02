@@ -24,6 +24,7 @@ import Subjects from "./components/Subjects/Subjects";
 import Loading from "./components/Loading/Loading";
 import Room from "./pages/Room/Room";
 import Grades from "./pages/Grades/Grades";
+import Chatbot from "./pages/Chatbot/Chatbot";
 
 
 const App = () => {
@@ -89,6 +90,7 @@ const App = () => {
           </>
         )}
       </Routes>
+      <Chatbot/>
     </Router>
   );
 };
