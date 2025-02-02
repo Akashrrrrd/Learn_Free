@@ -11,8 +11,11 @@ import {
   Award,
   Clock,
   Target,
+  Download,
 } from "lucide-react";
 import { sampleStudents } from "../../assets/assets";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import StudentPDFDocument from "./../../components/StudentPDFDocument";
 
 const Grades = () => {
   const [selectedBatch, setSelectedBatch] = useState(null);
@@ -220,6 +223,28 @@ const Grades = () => {
               </p>
             </div>
             <div className="gr-modal-actions">
+              <PDFDownloadLink
+                document={
+                  <StudentPDFDocument
+                    student={student}
+                    department={selectedDept}
+                    batch={selectedBatch}
+                  />
+                }
+                fileName={`${student.rollNo}_academic_record.pdf`}
+                className="gr-download-pdf-btn"
+              >
+                {({ loading }) =>
+                  loading ? (
+                    "Generating PDF..."
+                  ) : (
+                    <>
+                      <Download size={16} />
+                      Download PDF
+                    </>
+                  )
+                }
+              </PDFDownloadLink>
               <button
                 className="gr-view-activities-btn"
                 onClick={() => setShowActivities(true)}
@@ -296,7 +321,7 @@ const Grades = () => {
   }
 
   if (showActivities) {
-    const student = sampleStudents[selectedDept][0];
+    const student = selectedStudent || sampleStudents[selectedDept][0];
     return (
       <div className="gr-modal-overlay">
         <div className="gr-student-modal">
@@ -307,9 +332,34 @@ const Grades = () => {
                 {student.name} - {student.rollNo}
               </p>
             </div>
-            <button className="gr-close-button" onClick={handleClose}>
-              &times;
-            </button>
+            <div className="gr-modal-actions">
+              <PDFDownloadLink
+                document={
+                  <StudentPDFDocument
+                    student={student}
+                    department={selectedDept}
+                    batch={selectedBatch}
+                    showActivities={true}
+                  />
+                }
+                fileName={`${student.rollNo}_activities.pdf`}
+                className="gr-download-pdf-btn"
+              >
+                {({ loading }) =>
+                  loading ? (
+                    "Generating PDF..."
+                  ) : (
+                    <>
+                      <Download size={16} />
+                      Download PDF
+                    </>
+                  )
+                }
+              </PDFDownloadLink>
+              <button className="gr-close-button" onClick={handleClose}>
+                &times;
+              </button>
+            </div>
           </div>
           <div className="gr-modal-content">
             <div className="gr-activities-container">

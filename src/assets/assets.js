@@ -1310,12 +1310,7 @@ export const sampleStudents = {
           subjects: [
             { name: "Mathematics", grade: "A", attendance: 92, credits: 4 },
             { name: "Programming", grade: "A+", attendance: 95, credits: 4 },
-            {
-              name: "Digital Logic",
-              grade: "A-",
-              attendance: 88,
-              credits: 3,
-            },
+            { name: "Digital Logic", grade: "A-", attendance: 88, credits: 3 },
             { name: "Physics", grade: "B+", attendance: 90, credits: 3 },
           ],
         },
@@ -1339,6 +1334,107 @@ export const sampleStudents = {
               name: "Technical Writing",
               grade: "A-",
               attendance: 87,
+              credits: 2,
+            },
+          ],
+        },
+        semester3: {
+          gpa: 3.85,
+          subjects: [
+            { name: "Algorithms", grade: "A", attendance: 90, credits: 4 },
+            {
+              name: "Operating Systems",
+              grade: "A-",
+              attendance: 92,
+              credits: 4,
+            },
+            {
+              name: "Database Systems",
+              grade: "A+",
+              attendance: 94,
+              credits: 3,
+            },
+            {
+              name: "Discrete Mathematics",
+              grade: "B+",
+              attendance: 89,
+              credits: 3,
+            },
+          ],
+        },
+        semester4: {
+          gpa: 3.87,
+          subjects: [
+            {
+              name: "Computer Networks",
+              grade: "A-",
+              attendance: 91,
+              credits: 4,
+            },
+            {
+              name: "Software Engineering",
+              grade: "A+",
+              attendance: 95,
+              credits: 4,
+            },
+            {
+              name: "Artificial Intelligence",
+              grade: "A",
+              attendance: 93,
+              credits: 3,
+            },
+            {
+              name: "Embedded Systems",
+              grade: "B+",
+              attendance: 88,
+              credits: 3,
+            },
+          ],
+        },
+        semester5: {
+          gpa: 3.9,
+          subjects: [
+            {
+              name: "Machine Learning",
+              grade: "A+",
+              attendance: 96,
+              credits: 4,
+            },
+            { name: "Cyber Security", grade: "A", attendance: 92, credits: 3 },
+            {
+              name: "Cloud Computing",
+              grade: "A-",
+              attendance: 89,
+              credits: 3,
+            },
+            {
+              name: "Internet of Things",
+              grade: "B+",
+              attendance: 90,
+              credits: 3,
+            },
+          ],
+        },
+        semester6: {
+          gpa: 3.95,
+          subjects: [
+            { name: "Deep Learning", grade: "A+", attendance: 97, credits: 4 },
+            {
+              name: "Big Data Analytics",
+              grade: "A",
+              attendance: 94,
+              credits: 3,
+            },
+            {
+              name: "Blockchain Technology",
+              grade: "A-",
+              attendance: 91,
+              credits: 3,
+            },
+            {
+              name: "Human-Computer Interaction",
+              grade: "B+",
+              attendance: 89,
               credits: 2,
             },
           ],

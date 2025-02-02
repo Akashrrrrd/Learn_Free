@@ -667,3 +667,33 @@
     grid-template-columns: 1fr;
   }
 }
+
+.gr-download-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.gr-download-pdf-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.gr-download-pdf-btn:active {
+  background-color: #1e40af;
+}
+
+.gr-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

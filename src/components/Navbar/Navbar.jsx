@@ -9,19 +9,31 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
   const auth = getAuth();
+  const db = getFirestore();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setIsLoggedIn(!!user);
+      if (user) {
+        // Fetch user role from Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          setUserRole(userDoc.data().role);
+        }
+      } else {
+        setUserRole(null);
+      }
     });
     return () => unsubscribe();
-  }, [auth]);
+  }, [auth, db]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -30,10 +42,98 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      setUserRole(null);
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
     }
+  };
+
+  const renderNavLinks = () => {
+    const commonLinks = [
+      <li key="home" className="navbar-item">
+        <Link to="/" className="navbar-links" onClick={toggleMenu}>
+          Home
+        </Link>
+      </li>,
+    ];
+
+    if (!isLoggedIn) {
+      return [
+        ...commonLinks,
+        <li key="login" className="navbar-item">
+          <Link to="/login" className="navbar-links" onClick={toggleMenu}>
+            Login
+          </Link>
+        </li>,
+      ];
+    }
+
+    const roleSpecificLinks = {
+      Principal: [
+        <li key="departments" className="navbar-item">
+          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
+            Departments
+          </Link>
+        </li>,
+        <li key="grades" className="navbar-item">
+          <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
+            Grades
+          </Link>
+        </li>,
+      ],
+      HOD: [
+        <li key="departments" className="navbar-item">
+          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
+            Departments
+          </Link>
+        </li>,
+        <li key="grades" className="navbar-item">
+          <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
+            Grades
+          </Link>
+        </li>,
+        <li key="rooms" className="navbar-item">
+          <Link to="/room" className="navbar-links" onClick={toggleMenu}>
+            Rooms
+          </Link>
+        </li>,
+      ],
+      Staff: [
+        <li key="departments" className="navbar-item">
+          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
+            Departments
+          </Link>
+        </li>,
+        <li key="grades" className="navbar-item">
+          <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
+            Grades
+          </Link>
+        </li>,
+        <li key="rooms" className="navbar-item">
+          <Link to="/room" className="navbar-links" onClick={toggleMenu}>
+            Rooms
+          </Link>
+        </li>,
+      ],
+      Student: [
+        <li key="rooms" className="navbar-item">
+          <Link to="/room" className="navbar-links" onClick={toggleMenu}>
+            Rooms
+          </Link>
+        </li>,
+      ],
+    };
+
+    return [
+      ...commonLinks,
+      ...(roleSpecificLinks[userRole] || []),
+      <li key="logout" className="navbar-item">
+        <Link to="#" className="navbar-links" onClick={handleLogout}>
+          Logout
+        </Link>
+      </li>,
+    ];
   };
 
   return (
@@ -54,44 +154,7 @@ const Navbar = () => {
           <span></span>
         </div>
         <ul className={`navbar-menu ${isOpen ? "active" : ""}`}>
-          <li className="navbar-item">
-            <Link to="/" className="navbar-links" onClick={toggleMenu}>
-              Home
-            </Link>
-          </li>
-          <li className="navbar-item">
-            <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
-              Departments
-            </Link>
-          </li>
-          <li className="navbar-item">
-            <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
-              Grades
-            </Link>
-          </li>
-          <li className="navbar-item">
-            <Link to="/room" className="navbar-links" onClick={toggleMenu}>
-              Rooms
-            </Link>
-          </li>
-          {/* <li className="navbar-item">
-            <Link to="/ai" className="navbar-links" onClick={toggleMenu}>
-              AI
-            </Link>
-          </li> */}
-          {isLoggedIn ? (
-            <li className="navbar-item">
-              <Link className="navbar-links" onClick={handleLogout}>
-                Logout
-              </Link>
-            </li>
-          ) : (
-            <li className="navbar-item">
-              <Link to="/login" className="navbar-links" onClick={toggleMenu}>
-                Login
-              </Link>
-            </li>
-          )}
+          {renderNavLinks()}
         </ul>
         <div className="navbar-icons">
           <Link to="/ai" className="navbar-ai-icon">
