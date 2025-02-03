@@ -6,9 +6,152 @@ import {
   studentsData,
 } from "../../assets/assets";
 import { getAuth } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  setDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import "./Courses.css";
+
+const ResourceModal = ({ isOpen, onClose, subject, onSubmit, type }) => {
+  const [title, setTitle] = useState("");
+  const [file, setFile] = useState(null);
+  const [duration, setDuration] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [author, setAuthor] = useState("");
+  const [edition, setEdition] = useState("");
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const uniqueId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    let resourceData;
+
+    switch (type) {
+      case "video":
+        resourceData = {
+          id: uniqueId,
+          title,
+          duration,
+          thumbnail: "/default-thumbnail.jpg",
+          url: file ? URL.createObjectURL(file) : "",
+        };
+        break;
+      case "notes":
+        resourceData = {
+          id: uniqueId,
+          title,
+          url: file ? URL.createObjectURL(file) : "",
+        };
+        break;
+      case "assignment":
+        resourceData = {
+          id: uniqueId,
+          title,
+          url: file ? URL.createObjectURL(file) : "",
+          dueDate,
+        };
+        break;
+      case "book":
+        resourceData = {
+          id: uniqueId,
+          title,
+          author,
+          edition,
+        };
+        break;
+      default:
+        toast.error("Invalid resource type");
+        return;
+    }
+
+    onSubmit(type, resourceData);
+    onClose();
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Upload {type.charAt(0).toUpperCase() + type.slice(1)}</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder={`${type} title`}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+
+          {type === "video" && (
+            <input
+              type="text"
+              placeholder="Video duration (e.g., 45:30)"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              required
+            />
+          )}
+
+          {type === "assignment" && (
+            <input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              required
+            />
+          )}
+
+          {type === "book" && (
+            <>
+              <input
+                type="text"
+                placeholder="Author"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Edition"
+                value={edition}
+                onChange={(e) => setEdition(e.target.value)}
+                required
+              />
+            </>
+          )}
+
+          {type !== "book" && (
+            <input
+              type="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              accept={
+                type === "video"
+                  ? "video/*"
+                  : type === "notes"
+                  ? ".pdf,.doc,.docx"
+                  : type === "assignment"
+                  ? ".pdf"
+                  : "*/*"
+              }
+            />
+          )}
+
+          <div className="modal-actions">
+            <button type="submit">Upload</button>
+            <button type="button" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +162,10 @@ const Courses = () => {
   const [showResources, setShowResources] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userDepartment, setUserDepartment] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resources, setResources] = useState(resourcesData);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,10 +199,8 @@ const Courses = () => {
         );
 
         if (userData.role === "Principal") {
-          // Principal sees all departments initially
           setView("departments");
         } else if (deptData) {
-          // Students, Staff, and HOD directly see their department's semesters
           setSelectedDepartment(deptData);
           setView("semesters");
         } else {
@@ -100,45 +245,125 @@ const Courses = () => {
     }
   };
 
-  const handleUploadResource = (type, subject) => {
-    // Implement file upload functionality
-    toast.info(`Upload ${type} functionality will be implemented here`);
-  };
+  const handleUploadResource = async (type, resourceData) => {
+    try {
+      const db = getFirestore();
+      const auth = getAuth();
+      const currentUser = auth.currentUser;
 
-  const handleAssignWork = (subject) => {
-    // Implement assignment creation
-    toast.info("Assignment creation functionality will be implemented here");
+      if (!currentUser || !selectedSubject) {
+        toast.error("Please login and select a subject");
+        return;
+      }
+
+      const resourceRef = doc(db, "resources", selectedSubject.code);
+      const resourceKey =
+        type === "book"
+          ? "referenceBooks"
+          : `lecture${type.charAt(0).toUpperCase() + type.slice(1)}s`;
+
+      // Ensure the document exists with the correct structure
+      await setDoc(
+        resourceRef,
+        {
+          lectureVideos: [],
+          lectureNotes: [],
+          referenceBooks: [],
+          assignments: [],
+        },
+        { merge: true }
+      );
+
+      // Fetch current resources
+      const docSnap = await getDoc(resourceRef);
+      const currentResources = docSnap.data() || {};
+
+      // Prevent duplicate entries based on title and other unique identifiers
+      const existingResources = currentResources[resourceKey] || [];
+      const isDuplicate = existingResources.some((res) => {
+        switch (type) {
+          case "video":
+            return (
+              res.title === resourceData.title &&
+              res.duration === resourceData.duration
+            );
+          case "notes":
+          case "assignment":
+            return res.title === resourceData.title;
+          case "book":
+            return (
+              res.title === resourceData.title &&
+              res.author === resourceData.author
+            );
+          default:
+            return false;
+        }
+      });
+
+      if (isDuplicate) {
+        toast.warning("This resource already exists");
+        return;
+      }
+
+      // Update Firestore with new resource
+      await updateDoc(resourceRef, {
+        [resourceKey]: arrayUnion(resourceData),
+      });
+
+      // Update local state
+      setResources((prevResources) => {
+        const updatedResources = { ...prevResources };
+        if (!updatedResources[selectedSubject.code]) {
+          updatedResources[selectedSubject.code] = {};
+        }
+        updatedResources[selectedSubject.code][resourceKey] = [
+          ...(updatedResources[selectedSubject.code][resourceKey] || []),
+          resourceData,
+        ];
+        return updatedResources;
+      });
+
+      toast.success(
+        `${type.charAt(0).toUpperCase() + type.slice(1)} uploaded successfully`
+      );
+    } catch (error) {
+      console.error(`Error uploading ${type}:`, error);
+      toast.error(`Failed to upload ${type}`);
+    }
   };
 
   const ResourceUploadControls = ({ subject }) => (
     <div className="resource-upload-controls">
       <h3>Manage Resources</h3>
       <div className="upload-buttons">
-        <button
-          className="upload-btn"
-          onClick={() => handleUploadResource("video", subject)}
-        >
-          Upload Video Lecture
-        </button>
-        <button
-          className="upload-btn"
-          onClick={() => handleUploadResource("notes", subject)}
-        >
-          Upload Lecture Notes
-        </button>
-        <button
-          className="upload-btn"
-          onClick={() => handleUploadResource("book", subject)}
-        >
-          Add Reference Book
-        </button>
-        <button
-          className="upload-btn"
-          onClick={() => handleAssignWork(subject)}
-        >
-          Create Assignment
-        </button>
+        {["video", "notes", "book", "assignment"].map((type) => (
+          <button
+            key={type}
+            className="upload-btn"
+            onClick={() => {
+              setModalType(type);
+              setIsModalOpen(true);
+            }}
+          >
+            {type === "book"
+              ? "Add Reference Book"
+              : type === "assignment"
+              ? "Create Assignment"
+              : `Upload ${
+                  type.charAt(0).toUpperCase() + type.slice(1)
+                } Lecture`}
+          </button>
+        ))}
       </div>
+      {isModalOpen && (
+        <ResourceModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          subject={selectedSubject}
+          type={modalType}
+          onSubmit={handleUploadResource}
+        />
+      )}
     </div>
   );
 
@@ -162,12 +387,17 @@ const Courses = () => {
           <div className="resource-section">
             <h2>Lecture Videos</h2>
             <div className="resource-list">
-              {(resourcesData[selectedSubject.code]?.lectureVideos || []).map(
-                (video, index) => (
-                  <div key={index} className="resource-item">
+              {(resources[selectedSubject.code]?.lectureVideos || []).map(
+                (video) => (
+                  <div key={video.id} className="resource-item">
                     <h3>{video.title}</h3>
                     <p>Duration: {video.duration}</p>
-                    <button className="resource-btn">Watch Video</button>
+                    <button
+                      className="resource-btn"
+                      onClick={() => window.open(video.url, "_blank")}
+                    >
+                      Watch Video
+                    </button>
                   </div>
                 )
               )}
@@ -177,11 +407,16 @@ const Courses = () => {
           <div className="resource-section">
             <h2>Lecture Notes</h2>
             <div className="resource-list">
-              {(resourcesData[selectedSubject.code]?.lectureNotes || []).map(
-                (note, index) => (
-                  <div key={index} className="resource-item">
+              {(resources[selectedSubject.code]?.lectureNotes || []).map(
+                (note) => (
+                  <div key={note.id} className="resource-item">
                     <h3>{note.title}</h3>
-                    <button className="resource-btn">Download PDF</button>
+                    <button
+                      className="resource-btn"
+                      onClick={() => window.open(note.url, "_blank")}
+                    >
+                      Download PDF
+                    </button>
                   </div>
                 )
               )}
@@ -191,12 +426,32 @@ const Courses = () => {
           <div className="resource-section">
             <h2>Assignments</h2>
             <div className="resource-list">
-              {(resourcesData[selectedSubject.code]?.assignments || []).map(
-                (assignment, index) => (
-                  <div key={index} className="resource-item">
+              {(resources[selectedSubject.code]?.assignments || []).map(
+                (assignment) => (
+                  <div key={assignment.id} className="resource-item">
                     <h3>{assignment.title}</h3>
                     <p>Due: {assignment.dueDate}</p>
-                    <button className="resource-btn">View Assignment</button>
+                    <button
+                      className="resource-btn"
+                      onClick={() => window.open(assignment.url, "_blank")}
+                    >
+                      View Assignment
+                    </button>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          <div className="resource-section">
+            <h2>Reference Books</h2>
+            <div className="resource-list">
+              {(resources[selectedSubject.code]?.referenceBooks || []).map(
+                (book) => (
+                  <div key={book.id} className="resource-item">
+                    <h3>{book.title}</h3>
+                    <p>Author: {book.author}</p>
+                    <p>Edition: {book.edition}</p>
                   </div>
                 )
               )}

@@ -17,6 +17,8 @@
   max-width: 1300px;
   margin: auto;
   padding: 0 1rem;
+  position: relative;
+  padding-right: 3rem;
 }
 
 /* Logo */
@@ -79,7 +81,7 @@
   color: #007bff;
 }
 
-/* Hamburger Menu for Mobile */
+/* Hamburger Menu */
 .menu-icon {
   display: none;
   flex-direction: column;
@@ -90,6 +92,10 @@
   border: none;
   cursor: pointer;
   z-index: 1001;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .menu-icon span {
@@ -100,8 +106,26 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Responsive Design */
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+  .navbar-container {
+    max-width: 960px;
+  }
+
+  .navbar-menu {
+    gap: 1.2rem;
+  }
+}
+
 @media screen and (max-width: 900px) {
+  .navbar-logo {
+    font-size: 1.5rem;
+  }
+
+  .navbar-logo-image {
+    height: 35px;
+  }
+
   .navbar-menu {
     display: none;
     flex-direction: column;
@@ -132,7 +156,54 @@
   }
 }
 
-/* Active State for Mobile Menu */
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+
+  .navbar-container {
+    padding: 0 0.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbar-logo {
+    font-size: 1.3rem;
+  }
+
+  .navbar-logo-image {
+    height: 30px;
+    margin-right: 8px;
+  }
+
+  .navbar-links {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  .menu-icon {
+    width: 1.8rem;
+    height: 1.2rem;
+    right: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .navbar {
+    padding: 0.6rem;
+  }
+
+  .navbar-logo {
+    font-size: 1.2rem;
+  }
+
+  .navbar-logo-image {
+    height: 25px;
+  }
+}
+
+/* Toggle Menu States */
 .menu-icon.open span:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
 }
