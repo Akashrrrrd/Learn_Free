@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -16,7 +17,6 @@ import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/logo.png";
 import "./Login.css";
 
-// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyARyrQXtlZlbA9s45wonWAzEv3H6u4yxVA",
   authDomain: "learnfree-f8152.firebaseapp.com",
@@ -26,12 +26,12 @@ const firebaseConfig = {
   appId: "1:15333691794:web:453b428885a7e11b77f14b",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const Login = ({ onLoginSuccess }) => {
+const Login = () => {
+  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,6 @@ const Login = ({ onLoginSuccess }) => {
   const [department, setDepartment] = useState("Computer Science");
   const [loading, setLoading] = useState(false);
 
-  // Validation functions
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
@@ -50,30 +49,23 @@ const Login = ({ onLoginSuccess }) => {
     return password.length >= 8;
   };
 
-  // Social Login Providers
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
 
-  // Toggle between Login and Sign Up
   const toggleSignUp = () => {
     setIsSignUp(!isSignUp);
-    // Reset form when switching
     setEmail("");
     setPassword("");
   };
 
-  // Handle Social Login
   const handleSocialLogin = async (provider) => {
     setLoading(true);
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      // Check if user exists in Firestore
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
 
-      // If user doesn't exist, create a default profile
       if (!userDoc.exists()) {
         await setDoc(userDocRef, {
           email: user.email,
@@ -84,7 +76,7 @@ const Login = ({ onLoginSuccess }) => {
       }
 
       toast.success("Logged in successfully!");
-      onLoginSuccess();
+      navigate("/");
     } catch (error) {
       toast.error(`Social Login Error: ${error.message}`);
     } finally {
@@ -92,12 +84,10 @@ const Login = ({ onLoginSuccess }) => {
     }
   };
 
-  // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Validation
     if (!validateEmail(email)) {
       toast.error("Please enter a valid email address.");
       setLoading(false);
@@ -112,7 +102,6 @@ const Login = ({ onLoginSuccess }) => {
 
     try {
       if (isSignUp) {
-        // Sign Up Process
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -120,7 +109,6 @@ const Login = ({ onLoginSuccess }) => {
         );
         const user = userCredential.user;
 
-        // Create user profile in Firestore
         await setDoc(doc(db, "users", user.uid), {
           email,
           role,
@@ -130,11 +118,10 @@ const Login = ({ onLoginSuccess }) => {
 
         toast.success("Account created successfully!");
       } else {
-        // Login Process
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Logged in successfully!");
       }
-      onLoginSuccess();
+      navigate("/");
     } catch (error) {
       toast.error(`${isSignUp ? "Sign Up" : "Login"} Error: ${error.message}`);
     } finally {
@@ -142,7 +129,6 @@ const Login = ({ onLoginSuccess }) => {
     }
   };
 
-  // Logout Handler
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -153,16 +139,14 @@ const Login = ({ onLoginSuccess }) => {
     }
   };
 
-  // Auth State Listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      if (currentUser) onLoginSuccess();
+      if (currentUser) navigate("/");
     });
     return () => unsubscribe();
-  }, [onLoginSuccess]);
+  }, [navigate]);
 
-  // Departments List
   const departments = [
     "Computer Science",
     "Information Technology",
@@ -174,7 +158,6 @@ const Login = ({ onLoginSuccess }) => {
     "Artificial Intelligence and Machine Learning",
   ];
 
-  // Roles List
   const roles = ["Student", "Staff", "HOD", "Principal"];
 
   return (
@@ -195,7 +178,6 @@ const Login = ({ onLoginSuccess }) => {
         <div className="login-right">
           <div className="login-form-container">
             {user ? (
-              // Logged In View
               <div className="logged-in-view">
                 <h2>
                   Welcome to <span>LearnFree</span>,{" "}
@@ -211,7 +193,6 @@ const Login = ({ onLoginSuccess }) => {
                 </button>
               </div>
             ) : (
-              // Login/Signup Form
               <div className="auth-form">
                 <h2>
                   {isSignUp
@@ -293,6 +274,23 @@ const Login = ({ onLoginSuccess }) => {
                   </button>
                 </form>
 
+                <div className="social-login">
+                  <button
+                    onClick={() => handleSocialLogin(googleProvider)}
+                    className="google-btn"
+                    disabled={loading}
+                  >
+                    <i className="fab fa-google"></i> Continue with Google
+                  </button>
+                  <button
+                    onClick={() => handleSocialLogin(facebookProvider)}
+                    className="facebook-btn"
+                    disabled={loading}
+                  >
+                    <i className="fab fa-facebook"></i> Continue with Facebook
+                  </button>
+                </div>
+
                 <div className="login-divider">
                   <span>or</span>
                 </div>
@@ -302,7 +300,7 @@ const Login = ({ onLoginSuccess }) => {
                     ? "Already part of our community?"
                     : "New to LearnFree?"}
                   <button onClick={toggleSignUp}>
-                    {isSignUp ? " Log In" : " Sign Up"}
+                    {isSignUp ? "Log In" : "Sign Up"}
                   </button>
                 </p>
               </div>
