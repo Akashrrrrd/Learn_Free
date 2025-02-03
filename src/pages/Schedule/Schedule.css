@@ -134,7 +134,7 @@
 
 .gr-modal {
   background-color: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 2rem;
   width: 100%;
   max-width: 500px;
@@ -155,7 +155,7 @@
 
 .gr-modal-form input,
 .gr-modal-form select {
-  width: 100%;
+  width: 95%;
   padding: 0.75rem;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -176,6 +176,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 50px;
 }
 
 .gr-modal-submit:hover {
@@ -190,6 +191,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 50px;
 }
 
 .gr-modal-cancel:hover {
