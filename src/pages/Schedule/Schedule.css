@@ -31,6 +31,7 @@
   height: calc(100% - 200px);
   overflow-y: auto;
   background-color: white;
+  border-radius: 12px;
 }
 
 /* Rest of the previous CSS remains the same */
@@ -50,11 +51,10 @@
   gap: 1rem;
 }
 
-.gr-select,
-.gr-download-btn,
-.gr-add-btn {
+.gr-select {
   padding: 0.75rem 1rem;
   border: 1px solid var(--border-color);
+  border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
 }
