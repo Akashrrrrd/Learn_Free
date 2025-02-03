@@ -274,23 +274,6 @@ const Login = () => {
                   </button>
                 </form>
 
-                <div className="social-login">
-                  <button
-                    onClick={() => handleSocialLogin(googleProvider)}
-                    className="google-btn"
-                    disabled={loading}
-                  >
-                    <i className="fab fa-google"></i> Continue with Google
-                  </button>
-                  <button
-                    onClick={() => handleSocialLogin(facebookProvider)}
-                    className="facebook-btn"
-                    disabled={loading}
-                  >
-                    <i className="fab fa-facebook"></i> Continue with Facebook
-                  </button>
-                </div>
-
                 <div className="login-divider">
                   <span>or</span>
                 </div>
