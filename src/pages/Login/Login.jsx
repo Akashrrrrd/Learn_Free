@@ -151,11 +151,11 @@ const Login = () => {
     "Computer Science",
     "Information Technology",
     "Electronics & Communication",
+    "Electrical & Electronics",
     "Mechanical Engineering",
     "Civil Engineering",
-    "Computer Science and Business Systems",
     "Artificial Intelligence and Data Science",
-    "Artificial Intelligence and Machine Learning",
+    "AI and Machine Learning",
   ];
 
   const roles = ["Student", "Staff", "HOD", "Principal"];

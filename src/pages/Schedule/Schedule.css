@@ -1,0 +1,228 @@
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #34495e;
+  --accent-color: #3498db;
+  --background-light: #ecf0f1;
+  --text-color: #333;
+  --border-color: #bdc3c7;
+}
+
+.gr-schedule-container {
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 40px;
+  padding: 2rem;
+  background-color: var(--background-light);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow-y: none;
+}
+
+.gr-download-btn,
+.gr-add-btn,
+.gr-delete-btn,
+.gr-modal-submit,
+.gr-modal-cancel {
+  width: 140px;
+  border-radius: 50px;
+}
+
+.gr-table-container {
+  height: calc(100% - 200px);
+  overflow-y: auto;
+  background-color: white;
+}
+
+/* Rest of the previous CSS remains the same */
+.gr-title {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.gr-filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.gr-select,
+.gr-download-btn,
+.gr-add-btn {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.gr-select {
+  background-color: white;
+  color: var(--text-color);
+}
+
+.gr-download-btn,
+.gr-add-btn {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.gr-download-btn:hover,
+.gr-add-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.gr-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.gr-table thead {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.gr-table th,
+.gr-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.gr-table tbody tr:hover {
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.gr-delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gr-delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.gr-no-data {
+  text-align: center;
+  color: var(--secondary-color);
+  padding: 2rem;
+  font-style: italic;
+}
+
+.gr-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.gr-modal {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gr-modal h3 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}
+
+.gr-modal-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.gr-modal-form input,
+.gr-modal-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.gr-modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.gr-modal-submit {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gr-modal-submit:hover {
+  background-color: var(--secondary-color);
+}
+
+.gr-modal-cancel {
+  background-color: var(--background-light);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gr-modal-cancel:hover {
+  background-color: #f1f3f4;
+}
+
+.grr-back-btn {
+  display: block;
+  width: 10%;
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.grr-back-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .gr-filters {
+    flex-direction: column;
+  }
+
+  .gr-select,
+  .gr-download-btn,
+  .gr-add-btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}

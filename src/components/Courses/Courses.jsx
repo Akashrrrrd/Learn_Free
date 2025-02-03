@@ -155,7 +155,7 @@ const ResourceModal = ({ isOpen, onClose, subject, onSubmit, type }) => {
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState();
   const [selectedSemester, setSelectedSemester] = useState(null);
   const [view, setView] = useState("loading");
   const [selectedSubject, setSelectedSubject] = useState(null);

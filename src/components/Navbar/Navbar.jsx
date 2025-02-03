@@ -76,6 +76,11 @@ const Navbar = () => {
             Departments
           </Link>
         </li>,
+        <li key="schedule" className="navbar-item">
+          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
+            Schedule
+          </Link>
+        </li>,
         <li key="grades" className="navbar-item">
           <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
             Grades
@@ -96,6 +101,11 @@ const Navbar = () => {
         <li key="attendance" className="navbar-item">
           <Link to="/attendance" className="navbar-links" onClick={toggleMenu}>
             Attendance
+          </Link>
+        </li>,
+        <li key="schedule" className="navbar-item">
+          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
+            Schedule
           </Link>
         </li>,
         <li key="rooms" className="navbar-item">
@@ -120,6 +130,11 @@ const Navbar = () => {
             Attendance
           </Link>
         </li>,
+        <li key="schedule" className="navbar-item">
+          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
+            Schedule
+          </Link>
+        </li>,
         <li key="rooms" className="navbar-item">
           <Link to="/room" className="navbar-links" onClick={toggleMenu}>
             Rooms
@@ -127,6 +142,11 @@ const Navbar = () => {
         </li>,
       ],
       Student: [
+        <li key="schedule" className="navbar-item">
+          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
+            Schedule
+          </Link>
+        </li>,
         <li key="rooms" className="navbar-item">
           <Link to="/room" className="navbar-links" onClick={toggleMenu}>
             Rooms

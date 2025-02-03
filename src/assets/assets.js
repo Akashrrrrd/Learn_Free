@@ -156,7 +156,7 @@ export const studentsData = {
 export const departmentsData = [
   {
     id: 1,
-    name: "Computer Science and Engineering",
+    name: "Computer Science",
     code: "CSE",
     description:
       "Study of computer systems, software development, and advanced computing concepts.",
@@ -566,7 +566,7 @@ export const departmentsData = [
   },
   {
     id: 5,
-    name: "Electronics and Communication",
+    name: "Electronics & Communication",
     code: "ECE",
     pin: "1234",
     description:
@@ -674,7 +674,7 @@ export const departmentsData = [
   },
   {
     id: 6,
-    name: "Electrical and Electronics",
+    name: "Electrical & Electronics",
     code: "EEE",
     pin: "1234",
     description:

@@ -26,6 +26,7 @@ import Room from "./pages/Room/Room";
 import Grades from "./pages/Grades/Grades";
 import Chatbot from "./pages/Chatbot/Chatbot";
 import Attendance from "./pages/Attendance/Attendance";
+import Schedule from "./pages/Schedule/Schedule";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -88,6 +89,7 @@ const App = () => {
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/grades" element={<Grades />} />
             <Route path="/attendance" element={<Attendance />} />
+            <Route path="/schedule" element={<Schedule />} />
           </>
         )}
       </Routes>
