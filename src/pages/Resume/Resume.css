@@ -1,0 +1,248 @@
+.res-container {
+  display: flex;
+  gap: 3rem;
+  padding: 2.5rem;
+  max-width: 1600px;
+  margin-top: 75px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.res-form-section {
+  flex: 1;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  max-width: 600px;
+  background: #fafafa;
+}
+
+.res-form-title {
+  margin-bottom: 2rem;
+  color: #111827;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.res-section-title {
+  margin: 1.5rem 0;
+  color: #1f2937;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.res-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.res-input,
+.res-textarea {
+  padding: 0.875rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: white;
+  transition: border-color 0.2s ease;
+  color: #374151;
+}
+
+.res-input:focus,
+.res-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.res-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.res-btn {
+  width: auto;
+  min-width: 140px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto 1rem;
+  display: block;
+  background: linear-gradient(145deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.res-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(145deg, #1d4ed8, #1e40af);
+}
+
+.res-ai-btn {
+  background: linear-gradient(145deg, #6366f1, #4f46e5);
+}
+
+.res-ai-btn:hover {
+  background: linear-gradient(145deg, #4f46e5, #4338ca);
+}
+
+.res-download-btn {
+  background: linear-gradient(145deg, #16a34a, #15803d);
+  width: 200px;
+  margin: 1.5rem auto;
+}
+
+.res-download-btn:hover {
+  background: linear-gradient(145deg, #15803d, #166534);
+}
+
+.res-preview {
+  flex: 1;
+  padding: 2.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  max-width: 800px;
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.res-preview-header {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.res-preview-header h1 {
+  margin: 0;
+  font-size: 28px;
+  margin-bottom: 0.5rem;
+  color: #111827;
+  letter-spacing: 0.5px;
+}
+
+.res-contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.res-preview-section {
+  margin-bottom: 0.5rem;
+}
+
+.res-preview-section h2 {
+  font-size: 1.25rem;
+  border-bottom: 1px solid #d1d5db;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  color: #111827;
+  letter-spacing: 0.25px;
+}
+
+.res-edu-item,
+.res-exp-item,
+.res-project-item {
+  margin-bottom: 0.15rem;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.res-edu-header,
+.res-exp-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.res-position {
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.res-project-name {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.res-project-description {
+  margin-top: 0.25rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.res-skill-item {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.res-skill-category {
+  font-weight: 600;
+  margin-right: 0.75rem;
+  color: #1f2937;
+}
+
+.res-description-list {
+  margin: 0.5rem 0;
+  padding-left: 1.75rem;
+  color: #4b5563;
+}
+
+.res-description-list li {
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+@media print {
+  .res-container {
+    margin: 0;
+    padding: 0;
+  }
+
+  .res-form-section {
+    display: none;
+  }
+
+  .res-preview {
+    margin: 0;
+    padding: 0.5cm;
+    border: none;
+    width: 100%;
+    height: 100%;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+@media (max-width: 1200px) {
+  .res-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .res-form-section,
+  .res-preview {
+    max-width: 100%;
+    width: 100%;
+  }
+}

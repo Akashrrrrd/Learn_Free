@@ -142,9 +142,19 @@ const Navbar = () => {
         </li>,
       ],
       Student: [
+        <li key="departments" className="navbar-item">
+          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
+            Departments
+          </Link>
+        </li>,
         <li key="schedule" className="navbar-item">
           <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
             Schedule
+          </Link>
+        </li>,
+        <li key="resume" className="navbar-item">
+          <Link to="/resume" className="navbar-links" onClick={toggleMenu}>
+            Resume
           </Link>
         </li>,
         <li key="rooms" className="navbar-item">

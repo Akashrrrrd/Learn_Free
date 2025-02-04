@@ -10,8 +10,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Enroll from "./pages/Enroll/Enroll";
-import ConnectNow from "./components/ConnectNow/ConnectNow";
-import Footer from "./components/Footer/Footer";
 import VideoPage from "./pages/VideoPage/VideoPage";
 import AI from "./pages/AI/AI";
 import FAQ from "./pages/FAQ/FAQ";
@@ -27,6 +25,7 @@ import Grades from "./pages/Grades/Grades";
 import Chatbot from "./pages/Chatbot/Chatbot";
 import Attendance from "./pages/Attendance/Attendance";
 import Schedule from "./pages/Schedule/Schedule";
+import Resume from "./pages/Resume/Resume";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -90,6 +89,7 @@ const App = () => {
             <Route path="/grades" element={<Grades />} />
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/resume" element={<Resume />} />
           </>
         )}
       </Routes>
