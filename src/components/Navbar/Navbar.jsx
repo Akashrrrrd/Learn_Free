@@ -53,7 +53,7 @@ const Navbar = () => {
     const commonLinks = [
       <li key="home" className="navbar-item">
         <Link to="/" className="navbar-links" onClick={toggleMenu}>
-          Home
+          Dashboard
         </Link>
       </li>,
     ];

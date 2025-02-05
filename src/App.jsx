@@ -26,6 +26,7 @@ import Chatbot from "./pages/Chatbot/Chatbot";
 import Attendance from "./pages/Attendance/Attendance";
 import Schedule from "./pages/Schedule/Schedule";
 import Resume from "./pages/Resume/Resume";
+import StudentDashboard from "./components/Dashboard/Dashboard";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -70,12 +71,10 @@ const App = () => {
           </>
         ) : (
           <>
-            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/courses" element={<Courses />} />
             <Route path="/enroll" element={<Enroll />} />
-            <Route path="/video-page" element={<VideoPage />} />
             <Route path="/ai" element={<AI />} />
-            <Route path="/faq" element={<FAQ />} />
             <Route path="/semesters" element={<Semesters />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/profile" element={<Profile />} />
@@ -90,6 +89,7 @@ const App = () => {
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/resume" element={<Resume />} />
+            <Route path="/" element={<StudentDashboard />} />
           </>
         )}
       </Routes>
