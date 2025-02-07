@@ -29,10 +29,6 @@ const Login = () => {
   const VERIFY_REGISTRATION_URL = `${BASE_URL}/registration/verify`;
   const LOGIN_URL = `${BASE_URL}/authentication`;
 
-  // Hardcoded API Token (replace with secure method in production)
-  const API_TOKEN =
-    "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlIjoiU1RBRkYiLCJzdWIiOiJiYWxhLnRlY2guamlAZ21haWwuY29tIiwiaWF0IjoxNzM4OTQwMTk0LCJleHAiOjE3NDc1ODAxOTQsImF1dGhvcml0aWVzIjpbIlNUQUZGIl19.Q7undlON-7XRt-EBGQf0yr_DNQYncYTyuwOjdDXAe48rG0fH4mTsHmNfrHSpVs1q";
-
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
