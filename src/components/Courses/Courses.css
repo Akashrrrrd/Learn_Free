@@ -47,6 +47,7 @@
 
 .courses-header {
   text-align: center;
+  margin-top: 1rem;
   margin-bottom: 3rem;
   padding: 2rem 0;
   background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);

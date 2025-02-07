@@ -2,7 +2,7 @@
 .dashboard-wrapper {
   background-color: var(--bg-neutral-50, #f8f9fa);
   min-height: 100vh;
-  margin-block-start: 4.5rem;
+  margin-block-start: 5.5rem;
   padding: 1.25rem;
 }
 
