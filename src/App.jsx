@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
@@ -31,13 +31,12 @@ import StudentDashboard from "./components/Dashboard/Dashboard";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const auth = getAuth();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(!!user);
-      setLoading(false);
-    });
+    // Check for existing user token
+    const userToken = localStorage.getItem("userToken");
+    setIsLoggedIn(!!userToken);
+    setLoading(false);
 
     const handlePageChange = () => {
       setLoading(true);
@@ -49,10 +48,9 @@ const App = () => {
     window.addEventListener("beforeunload", handlePageChange);
 
     return () => {
-      unsubscribe();
       window.removeEventListener("beforeunload", handlePageChange);
     };
-  }, [auth]);
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -61,39 +59,40 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
-      {isLoggedIn && <Navbar />}
-
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
         {!isLoggedIn ? (
           <>
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route
+              path="/login"
+              element={<Login setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         ) : (
           <>
-            {/* <Route path="/" element={<Home />} /> */}
-            <Route path="/courses" element={<Courses />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<StudentDashboard />} />
             <Route path="/enroll" element={<Enroll />} />
+            <Route path="/video" element={<VideoPage />} />
             <Route path="/ai" element={<AI />} />
-            <Route path="/semesters" element={<Semesters />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/courses" element={<Courses />} />
             <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/department/:department/semester/:semester"
-              element={<Subjects />}
-            />
+            <Route path="/semesters" element={<Semesters />} />
+            <Route path="/subjects" element={<Subjects />} />
             <Route path="/room" element={<Room />} />
-            <Route path="/login" element={<Navigate to="/" />} />
-            <Route path="*" element={<Navigate to="/" />} />
             <Route path="/grades" element={<Grades />} />
+            <Route path="/chatbot" element={<Chatbot />} />
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/resume" element={<Resume />} />
-            <Route path="/" element={<StudentDashboard />} />
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </>
         )}
       </Routes>
-      <Chatbot />
     </Router>
   );
 };

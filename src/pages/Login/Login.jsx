@@ -3,8 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../../assets/logo.png";
+import logo from "./../../assets/logo.png";
 import "./Login.css";
+
+// Configuration constants
+const API_TOKEN = import.meta.env.VITE_API_TOKEN || ""; // Use environment variable
+const BASE_URL =
+  import.meta.env.VITE_BASE_URL || "http://localhost:5173/learn-free";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -23,8 +28,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
-  // Base URLs and API endpoints
-  const BASE_URL = "http://localhost:8080/learn-free";
+  // API Endpoints
   const EMAIL_VALIDATION_URL = `${BASE_URL}/registration/email-validation`;
   const VERIFY_REGISTRATION_URL = `${BASE_URL}/registration/verify`;
   const LOGIN_URL = `${BASE_URL}/authentication`;
