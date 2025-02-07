@@ -1,44 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  FacebookAuthProvider,
-} from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/logo.png";
 import "./Login.css";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyARyrQXtlZlbA9s45wonWAzEv3H6u4yxVA",
-  authDomain: "learnfree-f8152.firebaseapp.com",
-  projectId: "learnfree-f8152",
-  storageBucket: "learnfree-f8152.appspot.com",
-  messagingSenderId: "15333691794",
-  appId: "1:15333691794:web:453b428885a7e11b77f14b",
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
 
 const Login = () => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("MALE");
+  const [age, setAge] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [activationCode, setActivationCode] = useState("");
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState("Student");
-  const [department, setDepartment] = useState("Computer Science");
+  const [role, setRole] = useState("STAFF");
+  const [department, setDepartment] = useState("ECE");
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+
+  // Base URLs and API endpoints
+  const BASE_URL = "http://localhost:8080/learn-free";
+  const EMAIL_VALIDATION_URL = `${BASE_URL}/registration/email-validation`;
+  const VERIFY_REGISTRATION_URL = `${BASE_URL}/registration/verify`;
+  const LOGIN_URL = `${BASE_URL}/authentication`;
+
+  // Hardcoded API Token (replace with secure method in production)
+  const API_TOKEN =
+    "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlIjoiU1RBRkYiLCJzdWIiOiJiYWxhLnRlY2guamlAZ21haWwuY29tIiwiaWF0IjoxNzM4OTQwMTk0LCJleHAiOjE3NDc1ODAxOTQsImF1dGhvcml0aWVzIjpbIlNUQUZGIl19.Q7undlON-7XRt-EBGQf0yr_DNQYncYTyuwOjdDXAe48rG0fH4mTsHmNfrHSpVs1q";
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,36 +42,135 @@ const Login = () => {
     return password.length >= 8;
   };
 
-  const googleProvider = new GoogleAuthProvider();
-  const facebookProvider = new FacebookAuthProvider();
-
   const toggleSignUp = () => {
     setIsSignUp(!isSignUp);
-    setEmail("");
-    setPassword("");
+    resetForm();
   };
 
-  const handleSocialLogin = async (provider) => {
-    setLoading(true);
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setFirstName("");
+    setLastName("");
+    setGender("MALE");
+    setAge("");
+    setMobileNumber("");
+    setActivationCode("");
+    setEmailSent(false);
+  };
 
-      if (!userDoc.exists()) {
-        await setDoc(userDocRef, {
-          email: user.email,
-          role: "Student",
-          department: "Computer Science",
-          createdAt: new Date(),
-        });
+  const sendVerificationEmail = async () => {
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.get(`${EMAIL_VALIDATION_URL}/${email}`, {
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`,
+        },
+      });
+
+      if (response.data.status) {
+        toast.success("Verification email has been sent successfully!");
+        setEmailSent(true);
       }
+    } catch (error) {
+      toast.error(
+        `Email Verification Error: ${
+          error.response?.data?.message || error.message
+        }`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignUp = async () => {
+    // Validate all required fields
+    if (!firstName || !lastName || !age || !mobileNumber || !activationCode) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const payload = {
+        firstName,
+        lastName,
+        gender,
+        age: parseInt(age),
+        mobileNumber,
+        email,
+        password,
+        role,
+        department,
+        activationCode,
+      };
+
+      const response = await axios.post(VERIFY_REGISTRATION_URL, payload, {
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.status) {
+        toast.success("Registration verified successfully! Please log in.");
+        setIsSignUp(false);
+      }
+    } catch (error) {
+      toast.error(
+        `Registration Error: ${error.response?.data?.message || error.message}`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      toast.error("Password must be at least 8 characters long.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const payload = {
+        email,
+        password,
+      };
+
+      const response = await axios.post(LOGIN_URL, payload, {
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Store user details
+      localStorage.setItem("userToken", response.data.jwtToken);
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("userRole", response.data.role);
+      localStorage.setItem(
+        "userName",
+        `${response.data.firstName} ${response.data.lastName}`
+      );
 
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (error) {
-      toast.error(`Social Login Error: ${error.message}`);
+      toast.error(
+        `Login Error: ${error.response?.data?.message || error.message}`
+      );
     } finally {
       setLoading(false);
     }
@@ -86,65 +178,37 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    if (!validateEmail(email)) {
-      toast.error("Please enter a valid email address.");
-      setLoading(false);
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      toast.error("Password must be at least 8 characters long.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      if (isSignUp) {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredential.user;
-
-        await setDoc(doc(db, "users", user.uid), {
-          email,
-          role,
-          department,
-          createdAt: new Date(),
-        });
-
-        toast.success("Account created successfully!");
+    if (isSignUp) {
+      if (!emailSent) {
+        await sendVerificationEmail();
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
-        toast.success("Logged in successfully!");
+        await handleSignUp();
       }
-      navigate("/");
-    } catch (error) {
-      toast.error(`${isSignUp ? "Sign Up" : "Login"} Error: ${error.message}`);
-    } finally {
-      setLoading(false);
+    } else {
+      await handleLogin();
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      toast.info("Logged out successfully!");
-      setUser(null);
-    } catch (error) {
-      toast.error("Logout Error: " + error.message);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
+    setUser(null);
+    toast.info("Logged out successfully!");
+    navigate("/login");
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) navigate("/");
-    });
-    return () => unsubscribe();
+    const token = localStorage.getItem("userToken");
+    const email = localStorage.getItem("userEmail");
+
+    if (token) {
+      setUser({ email });
+      navigate("/");
+    }
   }, [navigate]);
 
   const departments = [
@@ -158,7 +222,7 @@ const Login = () => {
     "AI and Machine Learning",
   ];
 
-  const roles = ["Student", "Staff", "HOD", "Principal"];
+  const roles = ["STAFF", "STUDENT", "HOD", "PRINCIPAL"];
 
   return (
     <div className="login-container">
@@ -196,68 +260,175 @@ const Login = () => {
               <div className="auth-form">
                 <h2>
                   {isSignUp
-                    ? "Join Our Learning Community"
+                    ? emailSent
+                      ? "Complete Your Registration"
+                      : "Join Our Learning Community"
                     : "Welcome Back, Learner!"}
                 </h2>
 
                 <form onSubmit={handleSubmit} className="login-form">
                   {isSignUp && (
                     <>
-                      <div className="form-group">
-                        <label htmlFor="role">Select Role:</label>
-                        <select
-                          id="role"
-                          value={role}
-                          onChange={(e) => setRole(e.target.value)}
-                          required
-                        >
-                          {roles.map((role) => (
-                            <option key={role} value={role}>
-                              {role}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      {!emailSent ? (
+                        <>
+                          <div className="form-group">
+                            <input
+                              type="email"
+                              id="email"
+                              placeholder="Enter your email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              required
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              id="firstName"
+                              placeholder="First Name"
+                              value={firstName}
+                              onChange={(e) => setFirstName(e.target.value)}
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              id="lastName"
+                              placeholder="Last Name"
+                              value={lastName}
+                              onChange={(e) => setLastName(e.target.value)}
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="gender">Gender:</label>
+                            <select
+                              id="gender"
+                              value={gender}
+                              onChange={(e) => setGender(e.target.value)}
+                              required
+                            >
+                              <option value="MALE">Male</option>
+                              <option value="FEMALE">Female</option>
+                              <option value="OTHER">Other</option>
+                            </select>
+                          </div>
+
+                          <div className="form-group">
+                            <input
+                              type="number"
+                              id="age"
+                              placeholder="Age"
+                              value={age}
+                              onChange={(e) => setAge(e.target.value)}
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <input
+                              type="tel"
+                              id="mobileNumber"
+                              placeholder="Mobile Number"
+                              value={mobileNumber}
+                              onChange={(e) => setMobileNumber(e.target.value)}
+                              required
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="role">Select Role:</label>
+                            <select
+                              id="role"
+                              value={role}
+                              onChange={(e) => setRole(e.target.value)}
+                              required
+                            >
+                              {roles.map((roleOption) => (
+                                <option key={roleOption} value={roleOption}>
+                                  {roleOption}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="form-group">
+                            <label htmlFor="department">
+                              Select Department:
+                            </label>
+                            <select
+                              id="department"
+                              value={department}
+                              onChange={(e) => setDepartment(e.target.value)}
+                              required
+                            >
+                              {departments.map((dept) => (
+                                <option key={dept} value={dept}>
+                                  {dept}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="form-group">
+                            <input
+                              type="text"
+                              id="activationCode"
+                              placeholder="Activation Code"
+                              value={activationCode}
+                              onChange={(e) =>
+                                setActivationCode(e.target.value)
+                              }
+                              required
+                            />
+                          </div>
+                        </>
+                      )}
 
                       <div className="form-group">
-                        <label htmlFor="department">Select Department:</label>
-                        <select
-                          id="department"
-                          value={department}
-                          onChange={(e) => setDepartment(e.target.value)}
+                        <input
+                          type="password"
+                          id="password"
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                           required
-                        >
-                          {departments.map((dept) => (
-                            <option key={dept} value={dept}>
-                              {dept}
-                            </option>
-                          ))}
-                        </select>
+                        />
                       </div>
                     </>
                   )}
 
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
+                  {!isSignUp && (
+                    <>
+                      <div className="form-group">
+                        <input
+                          type="email"
+                          id="email"
+                          placeholder="Enter your email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
 
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      id="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
+                      <div className="form-group">
+                        <input
+                          type="password"
+                          id="password"
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </>
+                  )}
 
                   <button
                     type="submit"
@@ -266,10 +437,14 @@ const Login = () => {
                   >
                     {loading
                       ? isSignUp
-                        ? "Creating Account..."
+                        ? emailSent
+                          ? "Verifying..."
+                          : "Sending Verification..."
                         : "Logging In..."
                       : isSignUp
-                      ? "Start Learning"
+                      ? emailSent
+                        ? "Complete Registration"
+                        : "Send Verification Email"
                       : "Continue Learning"}
                   </button>
                 </form>
