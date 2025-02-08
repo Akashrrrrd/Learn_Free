@@ -159,52 +159,52 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <div className="logo-container">
-            <img src={logo} alt="Logo" className="navbar-logo-image" />
-            <span className="navbar-title">LearnFree</span>
+      <nav className="navbar">
+        <div className="navbar-container">
+          <Link to="/" className="navbar-logo">
+            <div className="logo-container">
+              <img src={logo} alt="Logo" className="navbar-logo-image" />
+              <span className="navbar-title">LearnFree</span>
+            </div>
+          </Link>
+          <div
+              className={`menu-icon ${isOpen ? "open" : ""}`}
+              onClick={toggleMenu}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-        </Link>
-        <div
-          className={`menu-icon ${isOpen ? "open" : ""}`}
-          onClick={toggleMenu}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <ul className={`navbar-menu ${isOpen ? "active" : ""}`}>
-          {renderNavLinks()}
-        </ul>
-        <div className="navbar-icons">
-          <Link to="/ai" className="navbar-ai-icon">
-            <FontAwesomeIcon
-              icon={faRobot}
-              size="2x"
-              style={{ color: "white" }}
-            />
-          </Link>
-          <Link to="/faq" className="navbar-help-icon">
-            <FontAwesomeIcon
-              icon={faQuestionCircle}
-              size="2x"
-              style={{ color: "white", marginLeft: "20px" }}
-            />
-          </Link>
-          {isLoggedIn && (
-            <Link to="/profile" className="navbar-user-icon">
+          <ul className={`navbar-menu ${isOpen ? "active" : ""}`}>
+            {renderNavLinks()}
+          </ul>
+          <div className="navbar-icons">
+            <Link to="/ai" className="navbar-ai-icon">
               <FontAwesomeIcon
-                icon={faUser}
-                size="2x"
-                style={{ color: "white", marginLeft: "20px" }}
+                  icon={faRobot}
+                  size="2x"
+                  style={{ color: "white" }}
               />
             </Link>
-          )}
+            <Link to="/faq" className="navbar-help-icon">
+              <FontAwesomeIcon
+                  icon={faQuestionCircle}
+                  size="2x"
+                  style={{ color: "white", marginLeft: "20px" }}
+              />
+            </Link>
+            {isLoggedIn && (
+                <Link to="/profile" className="navbar-user-icon">
+                  <FontAwesomeIcon
+                      icon={faUser}
+                      size="2x"
+                      style={{ color: "white", marginLeft: "20px" }}
+                  />
+                </Link>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
   );
 };
 
