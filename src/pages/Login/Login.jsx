@@ -7,7 +7,9 @@ import logo from "./../../assets/logo.png";
 import "./Login.css";
 
 // Configuration constants
-const API_TOKEN = import.meta.env.VITE_API_TOKEN || ""; // Use environment variable
+const API_TOKEN =
+  import.meta.env.VITE_API_TOKEN ||
+  "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlIjoiU1RBRkYiLCJzdWIiOiJiYWxhLnRlY2guamlAZ21haWwuY29tIiwiaWF0IjoxNzM4OTQwMTk0LCJleHAiOjE3NDc1ODAxOTQsImF1dGhvcml0aWVzIjpbIlNUQUZGIl19.Q7undlON-7XRt-EBGQf0yr_DNQYncYTyuwOjdDXAe48rG0fH4mTsHmNfrHSpVs1q"; // Use environment variable
 const BASE_URL =
   import.meta.env.VITE_BASE_URL || "http://localhost:5173/learn-free";
 
