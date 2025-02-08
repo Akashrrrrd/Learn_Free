@@ -57,43 +57,43 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <ScrollToTop />
-      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <Routes>
-        {!isLoggedIn ? (
-          <>
-            <Route
-              path="/login"
-              element={<Login setIsLoggedIn={setIsLoggedIn} />}
-            />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </>
-        ) : (
-          <>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<StudentDashboard />} />
-            <Route path="/enroll" element={<Enroll />} />
-            <Route path="/video" element={<VideoPage />} />
-            <Route path="/ai" element={<AI />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/semesters" element={<Semesters />} />
-            <Route path="/subjects" element={<Subjects />} />
-            <Route path="/room" element={<Room />} />
-            <Route path="/grades" element={<Grades />} />
-            <Route path="/chatbot" element={<Chatbot />} />
-            <Route path="/attendance" element={<Attendance />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/resume" element={<Resume />} />
-            <Route path="/login" element={<Navigate to="/" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </>
-        )}
-      </Routes>
-    </Router>
+      <Router>
+        <ScrollToTop />
+        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <Routes>
+          {!isLoggedIn ? (
+              <>
+                <Route
+                    path="/login"
+                    element={<Login setIsLoggedIn={setIsLoggedIn} />}
+                />
+                <Route path="*" element={<Navigate to="/login" replace />} />
+              </>
+          ) : (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/dashboard" element={<StudentDashboard />} />
+                <Route path="/enroll" element={<Enroll />} />
+                <Route path="/video" element={<VideoPage />} />
+                <Route path="/ai" element={<AI />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/semesters" element={<Semesters />} />
+                <Route path="/subjects" element={<Subjects />} />
+                <Route path="/room" element={<Room />} />
+                <Route path="/grades" element={<Grades />} />
+                <Route path="/chatbot" element={<Chatbot />} />
+                <Route path="/attendance" element={<Attendance />} />
+                <Route path="/schedule" element={<Schedule />} />
+                <Route path="/resume" element={<Resume />} />
+                <Route path="/login" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </>
+          )}
+        </Routes>
+      </Router>
   );
 };
 

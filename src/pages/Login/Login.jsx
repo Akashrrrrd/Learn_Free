@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "./../../assets/logo.png";
 import "./Login.css";
-
-// Configuration constants
-const API_TOKEN = import.meta.env.VITE_API_TOKEN || ""; // Use environment variable
-const BASE_URL =
-  import.meta.env.VITE_BASE_URL || "http://localhost:5173/learn-free";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,7 +23,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
-  // API Endpoints
+  const BASE_URL = "http://localhost:8080/learn-free";
   const EMAIL_VALIDATION_URL = `${BASE_URL}/registration/email-validation`;
   const VERIFY_REGISTRATION_URL = `${BASE_URL}/registration/verify`;
   const LOGIN_URL = `${BASE_URL}/authentication`;
@@ -36,10 +31,6 @@ const Login = () => {
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
-  };
-
-  const validatePassword = (password) => {
-    return password.length >= 8;
   };
 
   const toggleSignUp = () => {
@@ -68,9 +59,6 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${EMAIL_VALIDATION_URL}/${email}`, {
-        headers: {
-          Authorization: `Bearer ${API_TOKEN}`,
-        },
       });
 
       if (response.data.status) {
@@ -89,7 +77,7 @@ const Login = () => {
   };
 
   const handleSignUp = async () => {
-    // Validate all required fields
+
     if (!firstName || !lastName || !age || !mobileNumber || !activationCode) {
       toast.error("Please fill in all required fields.");
       return;
@@ -111,10 +99,6 @@ const Login = () => {
       };
 
       const response = await axios.post(VERIFY_REGISTRATION_URL, payload, {
-        headers: {
-          Authorization: `Bearer ${API_TOKEN}`,
-          "Content-Type": "application/json",
-        },
       });
 
       if (response.data.status) {
@@ -136,11 +120,6 @@ const Login = () => {
       return;
     }
 
-    if (!validatePassword(password)) {
-      toast.error("Password must be at least 8 characters long.");
-      return;
-    }
-
     try {
       setLoading(true);
       const payload = {
@@ -148,29 +127,24 @@ const Login = () => {
         password,
       };
 
-      const response = await axios.post(LOGIN_URL, payload, {
-        headers: {
-          Authorization: `Bearer ${API_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(LOGIN_URL, payload);
+      const userData = response.data;
+      console.log(userData);
 
-      // Store user details
-      localStorage.setItem("userToken", response.data.jwtToken);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("userRole", response.data.role);
-      localStorage.setItem(
-        "userName",
-        `${response.data.firstName} ${response.data.lastName}`
-      );
+      localStorage.setItem("userToken", userData.jwtToken);
+      localStorage.setItem("userEmail", userData.email);
+      localStorage.setItem("userId", userData.userId);
+      localStorage.setItem("userRole", userData.role);
+      localStorage.setItem("userName", `${userData.firstName} ${userData.lastName}`);
+      localStorage.setItem("userGender", userData.gender);
+      localStorage.setItem("userAge", userData.age);
+      localStorage.setItem("userMobile", userData.mobileNumber);
+      localStorage.setItem("userDepartment", userData.department);
 
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (error) {
-      toast.error(
-        `Login Error: ${error.response?.data?.message || error.message}`
-      );
+      toast.error(`Login Error: ${error.response?.data?.message || error.message}`);
     } finally {
       setLoading(false);
     }
