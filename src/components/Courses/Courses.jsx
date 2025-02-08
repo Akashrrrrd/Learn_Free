@@ -5,7 +5,7 @@ import {
   departmentsData,
   studentsData,
 } from "../../assets/assets";
-import { getAuth } from "firebase/auth";
+
 import {
   getFirestore,
   doc,

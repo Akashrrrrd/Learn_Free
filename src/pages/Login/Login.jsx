@@ -6,6 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 import logo from "./../../assets/logo.png";
 import "./Login.css";
 
+// Configuration constants
+const API_TOKEN = import.meta.env.VITE_API_TOKEN || ""; // Use environment variable
+const BASE_URL =
+  import.meta.env.VITE_BASE_URL || "http://localhost:5173/learn-free";
+
 const Login = () => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
