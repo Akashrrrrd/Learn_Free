@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../assets/logo.png";
@@ -15,193 +15,145 @@ const Navbar = () => {
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
+  // Toggle mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogin = (role) => {
-    setIsLoggedIn(true);
-    setUserRole(role);
-    navigate("/");
-  };
-
+  // Handle logout
   const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
     setIsLoggedIn(false);
     setUserRole(null);
     navigate("/login");
   };
 
+  // Sync Navbar state with localStorage
+  useEffect(() => {
+    const userToken = localStorage.getItem("userToken");
+    const role = localStorage.getItem("userRole");
+    setIsLoggedIn(!!userToken);
+    setUserRole(role?.toLowerCase() || null);
+
+    // Add event listener for storage changes (e.g., login/logout from other tabs)
+    const handleStorageChange = () => {
+      const updatedToken = localStorage.getItem("userToken");
+      const updatedRole = localStorage.getItem("userRole");
+      setIsLoggedIn(!!updatedToken);
+      setUserRole(updatedRole?.toLowerCase() || null);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  // Render navigation links based on user role
   const renderNavLinks = () => {
     const commonLinks = [
-      <li key="home" className="navbar-item">
-        <Link to="/" className="navbar-links" onClick={toggleMenu}>
-          Dashboard
-        </Link>
-      </li>,
+      <Link to="/" key="home">
+        Home
+      </Link>,
     ];
 
     if (!isLoggedIn) {
       return [
         ...commonLinks,
-        <li key="login" className="navbar-item">
-          <Link to="/login" className="navbar-links" onClick={toggleMenu}>
-            Login
-          </Link>
-        </li>,
+        <Link to="/login" key="login">
+          Login
+        </Link>,
       ];
     }
 
     const roleSpecificLinks = {
-      Principal: [
-        <li key="departments" className="navbar-item">
-          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
-            Departments
-          </Link>
-        </li>,
-        <li key="schedule" className="navbar-item">
-          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
-            Schedule
-          </Link>
-        </li>,
-        <li key="grades" className="navbar-item">
-          <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
-            Grades
-          </Link>
-        </li>,
+      principal: [
+        <Link to="/departments" key="departments">
+          Departments
+        </Link>,
+        <Link to="/schedule" key="schedule">
+          Schedule
+        </Link>,
+        <Link to="/grades" key="grades">
+          Grades
+        </Link>,
       ],
-      HOD: [
-        <li key="departments" className="navbar-item">
-          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
-            Departments
-          </Link>
-        </li>,
-        <li key="grades" className="navbar-item">
-          <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
-            Grades
-          </Link>
-        </li>,
-        <li key="attendance" className="navbar-item">
-          <Link to="/attendance" className="navbar-links" onClick={toggleMenu}>
-            Attendance
-          </Link>
-        </li>,
-        <li key="schedule" className="navbar-item">
-          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
-            Schedule
-          </Link>
-        </li>,
-        <li key="rooms" className="navbar-item">
-          <Link to="/room" className="navbar-links" onClick={toggleMenu}>
-            Rooms
-          </Link>
-        </li>,
+      hod: [
+        <Link to="/departments" key="departments">
+          Departments
+        </Link>,
+        <Link to="/grades" key="grades">
+          Grades
+        </Link>,
+        <Link to="/attendance" key="attendance">
+          Attendance
+        </Link>,
+        <Link to="/schedule" key="schedule">
+          Schedule
+        </Link>,
+        <Link to="/room" key="rooms">
+          Rooms
+        </Link>,
       ],
-      Staff: [
-        <li key="departments" className="navbar-item">
-          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
-            Departments
-          </Link>
-        </li>,
-        <li key="grades" className="navbar-item">
-          <Link to="/grades" className="navbar-links" onClick={toggleMenu}>
-            Grades
-          </Link>
-        </li>,
-        <li key="attendance" className="navbar-item">
-          <Link to="/attendance" className="navbar-links" onClick={toggleMenu}>
-            Attendance
-          </Link>
-        </li>,
-        <li key="schedule" className="navbar-item">
-          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
-            Schedule
-          </Link>
-        </li>,
-        <li key="rooms" className="navbar-item">
-          <Link to="/room" className="navbar-links" onClick={toggleMenu}>
-            Rooms
-          </Link>
-        </li>,
+      staff: [
+        <Link to="/departments" key="departments">
+          Departments
+        </Link>,
+        <Link to="/grades" key="grades">
+          Grades
+        </Link>,
+        <Link to="/attendance" key="attendance">
+          Attendance
+        </Link>,
+        <Link to="/schedule" key="schedule">
+          Schedule
+        </Link>,
+        <Link to="/room" key="rooms">
+          Rooms
+        </Link>,
       ],
-      Student: [
-        <li key="departments" className="navbar-item">
-          <Link to="/courses" className="navbar-links" onClick={toggleMenu}>
-            Departments
-          </Link>
-        </li>,
-        <li key="schedule" className="navbar-item">
-          <Link to="/schedule" className="navbar-links" onClick={toggleMenu}>
-            Schedule
-          </Link>
-        </li>,
-        <li key="resume" className="navbar-item">
-          <Link to="/resume" className="navbar-links" onClick={toggleMenu}>
-            Resume
-          </Link>
-        </li>,
-        <li key="rooms" className="navbar-item">
-          <Link to="/room" className="navbar-links" onClick={toggleMenu}>
-            Rooms
-          </Link>
-        </li>,
+      student: [
+        <Link to="/departments" key="departments">
+          Departments
+        </Link>,
+        <Link to="/schedule" key="schedule">
+          Schedule
+        </Link>,
+        <Link to="/resume" key="resume">
+          Resume
+        </Link>,
+        <Link to="/room" key="rooms">
+          Rooms
+        </Link>,
       ],
     };
 
-    return [
-      ...commonLinks,
-      ...(roleSpecificLinks[userRole] || []),
-      <li key="logout" className="navbar-item">
-        <Link to="#" className="navbar-links" onClick={handleLogout}>
-          Logout
-        </Link>
-      </li>,
-    ];
+    return [...commonLinks, ...(roleSpecificLinks[userRole] || []), <button onClick={handleLogout} key="logout">Logout</button>];
   };
 
   return (
       <nav className="navbar">
         <div className="navbar-container">
-          <Link to="/" className="navbar-logo">
-            <div className="logo-container">
-              <img src={logo} alt="Logo" className="navbar-logo-image" />
-              <span className="navbar-title">LearnFree</span>
-            </div>
-          </Link>
-          <div
-              className={`menu-icon ${isOpen ? "open" : ""}`}
-              onClick={toggleMenu}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
+          {/* Logo */}
+          <div className="navbar-logo">
+            <img src={logo} alt="LearnFree Logo" className="navbar-logo-image" />
+            LearnFree
           </div>
-          <ul className={`navbar-menu ${isOpen ? "active" : ""}`}>
+
+          {/* Navigation Links */}
+          <div className={`navbar-menu ${isOpen ? "active" : ""}`}>
             {renderNavLinks()}
-          </ul>
-          <div className="navbar-icons">
-            <Link to="/ai" className="navbar-ai-icon">
-              <FontAwesomeIcon
-                  icon={faRobot}
-                  size="2x"
-                  style={{ color: "white" }}
-              />
-            </Link>
-            <Link to="/faq" className="navbar-help-icon">
-              <FontAwesomeIcon
-                  icon={faQuestionCircle}
-                  size="2x"
-                  style={{ color: "white", marginLeft: "20px" }}
-              />
-            </Link>
-            {isLoggedIn && (
-                <Link to="/profile" className="navbar-user-icon">
-                  <FontAwesomeIcon
-                      icon={faUser}
-                      size="2x"
-                      style={{ color: "white", marginLeft: "20px" }}
-                  />
-                </Link>
-            )}
+          </div>
+
+          {/* Mobile Menu Icon */}
+          <div className="menu-icon" onClick={toggleMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
       </nav>

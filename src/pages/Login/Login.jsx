@@ -124,19 +124,18 @@ const Login = () => {
       toast.error("Please enter a valid email address.");
       return;
     }
-
     try {
       setLoading(true);
       const payload = {
         email,
         password,
       };
-
       const response = await axios.post(LOGIN_URL, payload);
       const userData = response.data;
-      console.log(userData);
+      userData.userEmail = undefined;
+      userData.userToken = undefined;
 
-      localStorage.setItem("userToken", userData.jwtToken);
+      localStorage.setItem("userToken", userData.userToken);
       localStorage.setItem("userEmail", userData.email);
       localStorage.setItem("userId", userData.userId);
       localStorage.setItem("userRole", userData.role);
@@ -147,7 +146,23 @@ const Login = () => {
       localStorage.setItem("userDepartment", userData.department);
 
       toast.success("Logged in successfully!");
-      navigate("/");
+
+      // Redirect based on user role
+      const userRole = userData.role.toLowerCase();
+      switch (userRole) {
+        case "principal":
+          navigate("/departments");
+          break;
+        case "hod":
+        case "staff":
+          navigate("/dashboard");
+          break;
+        case "student":
+          navigate("/dashboard");
+          break;
+        default:
+          navigate("/");
+      }
     } catch (error) {
       toast.error(`Login Error: ${error.response?.data?.message || error.message}`);
     } finally {
