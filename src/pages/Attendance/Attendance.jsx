@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./Attendance.css";
@@ -41,28 +41,63 @@ const Attendance = () => {
   }, [attendanceHistory]);
 
   const fetchStudents = async () => {
-    // Simulating API call with more student data
-    const dummyStudents = Array.from({ length: 10 }, (_, i) => ({
-      id: i + 1,
-      name: `Student ${i + 1}`,
-      rollNo: `${selectedDepartment}${String(i + 1).padStart(3, "0")}`,
-      email: `student${i + 1}@example.com`,
-      phone: `123456789${i}`,
-    }));
-    setStudents(dummyStudents);
+    const token = localStorage.getItem("userToken");
+    try {
+      const response = await fetch(
+          `http://localhost:8080/learn-free/staff/students?department=${selectedDepartment}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setStudents(
+            data.map((student) => ({
+              id: student.id,
+              name: `${student.firstName} ${student.lastName}`,
+              rollNo: student.registrationNumber,
+            }))
+        );
+      } else {
+        setStudents([]);
+      }
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      setStudents([]);
+    }
   };
 
   const fetchAttendanceHistory = async () => {
-    // Simulating attendance history API call
+    const token = localStorage.getItem("userToken");
     const dummyHistory = {};
-    students.forEach((student) => {
-      dummyHistory[student.id] = Array.from(
-        { length: 30 },
-        () => Math.random() > 0.2 // 80% attendance probability
-      );
-    });
+
+    for (const student of students) {
+      try {
+        const response = await fetch(
+            `http://localhost:8080/learn-free/attendance/history?userId=${student.id}&department=${selectedDepartment}&semester=${selectedSemester}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+        );
+        const history = await response.json();
+        dummyHistory[student.id] = history.map(entry => entry.present);
+      } catch (error) {
+        console.error("Error fetching history:", error);
+      }
+    }
+
     setAttendanceHistory(dummyHistory);
   };
+
 
   const calculateStats = () => {
     const newStats = {};
@@ -95,17 +130,39 @@ const Attendance = () => {
     setAttendance(newAttendance);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle submission logic here
-    console.log({
+    const token = localStorage.getItem("userToken");
+
+    const attendanceData = {
       date,
       department: selectedDepartment,
       semester: selectedSemester,
-      attendance,
-    });
-    alert("Attendance submitted successfully!");
+      students: students.map(student => ({
+        userId: student.id,
+        present: attendance[student.id] || false
+      }))
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/learn-free/attendance/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(attendanceData)
+      });
+
+      if (response.ok) {
+        alert("Attendance submitted successfully!");
+        setAttendance({});
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
   };
+
 
   const downloadPDF = () => {
     const doc = new jsPDF();
@@ -139,11 +196,14 @@ const Attendance = () => {
     );
   };
 
-  const filteredStudents = students.filter(
-    (student) =>
-      student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.rollNo.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredStudents = Array.isArray(students)
+      ? students.filter(
+          (student) =>
+              student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              (student.rollNo && student.rollNo.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+      : [];
+
 
   const getAttendanceAlert = (studentId) => {
     const studentStats = stats[studentId];
