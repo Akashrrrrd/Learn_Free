@@ -1,0 +1,167 @@
+.attendance-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1600px;
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.qr-section,
+.attendance-log {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.qr-wrapper {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid #eaeaea;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.refresh-text {
+  color: #666;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.current-code {
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.log-container {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #eaeaea;
+  border-radius: 6px;
+}
+
+.scan-list {
+  padding: 0.5rem;
+}
+
+.scan-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eaeaea;
+  background: #f9f9f9;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+
+.scan-time {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.scan-user {
+  font-weight: 500;
+  color: #333;
+}
+
+.no-scans {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .attendance-container {
+    flex-direction: column;
+  }
+
+  .qr-section,
+  .attendance-log {
+    width: 100%;
+  }
+}
+
+/* .attendance-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+} */
+
+/* Previous styles remain the same */
+
+.confirmation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.student-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.confirmation-buttons button {
+  padding: 0.5rem 2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.confirmation-buttons button:first-child {
+  background: #4caf50;
+  color: white;
+}
+
+.confirmation-buttons button:last-child {
+  background: #f44336;
+  color: white;
+}
+
+.scan-name {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Rest of the previous styles remain the same */

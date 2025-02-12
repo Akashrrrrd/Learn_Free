@@ -17,6 +17,7 @@ import Login from "./pages/Login/Login";
 import Quiz from "./pages/Quiz/Quiz";
 import Courses from "./components/Courses/Courses";
 import Profile from "./pages/Profile/Profile";
+import Detector from "./pages/Detector/Detector";
 import Semesters from "./components/Semesters/Semesters";
 import Subjects from "./components/Subjects/Subjects";
 import Loading from "./components/Loading/Loading";
@@ -27,6 +28,7 @@ import Attendance from "./pages/Attendance/Attendance";
 import Schedule from "./pages/Schedule/Schedule";
 import Resume from "./pages/Resume/Resume";
 import StudentDashboard from "./components/Dashboard/Dashboard";
+import QRCodeAttendance from "./pages/QRcode/QRcode";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -90,6 +92,8 @@ const App = () => {
                 <Route path="/resume" element={<Resume />} />
                 <Route path="/login" element={<Navigate to="/" replace />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="/detector" element={<Detector/>}/>
+                <Route path="/code" element={<QRcode/>}/>
               </>
           )}
         </Routes>
