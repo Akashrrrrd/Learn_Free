@@ -15,10 +15,12 @@ const departments = [
   "AIML",
 ];
 const semesters = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"];
+const years = ["1st", "2nd", "3rd", "4th"];
 
 const Attendance = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedSemester, setSelectedSemester] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState({});
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
@@ -28,11 +30,11 @@ const Attendance = () => {
   const [stats, setStats] = useState({});
 
   useEffect(() => {
-    if (selectedDepartment && selectedSemester) {
+    if (selectedDepartment && selectedSemester && selectedYear) {
       fetchStudents();
       fetchAttendanceHistory();
     }
-  }, [selectedDepartment, selectedSemester]);
+  }, [selectedDepartment, selectedSemester, selectedYear]);
 
   useEffect(() => {
     if (Object.keys(attendanceHistory).length > 0) {
@@ -102,6 +104,7 @@ const Attendance = () => {
       date,
       department: selectedDepartment,
       semester: selectedSemester,
+      year: selectedYear,
       attendance,
     });
     alert("Attendance submitted successfully!");
@@ -117,7 +120,8 @@ const Attendance = () => {
     doc.setFontSize(12);
     doc.text(`Date: ${date}`, 14, 25);
     doc.text(`Department: ${selectedDepartment}`, 14, 32);
-    doc.text(`Semester: ${selectedSemester}`, 14, 39);
+    doc.text(`Year: ${selectedYear}`, 14, 39);
+    doc.text(`Semester: ${selectedSemester}`, 14, 46);
 
     // Create table data
     const tableData = students.map((student) => [
@@ -128,14 +132,14 @@ const Attendance = () => {
     ]);
 
     doc.autoTable({
-      startY: 45,
+      startY: 52,
       head: [["Roll No", "Name", "Attendance", "Overall %"]],
       body: tableData,
       theme: "grid",
     });
 
     doc.save(
-      `attendance_${selectedDepartment}_${selectedSemester}_${date}.pdf`
+      `attendance_${selectedDepartment}_${selectedYear}_${selectedSemester}_${date}.pdf`
     );
   };
 
@@ -197,6 +201,20 @@ const Attendance = () => {
               {departments.map((dept) => (
                 <option key={dept} value={dept}>
                   {dept}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="att-filter-item">
+            <label>Year:</label>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+            >
+              <option value="">Select</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
                 </option>
               ))}
             </select>
@@ -309,7 +327,7 @@ const Attendance = () => {
 
       {!students.length && (
         <div className="att-no-data">
-          Select Department & Semester to load students
+          Select Department, Year & Semester to load students
         </div>
       )}
     </div>

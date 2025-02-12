@@ -1,248 +1,373 @@
-.res-container {
+.lfr-res-container {
   display: flex;
-  gap: 3rem;
+  gap: 2.5rem;
   padding: 2.5rem;
   max-width: 1600px;
-  margin-top: 75px;
+  margin-top: 4rem;
   margin-left: auto;
   margin-right: auto;
-  background: #ffffff;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.res-form-section {
+.lfr-res-form-section {
   flex: 1;
-  padding: 1.5rem;
+  padding: 2rem;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   max-width: 600px;
-  background: #fafafa;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 4rem);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease;
 }
 
-.res-form-title {
+.lfr-res-form-section:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.lfr-res-form-title {
   margin-bottom: 2rem;
   color: #111827;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.lfr-res-section-title {
+  margin: 1.5rem 0 1rem;
+  color: #1f2937;
+  font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: -0.025em;
 }
 
-.res-section-title {
-  margin: 1.5rem 0;
-  color: #1f2937;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-.res-form-group {
+.lfr-res-form-group {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.res-input,
-.res-textarea {
+.lfr-res-form-subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+  transition: border-color 0.2s ease;
+}
+
+.lfr-res-form-subgroup:hover {
+  border-color: #d1d5db;
+}
+
+.lfr-res-input,
+.lfr-res-textarea {
   padding: 0.875rem 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  width: 100%;
+  transition: all 0.2s ease;
   background: white;
-  transition: border-color 0.2s ease;
-  color: #374151;
 }
 
-.res-input:focus,
-.res-textarea:focus {
+.lfr-res-input:hover,
+.lfr-res-textarea:hover {
+  border-color: #d1d5db;
+}
+
+.lfr-res-input:focus,
+.lfr-res-textarea:focus {
   outline: none;
   border-color: #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.res-textarea {
+.lfr-res-textarea {
   min-height: 120px;
   resize: vertical;
-  line-height: 1.6;
 }
 
-.res-btn {
-  width: auto;
-  min-width: 140px;
+.lfr-res-btn {
   padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.025em;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 0 auto 1rem;
-  display: block;
-  background: linear-gradient(145deg, #2563eb, #1d4ed8);
-  color: white;
   border: none;
+  border-radius: 50px;
+  background: #2563eb;
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 500;
   cursor: pointer;
-}
-
-.res-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(145deg, #1d4ed8, #1e40af);
-}
-
-.res-ai-btn {
-  background: linear-gradient(145deg, #6366f1, #4f46e5);
-}
-
-.res-ai-btn:hover {
-  background: linear-gradient(145deg, #4f46e5, #4338ca);
-}
-
-.res-download-btn {
-  background: linear-gradient(145deg, #16a34a, #15803d);
-  width: 200px;
-  margin: 1.5rem auto;
-}
-
-.res-download-btn:hover {
-  background: linear-gradient(145deg, #15803d, #166534);
-}
-
-.res-preview {
-  flex: 1;
-  padding: 2.5rem;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  max-width: 8  00px;
-  font-family: "Times New Roman", Times, serif;
-  line-height: 1.2;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.res-preview-header {
+  transition: all 0.2s ease;
+  width: auto;
+  min-width: 120px;
+  max-width: 200px;
   text-align: center;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #f3f4f6;
+  letter-spacing: 0.025em;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
 }
 
-.res-preview-header h1 {
-  margin: 0;
-  font-size: 28px;
-  margin-bottom: 0.5rem;
-  color: #111827;
-  letter-spacing: 0.5px;
+.lfr-res-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
 }
 
-.res-contact-info {
+.lfr-res-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.1);
+}
+
+.lfr-res-download-btn {
+  background: #059669;
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: auto;
+  min-width: 160px;
+  max-width: 240px;
+}
+
+.lfr-res-download-btn:hover {
+  background: #047857;
+}
+
+/* Preview Section Styles */
+.lfr-res-preview {
+  flex: 1;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  max-width: 800px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 11pt;
+  line-height: 1;
+}
+
+.lfr-res-preview-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.lfr-res-preview-header h1 {
+  font-size: 24pt;
+  margin: 0 0 0.5rem 0;
+  font-weight: bold;
+}
+
+.lfr-res-contact-info,
+.lfr-res-social-links {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  font-size: 0.9rem;
-  color: #4b5563;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.25rem;
 }
 
-.res-preview-section {
-  margin-bottom: 0.5rem;
+.lfr-res-project-section {
+  margin-bottom: 1rem;
 }
 
-.res-preview-section h2 {
-  font-size: 1.25rem;
-  border-bottom: 1px solid #d1d5db;
+.lfr-res-section-heading {
+  font-size: 14pt;
+  font-weight: bold;
+  border-bottom: 1px solid #000;
   margin-bottom: 0.5rem;
+  margin-top: 8px;
   padding-bottom: 0.25rem;
-  color: #111827;
-  letter-spacing: 0.25px;
 }
 
-.res-edu-item,
-.res-exp-item,
-.res-project-item {
-  margin-bottom: 0.15rem;
-  padding-bottom: 0.15rem;
-  border-bottom: 1px solid #f3f4f6;
+.lfr-res-edu-item,
+.lfr-res-exp-item,
+.lfr-res-project-item {
+  margin-bottom: 0.5rem;
 }
 
-.res-edu-header,
-.res-exp-header {
+.lfr-res-edu-header,
+.lfr-res-exp-header {
   display: flex;
   justify-content: space-between;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.25rem;
+  font-weight: bold;
 }
 
-.res-position {
+.lfr-res-position {
   font-style: italic;
-  margin-bottom: 0.5rem;
-  color: #4b5563;
 }
 
-.res-project-name {
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.25rem;
-}
-
-.res-project-description {
+.lfr-res-description {
   margin-top: 0.25rem;
-  color: #4b5563;
-  line-height: 1.6;
+  background: white;
 }
 
-.res-skill-item {
+.lfr-res-project-name {
+  font-weight: bold;
+}
+
+.lfr-res-project-list {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-top: 0.25rem;
+  pointer-events: none;
+  background: none !important; /* Ensures no background */
+  border: none !important; /* Ensures no border */
+  padding: 0; /* Removes any default padding */
+}
+
+.lfr-res-skills-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lfr-res-skill-item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lfr-res-skill-category {
+  font-weight: bold;
+}
+
+.lfr-res-achievements-list,
+.lfr-res-certifications-list,
+.lfr-res-volunteering-list {
+  margin-top: 22px;
   margin-bottom: 0.5rem;
-  color: #4b5563;
+  padding-left: 0;
+  list-style-type: disc;
+  background: transparent;
+  border: none;
+  pointer-events: none;
 }
 
-.res-skill-category {
-  font-weight: 600;
-  margin-right: 0.75rem;
-  color: #1f2937;
+.lfr-res-achievements-list li,
+.lfr-res-certifications-list li,
+.lfr-res-volunteering-list li {
+  margin-top: -33px;
+  margin-bottom: 0.5rem;
+  background: transparent;
+  list-style-type: disc;
+  border: none;
 }
 
-.res-description-list {
-  margin: 0.5rem 0;
-  padding-left: 1.75rem;
-  color: #4b5563;
-}
-
-.res-description-list li {
-  margin-bottom: 0.25rem;
-  line-height: 1.2;
-}
-
+/* Print Styles */
 @media print {
-  .res-container {
+  /* Reset container for print */
+  .lfr-res-container {
     margin: 0;
     padding: 0;
+    background: #ffffff;
   }
 
-  .res-form-section {
+  /* Hide form section when printing */
+  .lfr-res-form-section {
     display: none;
   }
 
-  .res-preview {
+  /* Enhance preview section for print */
+  .lfr-res-preview {
     margin: 0;
-    padding: 0.5cm;
+    padding: 2cm 1.8cm;
     border: none;
+    max-width: none;
     width: 100%;
-    height: 100%;
-    print-color-adjust: exact;
+    background: #ffffff;
+    color: #000000;
+    box-shadow: none;
+    font-size: 12pt;
+    line-height: 1.3;
     -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Enhance text clarity */
+  .lfr-res-preview-header h1 {
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+    font-size: 24pt;
+    margin-bottom: 0.7cm;
+  }
+
+  .lfr-res-section-heading {
+    color: #000000;
+    font-size: 14pt;
+    font-weight: 600;
+    margin-top: 0.5cm;
+    margin-bottom: 0.3cm;
+    page-break-after: avoid;
+    border-bottom: 1.5pt solid #000000;
+  }
+
+  /* Improve spacing and clarity for items */
+  .lfr-res-edu-item,
+  .lfr-res-exp-item,
+  .lfr-res-project-item {
+    page-break-inside: avoid;
+    margin-bottom: 0.4cm;
+  }
+
+  /* Enhance contact info readability */
+  .lfr-res-contact-info,
+  .lfr-res-social-links {
+    margin-bottom: 0.3cm;
+    color: #000000;
+  }
+
+  /* Improve list formatting */
+  .lfr-res-project-list,
+  .lfr-res-achievements-list,
+  .lfr-res-certifications-list,
+  .lfr-res-volunteering-list {
+    margin-left: 0.5cm;
+  }
+
+  /* Ensure proper page breaks */
+  .lfr-res-preview-section {
+    page-break-inside: avoid;
+  }
+
+  /* Remove any backgrounds and shadows */
+  * {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Ensure links are readable */
+  a {
+    color: #000000 !important;
+    text-decoration: none;
+  }
+
+  /* Ensure proper margins at page breaks */
+  @page {
+    margin: 0;
+    size: A4;
   }
 }
 
+/* Responsive Styles */
 @media (max-width: 1200px) {
-  .res-container {
+  .lfr-res-container {
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
   }
 
-  .res-form-section,
-  .res-preview {
+  .lfr-res-form-section,
+  .lfr-res-preview {
     max-width: 100%;
     width: 100%;
+  }
+
+  .lfr-res-form-section {
+    position: static;
+    max-height: none;
   }
 }

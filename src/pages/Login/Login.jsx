@@ -63,8 +63,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get(`${EMAIL_VALIDATION_URL}/${email}`, {
-      });
+      const response = await axios.get(`${EMAIL_VALIDATION_URL}/${email}`, {});
 
       if (response.data.status) {
         toast.success("Verification email has been sent successfully!");
@@ -82,7 +81,6 @@ const Login = () => {
   };
 
   const handleSignUp = async () => {
-
     if (!firstName || !lastName || !age || !mobileNumber || !activationCode) {
       toast.error("Please fill in all required fields.");
       return;
@@ -103,8 +101,7 @@ const Login = () => {
         activationCode,
       };
 
-      const response = await axios.post(VERIFY_REGISTRATION_URL, payload, {
-      });
+      const response = await axios.post(VERIFY_REGISTRATION_URL, payload, {});
 
       if (response.data.status) {
         toast.success("Registration verified successfully! Please log in.");
@@ -140,7 +137,10 @@ const Login = () => {
       localStorage.setItem("userEmail", userData.email);
       localStorage.setItem("userId", userData.userId);
       localStorage.setItem("userRole", userData.role);
-      localStorage.setItem("userName", `${userData.firstName} ${userData.lastName}`);
+      localStorage.setItem(
+        "userName",
+        `${userData.firstName} ${userData.lastName}`
+      );
       localStorage.setItem("userGender", userData.gender);
       localStorage.setItem("userAge", userData.age);
       localStorage.setItem("userMobile", userData.mobileNumber);
@@ -149,7 +149,9 @@ const Login = () => {
       toast.success("Logged in successfully!");
       navigate("/");
     } catch (error) {
-      toast.error(`Login Error: ${error.response?.data?.message || error.message}`);
+      toast.error(
+        `Login Error: ${error.response?.data?.message || error.message}`
+      );
     } finally {
       setLoading(false);
     }
