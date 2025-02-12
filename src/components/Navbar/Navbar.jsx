@@ -39,36 +39,82 @@ const Navbar = () => {
 
   const renderNavLinks = () => {
     if (!isLoggedIn) {
-      return [<Link to="/login" key="login">Login</Link>];
+      return [
+        <Link to="/login" key="login" className="navbar-links">
+          Login
+        </Link>,
+      ];
     }
 
     const roleSpecificLinks = {
-      principal: [<Link to="/departments" key="departments">Departments</Link>],
-      hod: [<Link to="/grades" key="grades">Grades</Link>, <Link to="/attendance" key="attendance">Attendance</Link>],
-      staff: [<Link to="/grades" key="grades">Grades</Link>, <Link to="/schedule" key="schedule">Schedule</Link>, <Link to="/attendance" key="attendance">Attendance</Link>],
-      student: [<Link to="/schedule" key="schedule">Schedule</Link>, <Link to="/resume" key="resume">Resume</Link>],
+      principal: [
+        <Link to="/departments" key="departments" className="navbar-links">
+          Departments
+        </Link>,
+      ],
+      hod: [
+        <Link to="/courses" key="departments" className="navbar-links">
+          Departments
+        </Link>,
+        <Link to="/grades" key="grades" className="navbar-links">
+          Grades
+        </Link>,
+        <Link to="/attendance" key="attendance" className="navbar-links">
+          Attendance
+        </Link>,
+      ],
+      staff: [
+        <Link to="/courses" key="departments" className="navbar-links">
+          Departments
+        </Link>,
+        <Link to="/grades" key="grades" className="navbar-links">
+          Grades
+        </Link>,
+        <Link to="/schedule" key="schedule" className="navbar-links">
+          Schedule
+        </Link>,
+        <Link to="/attendance" key="attendance" className="navbar-links">
+          Attendance
+        </Link>,
+      ],
+      student: [
+        <Link to="/courses" key="departments" className="navbar-links">
+          Departments
+        </Link>,
+        <Link to="/schedule" key="schedule" className="navbar-links">
+          Schedule
+        </Link>,
+        <Link to="/resume" key="resume" className="navbar-links">
+          Resume
+        </Link>,
+      ],
     };
 
-    return [...(roleSpecificLinks[userRole] || []), <button onClick={handleLogout} key="logout">Logout</button>];
+    return [
+      ...(roleSpecificLinks[userRole] || []),
+      <button onClick={handleLogout} key="logout" className="logout-button">
+        Logout
+      </button>,
+    ];
   };
 
   return (
-      <nav className="navbar">
-        <div className="navbar-container">
-          <div className="navbar-logo">
-            <img src={logo} alt="LearnFree Logo" className="navbar-logo-image" />
-            LearnFree
-          </div>
-          <div className={`navbar-menu ${isOpen ? "active" : ""}`}>
-            {renderNavLinks()}
-          </div>
-          <div className="menu-icon" onClick={toggleMenu}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-logo">
+          <img src={logo} alt="LearnFree Logo" className="navbar-logo-image" />
+          LearnFree
         </div>
-      </nav>
+        <div className={`navbar-menu ${isOpen ? "active" : ""}`}>
+          {renderNavLinks()}
+        </div>
+        <div className="menu-icon" onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
   );
 };
 

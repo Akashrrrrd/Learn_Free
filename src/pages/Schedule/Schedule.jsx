@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
+// import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import "./Schedule.css";
@@ -111,23 +111,23 @@ const Schedule = () => {
     },
   ]);
 
-  useEffect(() => {
-    const auth = getAuth();
-    const db = getFirestore();
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   const db = getFirestore();
 
-    const fetchUserRole = async (user) => {
-      if (user) {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          setUserRole(userDoc.data().role);
-        }
-      }
-    };
+  //   const fetchUserRole = async (user) => {
+  //     if (user) {
+  //       const userDocRef = doc(db, "users", user.uid);
+  //       const userDoc = await getDoc(userDocRef);
+  //       if (userDoc.exists()) {
+  //         setUserRole(userDoc.data().role);
+  //       }
+  //     }
+  //   };
 
-    const unsubscribe = onAuthStateChanged(auth, fetchUserRole);
-    return () => unsubscribe();
-  }, []);
+  //   const unsubscribe = onAuthStateChanged(auth, fetchUserRole);
+  //   return () => unsubscribe();
+  // }, []);
 
   // Filtered Exams based on Department & Semester
   const filteredExams = examSchedule.filter(

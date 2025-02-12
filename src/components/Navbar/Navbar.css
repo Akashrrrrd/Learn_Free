@@ -217,10 +217,22 @@
 }
 
 .logout-button {
-  background: none;
-  border: none;
+  background: transparent;
+  border: 2px solid currentColor;
   cursor: pointer;
   color: inherit;
   font-size: inherit;
-  padding: 0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+.logout-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.logout-button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
 }

@@ -24,6 +24,7 @@ import Chatbot from "./pages/Chatbot/Chatbot";
 import Attendance from "./pages/Attendance/Attendance";
 import Schedule from "./pages/Schedule/Schedule";
 import Resume from "./pages/Resume/Resume";
+import QRcode from "./pages/QRcode/QRcode";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,166 +45,89 @@ const App = () => {
   }
 
   return (
-      <Router>
-        <ScrollToTop />
-        <Navbar />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
+    <Router>
+      <ScrollToTop />
+      <Navbar />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
 
-          {/* Protected Routes */}
-          <Route
-              path="/"
-              element={
-                isLoggedIn ? (
-                    <Home />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/dashboard"
-              element={
-                isLoggedIn ? (
-                    <Dashboard />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/courses"
-              element={
-                isLoggedIn ? (
-                    <Courses />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/profile"
-              element={
-                isLoggedIn ? (
-                    <Profile />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/enroll"
-              element={
-                isLoggedIn ? (
-                    <Enroll />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/grades"
-              element={
-                isLoggedIn ? (
-                    <Grades />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/schedule"
-              element={
-                isLoggedIn ? (
-                    <Schedule />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/resume"
-              element={
-                isLoggedIn ? (
-                    <Resume />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/room"
-              element={
-                isLoggedIn ? (
-                    <Room />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/quiz"
-              element={
-                isLoggedIn ? (
-                    <Quiz />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/ai"
-              element={
-                isLoggedIn ? (
-                    <AI />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/faq"
-              element={
-                isLoggedIn ? (
-                    <FAQ />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/chatbot"
-              element={
-                isLoggedIn ? (
-                    <Chatbot />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/attendance"
-              element={
-                isLoggedIn ? (
-                    <Attendance />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-          <Route
-              path="/video-page"
-              element={
-                isLoggedIn ? (
-                    <VideoPage />
-                ) : (
-                    <Navigate to="/login" replace />
-                )
-              }
-          />
-        </Routes>
-      </Router>
+        {/* Protected Routes */}
+        <Route
+          path="/"
+          element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/dashboard"
+          element={
+            isLoggedIn ? <Dashboard /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/courses"
+          element={isLoggedIn ? <Courses /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/profile"
+          element={isLoggedIn ? <Profile /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/enroll"
+          element={isLoggedIn ? <Enroll /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/grades"
+          element={isLoggedIn ? <Grades /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/schedule"
+          element={isLoggedIn ? <Schedule /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/resume"
+          element={isLoggedIn ? <Resume /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/room"
+          element={isLoggedIn ? <Room /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/quiz"
+          element={isLoggedIn ? <Quiz /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/ai"
+          element={isLoggedIn ? <AI /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/faq"
+          element={isLoggedIn ? <FAQ /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/chatbot"
+          element={isLoggedIn ? <Chatbot /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/attendance"
+          element={
+            isLoggedIn ? <Attendance /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/video-page"
+          element={
+            isLoggedIn ? <VideoPage /> : <Navigate to="/login" replace />
+          }
+        />
+        <Route
+          path="/code"
+          element={
+            isLoggedIn ? <QRcode /> : <Navigate to="/login" replace />
+          }
+        />
+
+      </Routes>
+    </Router>
   );
 };
 
