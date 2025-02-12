@@ -133,9 +133,8 @@ const Login = () => {
       const response = await axios.post(LOGIN_URL, payload);
       const userData = response.data;
       userData.userEmail = undefined;
-      userData.userToken = undefined;
 
-      localStorage.setItem("userToken", userData.userToken);
+      localStorage.setItem("userToken", userData.jwtToken);
       localStorage.setItem("userEmail", userData.email);
       localStorage.setItem("userId", userData.userId);
       localStorage.setItem("userRole", userData.role);
