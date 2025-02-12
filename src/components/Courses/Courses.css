@@ -549,3 +549,138 @@
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+@media screen and (max-width: 768px) {
+  .crs-courses-container {
+    padding: 1rem;
+    margin-top: 30px;
+  }
+
+  .crs-back-button-header {
+    right: 20px;
+    top: 180px;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .crs-courses-header {
+    padding: 1.5rem 0;
+  }
+
+  .crs-courses-header h1 {
+    font-size: 2rem;
+  }
+
+  .crs-courses-header p {
+    font-size: 1rem;
+  }
+
+  .crs-search-input {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  .crs-departments-grid,
+  .crs-semesters-grid,
+  .crs-subjects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .crs-department-image {
+    height: 150px;
+  }
+
+  .crs-department-content h2,
+  .crs-semester-content h2,
+  .crs-subject-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .crs-department-content p,
+  .crs-semester-content p,
+  .crs-subject-content p {
+    font-size: 0.9rem;
+  }
+
+  .crs-resources-container {
+    padding: 1rem;
+  }
+
+  .crs-resource-section {
+    padding: 1rem;
+  }
+
+  .crs-resource-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .crs-resource-list {
+    grid-template-columns: 1fr;
+  }
+
+  .crs-modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .crs-modal-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .crs-modal-actions button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  .crs-resource-upload-controls {
+    padding: 15px;
+  }
+
+  .crs-resource-upload-controls h3 {
+    font-size: 1.2rem;
+  }
+
+  .crs-upload-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .crs-upload-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .crs-courses-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .crs-courses-header p {
+    font-size: 0.9rem;
+  }
+
+  .crs-back-button-header {
+    right: 10px;
+    top: 160px;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .crs-dept-code {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .crs-modal-content {
+    padding: 15px;
+  }
+
+  .crs-modal-actions {
+    flex-direction: column;
+  }
+
+  .crs-modal-actions button {
+    width: 100%;
+  }
+}

@@ -233,7 +233,7 @@ const Schedule = () => {
           <option value="8th">8th Semester</option>
         </select>
 
-        <button className="gr-download-btn" onClick={downloadPDF}>
+        <button className="grr-back-btn" onClick={downloadPDF}>
           Download PDF
         </button>
 

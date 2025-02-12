@@ -213,7 +213,7 @@ const Courses = () => {
     <div className="crs-resource-upload-controls">
       <h3>Manage Resources</h3>
       <div className="crs-upload-buttons">
-        {["notes", "book", "assignment"].map((type) => (
+        {["notes", "assignment", "book"].map((type) => (
           <button
             key={type}
             className="crs-upload-btn"
@@ -226,9 +226,7 @@ const Courses = () => {
               ? "Add Reference Book"
               : type === "assignment"
               ? "Create Assignment"
-              : `Upload ${
-                  type.charAt(0).toUpperCase() + type.slice(1)
-                } Lecture`}
+              : `Upload ${type.charAt(0).toUpperCase() + type.slice(1)}`}
           </button>
         ))}
       </div>

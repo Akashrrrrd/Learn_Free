@@ -121,11 +121,8 @@ const App = () => {
         />
         <Route
           path="/code"
-          element={
-            isLoggedIn ? <QRcode /> : <Navigate to="/login" replace />
-          }
+          element={isLoggedIn ? <QRcode /> : <Navigate to="/login" replace />}
         />
-
       </Routes>
     </Router>
   );

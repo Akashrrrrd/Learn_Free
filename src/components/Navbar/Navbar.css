@@ -106,6 +106,8 @@
   transition: all 0.3s ease-in-out;
 }
 
+/* Existing styles remain unchanged */
+
 /* Media Queries */
 @media screen and (max-width: 1200px) {
   .navbar-container {
@@ -113,13 +115,18 @@
   }
 
   .navbar-menu {
-    gap: 1.2rem;
+    gap: 1rem;
+  }
+
+  .navbar-links {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
   }
 }
 
 @media screen and (max-width: 900px) {
   .navbar-logo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .navbar-logo-image {
@@ -135,7 +142,7 @@
     left: 0;
     background-color: white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     text-align: center;
     transition: all 0.3s ease-in-out;
   }
@@ -146,40 +153,44 @@
 
   .navbar-links {
     display: block;
-    padding: 1rem;
-    font-size: 1.2rem;
+    padding: 0.8rem;
+    font-size: 1.1rem;
     width: 100%;
   }
 
   .menu-icon {
     display: flex;
   }
+
+  .logout-button {
+    margin: 0.5rem auto;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .navbar {
-    padding: 0.8rem 1rem;
+    padding: 0.7rem 0.8rem;
   }
 
   .navbar-container {
-    padding: 0 0.5rem;
-    padding-right: 2.5rem;
+    padding: 0 0.4rem;
+    padding-right: 2.3rem;
   }
-}
 
-@media screen and (max-width: 480px) {
   .navbar-logo {
     font-size: 1.3rem;
   }
 
   .navbar-logo-image {
-    height: 30px;
+    height: 32px;
     margin-right: 8px;
   }
 
   .navbar-links {
     font-size: 1rem;
-    padding: 0.8rem;
+    padding: 0.7rem;
   }
 
   .menu-icon {
@@ -189,9 +200,14 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 480px) {
   .navbar {
-    padding: 0.6rem;
+    padding: 0.6rem 0.7rem;
+  }
+
+  .navbar-container {
+    padding: 0 0.3rem;
+    padding-right: 2.2rem;
   }
 
   .navbar-logo {
@@ -199,9 +215,64 @@
   }
 
   .navbar-logo-image {
-    height: 25px;
+    height: 28px;
+    margin-right: 6px;
+  }
+
+  .navbar-links {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+
+  .menu-icon {
+    width: 1.6rem;
+    height: 1.1rem;
+    right: 0.7rem;
+  }
+
+  .logout-button {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.95rem;
   }
 }
+
+@media screen and (max-width: 360px) {
+  .navbar {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .navbar-container {
+    padding: 0 0.2rem;
+    padding-right: 2rem;
+  }
+
+  .navbar-logo {
+    font-size: 1.1rem;
+  }
+
+  .navbar-logo-image {
+    height: 25px;
+    margin-right: 5px;
+  }
+
+  .navbar-links {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .menu-icon {
+    width: 1.5rem;
+    height: 1rem;
+    right: 0.6rem;
+  }
+
+  .logout-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Toggle Menu States remain unchanged */
 
 /* Toggle Menu States */
 .menu-icon.open span:nth-child(1) {

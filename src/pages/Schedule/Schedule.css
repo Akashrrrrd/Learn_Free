@@ -215,16 +215,178 @@
   background-color: var(--secondary-color);
 }
 
-/* Responsive Adjustments */
+/* Existing styles remain unchanged */
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+  .gr-schedule-container {
+    padding: 1.5rem;
+  }
+
+  .gr-title {
+    font-size: 2.2rem;
+  }
+
+  .gr-filters {
+    flex-wrap: wrap;
+  }
+
+  .gr-select,
+  .gr-download-btn,
+  .gr-add-btn {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
+
 @media screen and (max-width: 768px) {
+  .gr-schedule-container {
+    padding: 1rem;
+    margin-top: 30px;
+  }
+
+  .gr-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
   .gr-filters {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .gr-select,
   .gr-download-btn,
   .gr-add-btn {
     width: 100%;
-    margin-bottom: 0.5rem;
+  }
+
+  .gr-table-container {
+    height: auto;
+    max-height: calc(100vh - 250px);
+  }
+
+  .gr-table {
+    font-size: 0.9rem;
+  }
+
+  .gr-table th,
+  .gr-table td {
+    padding: 0.75rem;
+  }
+
+  .gr-modal {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+
+  .gr-modal h3 {
+    font-size: 1.5rem;
+  }
+
+  .gr-modal-form input,
+  .gr-modal-form select {
+    padding: 0.6rem;
+  }
+
+  .gr-modal-submit,
+  .gr-modal-cancel {
+    padding: 0.6rem 1.2rem;
+  }
+
+  .grr-back-btn {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .gr-schedule-container {
+    padding: 0.75rem;
+    margin-top: 20px;
+  }
+
+  .gr-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .gr-table {
+    font-size: 0.8rem;
+  }
+
+  .gr-table th,
+  .gr-table td {
+    padding: 0.6rem;
+  }
+
+  .gr-delete-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .gr-modal {
+    padding: 1rem;
+  }
+
+  .gr-modal h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .gr-modal-form {
+    gap: 0.75rem;
+  }
+
+  .gr-modal-form input,
+  .gr-modal-form select {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .gr-modal-submit,
+  .gr-modal-cancel {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .gr-schedule-container {
+    padding: 0.5rem;
+    margin-top: 15px;
+  }
+
+  .gr-title {
+    font-size: 1.6rem;
+  }
+
+  .gr-table {
+    font-size: 0.75rem;
+  }
+
+  .gr-table th,
+  .gr-table td {
+    padding: 0.5rem;
+  }
+
+  .gr-delete-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .gr-modal h3 {
+    font-size: 1.2rem;
+  }
+
+  .gr-modal-form input,
+  .gr-modal-form select {
+    padding: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .gr-modal-submit,
+  .gr-modal-cancel {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
   }
 }
