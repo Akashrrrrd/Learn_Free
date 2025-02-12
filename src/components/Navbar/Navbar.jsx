@@ -43,9 +43,9 @@ const Navbar = () => {
     }
 
     const roleSpecificLinks = {
-      principal: [<Link to="/departments" key="departments">Departments</Link>],
-      hod: [<Link to="/grades" key="grades">Grades</Link>, <Link to="/attendance" key="attendance">Attendance</Link>],
-      staff: [<Link to="/grades" key="grades">Grades</Link>, <Link to="/schedule" key="schedule">Schedule</Link>, <Link to="/attendance" key="attendance">Attendance</Link>],
+      principal: [<Link to="/courses" key="departments">Departments</Link>],
+      hod: [<Link to="/grades" key="grades">Grades</Link>, <Link to="/attendance" key="attendance">Attendance</Link>, <Link to="/courses" key="departments">Departments</Link>],
+      staff: [<Link to="/grades" key="grades">Grades</Link>, <Link to="/schedule" key="schedule">Schedule</Link>, <Link to="/attendance" key="attendance">Attendance</Link>, <Link to="/courses" key="departments">Departments</Link>],
       student: [<Link to="/schedule" key="schedule">Schedule</Link>, <Link to="/resume" key="resume">Resume</Link>],
     };
 
