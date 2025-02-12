@@ -6,11 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import logo from "./../../assets/logo.png";
 import "./Login.css";
 
-// Configuration constants
-const API_TOKEN = import.meta.env.VITE_API_TOKEN || ""; // Use environment variable
-const BASE_URL =
-  import.meta.env.VITE_BASE_URL || "http://localhost:5173/learn-free";
-
 const Login = () => {
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -126,10 +121,7 @@ const Login = () => {
     }
     try {
       setLoading(true);
-      const payload = {
-        email,
-        password,
-      };
+      const payload = { email, password };
       const response = await axios.post(LOGIN_URL, payload);
       const userData = response.data;
       userData.userEmail = undefined;
@@ -143,25 +135,12 @@ const Login = () => {
       localStorage.setItem("userAge", userData.age);
       localStorage.setItem("userMobile", userData.mobileNumber);
       localStorage.setItem("userDepartment", userData.department);
+      window.dispatchEvent(new Event("authChange"));
 
       toast.success("Logged in successfully!");
 
       // Redirect based on user role
-      const userRole = userData.role.toLowerCase();
-      switch (userRole) {
-        case "principal":
-          navigate("/departments");
-          break;
-        case "hod":
-        case "staff":
-          navigate("/dashboard");
-          break;
-        case "student":
-          navigate("/dashboard");
-          break;
-        default:
-          navigate("/");
-      }
+      navigate(userData.role.toLowerCase() === "student" ? "/dashboard" : "/");
     } catch (error) {
       toast.error(`Login Error: ${error.response?.data?.message || error.message}`);
     } finally {
