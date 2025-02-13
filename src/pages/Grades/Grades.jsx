@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Grades.css";
 import {
   ChevronLeft,
@@ -14,6 +14,8 @@ import {
   Clock,
   Target,
   Download,
+  UserPlus,
+  FileSpreadsheet,
 } from "lucide-react";
 import { sampleStudents } from "../../assets/assets";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -30,6 +32,13 @@ const Grades = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [userRole, setUserRole] = useState(null);
   const [userDepartment, setUserDepartment] = useState(null);
+  const [showAddStudentModal, setShowAddStudentModal] = useState(false);
+  const [newStudent, setNewStudent] = useState({
+    name: "",
+    rollNo: "",
+    email: "",
+    cgpa: "",
+  });
 
   const batches = ["First Year", "Second Year", "Third Year", "Fourth Year"];
 
@@ -110,6 +119,39 @@ const Grades = () => {
       month: "long",
       day: "numeric",
     });
+  };
+
+  const handleAddStudent = () => {
+    // Add the new student to the sampleStudents array
+    const newStudentData = {
+      id: Date.now(), // Generate a unique ID
+      ...newStudent,
+      branch: userDepartment,
+      attendance: 100, // Default attendance
+      grades: {}, // You may want to initialize this with some default data
+      activities: {
+        attendance_history: [],
+        academic: [],
+        certifications: [],
+      },
+    };
+    sampleStudents[userDepartment] = [
+      ...sampleStudents[userDepartment],
+      newStudentData,
+    ];
+
+    // Reset the form and close the modal
+    setNewStudent({ name: "", rollNo: "", email: "", cgpa: "" });
+    setShowAddStudentModal(false);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    // Here you would typically process the Excel file
+    // For this example, we'll just show an alert
+    alert(
+      `File "${file.name}" uploaded successfully. Processing would happen here.`
+    );
   };
 
   if (userRole === "STUDENT" && showGrades) {
@@ -263,6 +305,25 @@ const Grades = () => {
             <h1>{userDepartment}</h1>
             <p className="gr-subtitle">{selectedBatch} Students</p>
           </div>
+          <div className="gr-action-buttons">
+            <button
+              className="gr-add-student-btn"
+              onClick={() => setShowAddStudentModal(true)}
+            >
+              <UserPlus size={20} />
+              Add Student
+            </button>
+            <label className="gr-upload-xl-btn">
+              <FileSpreadsheet size={20} />
+              Upload XL Sheet
+              <input
+                type="file"
+                accept=".xlsx, .xls"
+                onChange={handleFileUpload}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
         </div>
         <div className="gr-search-bar">
           <Search size={20} />
@@ -298,6 +359,51 @@ const Grades = () => {
             ))}
           </div>
         </div>
+        {showAddStudentModal && (
+          <div className="gr-modal-overlay">
+            <div className="gr-add-student-modal">
+              <h2>Add New Student</h2>
+              <input
+                type="text"
+                placeholder="Name"
+                value={newStudent.name}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, name: e.target.value })
+                }
+              />
+              <input
+                type="text"
+                placeholder="Roll No"
+                value={newStudent.rollNo}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, rollNo: e.target.value })
+                }
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={newStudent.email}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, email: e.target.value })
+                }
+              />
+              <input
+                type="number"
+                placeholder="CGPA"
+                value={newStudent.cgpa}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, cgpa: e.target.value })
+                }
+              />
+              <div className="gr-modal-actions">
+                <button onClick={handleAddStudent}>Add Student</button>
+                <button onClick={() => setShowAddStudentModal(false)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
