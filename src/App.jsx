@@ -26,6 +26,7 @@ import Schedule from "./pages/Schedule/Schedule";
 import Resume from "./pages/Resume/Resume";
 import QRcode from "./pages/QRcode/QRcode";
 import Detector from "./pages/Detector/Detector";
+import AddStudent from "./components/AddStudent/AddStudent.jsx";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -71,6 +72,10 @@ const App = () => {
         <Route
           path="/courses"
           element={isLoggedIn ? <Courses /> : <Navigate to="/login" replace />}
+        />
+        <Route
+            path="/addstudents"
+            element={isLoggedIn ? <AddStudent /> : <Navigate to="/login" replace />}
         />
         <Route
           path="/profile"
