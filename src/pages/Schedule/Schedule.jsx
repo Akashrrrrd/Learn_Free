@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-// import { getFirestore, doc, getDoc, deleteDoc } from "firebase/firestore";
+import { useState } from "react";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import "./Schedule.css";
-
+// sample exam scheduler
 const Schedule = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [selectedSemester, setSelectedSemester] = useState("All");
-  const [userRole, setUserRole] = useState(null);
+  const [userRole] = useState(localStorage.getItem("userRole"));
   const [showAddModal, setShowAddModal] = useState(false);
   const [newExam, setNewExam] = useState({
     examName: "",
@@ -110,24 +108,6 @@ const Schedule = () => {
       semester: "3rd",
     },
   ]);
-
-  // useEffect(() => {
-  //   const auth = getAuth();
-  //   const db = getFirestore();
-
-  //   const fetchUserRole = async (user) => {
-  //     if (user) {
-  //       const userDocRef = doc(db, "users", user.uid);
-  //       const userDoc = await getDoc(userDocRef);
-  //       if (userDoc.exists()) {
-  //         setUserRole(userDoc.data().role);
-  //       }
-  //     }
-  //   };
-
-  //   const unsubscribe = onAuthStateChanged(auth, fetchUserRole);
-  //   return () => unsubscribe();
-  // }, []);
 
   // Filtered Exams based on Department & Semester
   const filteredExams = examSchedule.filter(
@@ -237,7 +217,7 @@ const Schedule = () => {
           Download PDF
         </button>
 
-        {(userRole === "Staff" || userRole === "HOD") && (
+        {(userRole === "STAFF" || userRole === "HOD") && (
           <button className="gr-add-btn" onClick={() => setShowAddModal(true)}>
             Add Exam
           </button>
@@ -256,7 +236,7 @@ const Schedule = () => {
               <th>Time</th>
               <th>Session</th>
               <th>Type</th>
-              {(userRole === "Staff" || userRole === "HOD") && <th>Actions</th>}
+              {(userRole === "STAFF" || userRole === "HOD") && <th>Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -270,7 +250,7 @@ const Schedule = () => {
                   <td>{exam.time}</td>
                   <td>{exam.session}</td>
                   <td>{exam.type}</td>
-                  {(userRole === "Staff" || userRole === "HOD") && (
+                  {(userRole === "STAFF" || userRole === "HOD") && (
                     <td>
                       <button
                         className="gr-delete-btn"
@@ -285,7 +265,7 @@ const Schedule = () => {
             ) : (
               <tr>
                 <td
-                  colSpan={userRole === "Staff" || userRole === "HOD" ? 8 : 7}
+                  colSpan={userRole === "STAFF" || userRole === "HOD" ? 8 : 7}
                   className="gr-no-data"
                 >
                   No Exams Found

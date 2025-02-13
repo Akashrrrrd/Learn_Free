@@ -48,7 +48,7 @@ const Navbar = () => {
 
     const roleSpecificLinks = {
       principal: [
-        <Link to="/departments" key="departments" className="navbar-links">
+        <Link to="/courses" key="departments" className="navbar-links">
           Departments
         </Link>,
         <Link to="/grades" key="grades" className="navbar-links">
