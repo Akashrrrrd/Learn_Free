@@ -25,6 +25,7 @@ import Attendance from "./pages/Attendance/Attendance";
 import Schedule from "./pages/Schedule/Schedule";
 import Resume from "./pages/Resume/Resume";
 import QRcode from "./pages/QRcode/QRcode";
+import Detector from "./pages/Detector/Detector";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -54,11 +55,15 @@ const App = () => {
 
         {/* Protected Routes */}
         <Route
-          path="/"
+          path="/home"
           element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
         />
         <Route
-          path="/dashboard"
+          path="/detector"
+          element={isLoggedIn ? <Detector /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/"
           element={
             isLoggedIn ? <Dashboard /> : <Navigate to="/login" replace />
           }

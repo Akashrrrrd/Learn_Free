@@ -51,19 +51,17 @@ const Navbar = () => {
         <Link to="/departments" key="departments" className="navbar-links">
           Departments
         </Link>,
-      ],
-      hod: [
-        <Link to="/courses" key="departments" className="navbar-links">
-          Departments
-        </Link>,
         <Link to="/grades" key="grades" className="navbar-links">
           Grades
         </Link>,
-        <Link to="/attendance" key="attendance" className="navbar-links">
-          Attendance
+        <Link to="/schedule" key="schedule" className="navbar-links">
+          Schedule
         </Link>,
       ],
-      staff: [
+      hod: [
+        <Link to="/" key="dashboard" className="navbar-links">
+          Dashboard
+        </Link>,
         <Link to="/courses" key="departments" className="navbar-links">
           Departments
         </Link>,
@@ -76,16 +74,48 @@ const Navbar = () => {
         <Link to="/attendance" key="attendance" className="navbar-links">
           Attendance
         </Link>,
+        <Link to="/detector" key="detector" className="navbar-links">
+          Detector
+        </Link>,
       ],
-      student: [
+      staff: [
+        <Link to="/" key="dashboard" className="navbar-links">
+          Dashboard
+        </Link>,
         <Link to="/courses" key="departments" className="navbar-links">
           Departments
+        </Link>,
+        <Link to="/grades" key="grades" className="navbar-links">
+          Grades
+        </Link>,
+        <Link to="/schedule" key="schedule" className="navbar-links">
+          Schedule
+        </Link>,
+        <Link to="/attendance" key="attendance" className="navbar-links">
+          Attendance
+        </Link>,
+        <Link to="/detector" key="detector" className="navbar-links">
+          Detector
+        </Link>,
+      ],
+      student: [
+        <Link to="/" key="dashboard" className="navbar-links">
+          Dashboard
+        </Link>,
+        <Link to="/courses" key="departments" className="navbar-links">
+          Departments
+        </Link>,
+        <Link to="/grades" key="grades" className="navbar-links">
+          Grades
         </Link>,
         <Link to="/schedule" key="schedule" className="navbar-links">
           Schedule
         </Link>,
         <Link to="/resume" key="resume" className="navbar-links">
           Resume
+        </Link>,
+        <Link to="/profile" key="profile" className="navbar-links">
+          Profile
         </Link>,
       ],
     };

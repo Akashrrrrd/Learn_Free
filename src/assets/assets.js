@@ -1302,7 +1302,7 @@ export const sampleStudents = {
       id: 1,
       rollNo: "CS20001",
       name: "John Doe",
-      branch: "CSE",
+      branch: "CSE",  
       cgpa: 3.85,
       grades: {
         semester1: {
