@@ -6,6 +6,8 @@ import {
   IoSend,
   IoPersonCircle,
 } from "react-icons/io5";
+import ReactMarkdown from "react-markdown";
+import DOMPurify from "dompurify";
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +22,7 @@ const Chatbot = () => {
       setTimeout(() => {
         setMessages([
           {
-            text: "Hello! I'm your AI assistant. How can I help you today?",
+            text: "Hello! I'm your AI assistant. You can ask me any questions related to education.",
             sender: "bot",
             timestamp: new Date(),
           },
@@ -50,6 +52,71 @@ const Chatbot = () => {
     }).format(date);
   };
 
+  // Function to check if the question is education-related
+  const isEducationRelated = (question) => {
+    const educationalKeywords = [
+      "math",
+      "science",
+      "history",
+      "geography",
+      "physics",
+      "chemistry",
+      "biology",
+      "literature",
+      "education",
+      "school",
+      "college",
+      "study",
+      "learn",
+      "teach",
+      "homework",
+      "assignment",
+    ];
+
+    return educationalKeywords.some((keyword) =>
+      question.toLowerCase().includes(keyword)
+    );
+  };
+
+  // Function to call the Gemini API
+  const fetchBotResponse = async (userMessage) => {
+    const apiKey = "AIzaSyBTfZH0je29tQxLGvmXgXElF6HfNa_nJSA"; // Replace with your API key
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: userMessage,
+                },
+              ],
+            },
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      const botResponseText = data.candidates[0].content.parts[0].text;
+
+      return botResponseText;
+    } catch (error) {
+      console.error("Error fetching bot response:", error);
+      throw error;
+    }
+  };
+
   const handleSendMessage = async () => {
     if (input.trim() === "") return;
 
@@ -63,12 +130,22 @@ const Chatbot = () => {
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Check if the question is education-related
+      if (!isEducationRelated(input.trim())) {
+        const botResponse = {
+          text: "I can only answer questions related to education. Please ask me something related to your studies.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, botResponse]);
+        return;
+      }
 
+      // Fetch response from Gemini API
+      const botResponseText = await fetchBotResponse(input.trim());
       const botResponse = {
-        text: "Thank you for your message! I'm a demo AI assistant. In a real implementation, this would be connected to an AI service.",
+        text: botResponseText,
         sender: "bot",
         timestamp: new Date(),
       };
@@ -95,6 +172,12 @@ const Chatbot = () => {
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  // Sanitize and render Markdown content
+  const renderMarkdown = (text) => {
+    const sanitizedText = DOMPurify.sanitize(text);
+    return <ReactMarkdown>{sanitizedText}</ReactMarkdown>;
   };
 
   return (
@@ -130,7 +213,7 @@ const Chatbot = () => {
                 </div>
                 <div className="message-content">
                   <div className={`message ${msg.isError ? "error" : ""}`}>
-                    {msg.text}
+                    {renderMarkdown(msg.text)}
                   </div>
                   <div className="message-timestamp">
                     {formatTimestamp(msg.timestamp)}

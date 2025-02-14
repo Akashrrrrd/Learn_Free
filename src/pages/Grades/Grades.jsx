@@ -272,6 +272,7 @@ const Grades = () => {
                 className="gr-batch-card"
                 onClick={() => {
                   setSelectedBatch(batch);
+                  setSelectedDept(userDepartment); // Directly set the department for staff/HOD
                   setShowStudents(true);
                 }}
               >
@@ -348,7 +349,7 @@ const Grades = () => {
                 className="gr-student-list-item"
                 onClick={() => {
                   setSelectedStudent(student);
-                  setShowGrades(true);
+                  setShowGrades(true); // Show grades when a student is clicked
                 }}
               >
                 <div>{student.rollNo}</div>
@@ -408,124 +409,126 @@ const Grades = () => {
     );
   }
 
-  if (!showDepts) {
-    return (
-      <div className="gr-batch-container">
-        <h1 className="gr-main-title">Academic Records</h1>
-        <p className="gr-subtitle">
-          Select a batch to view departments and student records
-        </p>
-        <div className="gr-batch-grid">
-          {batches.map((batch, index) => (
-            <div
-              key={batch}
-              className="gr-batch-card"
-              onClick={() => {
-                setSelectedBatch(batch);
-                setShowDepts(true);
-              }}
-            >
-              <div className="gr-batch-icon">{getBatchIcon(index)}</div>
-              <h2>{batch}</h2>
-              <p className="gr-batch-description">
-                View academic records for {batch.toLowerCase()} students
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (showDepts && !showStudents) {
-    return (
-      <div className="gr-dept-container">
-        <div className="gr-header">
-          <button className="gr-back-btn" onClick={handleClose}>
-            <ChevronLeft size={20} />
-            <span>Back</span>
-          </button>
-          <div className="gr-header-content">
-            <h1>{selectedBatch}</h1>
-            <p className="gr-subtitle">
-              Select a department to view student records
-            </p>
-          </div>
-        </div>
-        <div className="gr-dept-grid">
-          {departments.map((dept) => (
-            <div
-              key={dept.name}
-              className="gr-dept-card"
-              onClick={() => {
-                setSelectedDept(dept.name);
-                setShowStudents(true);
-              }}
-            >
-              <div className="gr-dept-icon">{dept.icon}</div>
-              <h3>{dept.name}</h3>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (showStudents && !showGrades && !showActivities) {
-    const filteredStudents = sampleStudents[selectedDept]?.filter(
-      (student) =>
-        student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.rollNo.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    return (
-      <div className="gr-student-container">
-        <div className="gr-header">
-          <button className="gr-back-btn" onClick={handleClose}>
-            <ChevronLeft size={20} />
-            <span>Back</span>
-          </button>
-          <div className="gr-header-content">
-            <h1>{selectedDept}</h1>
-            <p className="gr-subtitle">{selectedBatch} Students</p>
-          </div>
-        </div>
-        <div className="gr-search-bar">
-          <Search size={20} />
-          <input
-            type="text"
-            placeholder="Search by name or roll number..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <div className="gr-student-list-container">
-          <div className="gr-student-list-header">
-            <div>Roll No</div>
-            <div>Name</div>
-            <div>Branch</div>
-            <div>CGPA</div>
-          </div>
-          <div className="gr-student-list-body">
-            {filteredStudents?.map((student) => (
+  if (userRole === "PRINCIPAL") {
+    if (!showDepts) {
+      return (
+        <div className="gr-batch-container">
+          <h1 className="gr-main-title">Academic Records</h1>
+          <p className="gr-subtitle">
+            Select a batch to view departments and student records
+          </p>
+          <div className="gr-batch-grid">
+            {batches.map((batch, index) => (
               <div
-                key={student.id}
-                className="gr-student-list-item"
+                key={batch}
+                className="gr-batch-card"
                 onClick={() => {
-                  setSelectedStudent(student);
-                  setShowGrades(true);
+                  setSelectedBatch(batch);
+                  setShowDepts(true);
                 }}
               >
-                <div>{student.rollNo}</div>
-                <div>{student.name}</div>
-                <div>{student.branch}</div>
-                <div className="gr-cgpa">{student.cgpa.toFixed(2)}</div>
+                <div className="gr-batch-icon">{getBatchIcon(index)}</div>
+                <h2>{batch}</h2>
+                <p className="gr-batch-description">
+                  View academic records for {batch.toLowerCase()} students
+                </p>
               </div>
             ))}
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    if (showDepts && !showStudents) {
+      return (
+        <div className="gr-dept-container">
+          <div className="gr-header">
+            <button className="gr-back-btn" onClick={handleClose}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <div className="gr-header-content">
+              <h1>{selectedBatch}</h1>
+              <p className="gr-subtitle">
+                Select a department to view student records
+              </p>
+            </div>
+          </div>
+          <div className="gr-dept-grid">
+            {departments.map((dept) => (
+              <div
+                key={dept.name}
+                className="gr-dept-card"
+                onClick={() => {
+                  setSelectedDept(dept.name);
+                  setShowStudents(true);
+                }}
+              >
+                <div className="gr-dept-icon">{dept.icon}</div>
+                <h3>{dept.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (showStudents && !showGrades && !showActivities) {
+      const filteredStudents = sampleStudents[selectedDept]?.filter(
+        (student) =>
+          student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          student.rollNo.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      return (
+        <div className="gr-student-container">
+          <div className="gr-header">
+            <button className="gr-back-btn" onClick={handleClose}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <div className="gr-header-content">
+              <h1>{selectedDept}</h1>
+              <p className="gr-subtitle">{selectedBatch} Students</p>
+            </div>
+          </div>
+          <div className="gr-search-bar">
+            <Search size={20} />
+            <input
+              type="text"
+              placeholder="Search by name or roll number..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <div className="gr-student-list-container">
+            <div className="gr-student-list-header">
+              <div>Roll No</div>
+              <div>Name</div>
+              <div>Branch</div>
+              <div>CGPA</div>
+            </div>
+            <div className="gr-student-list-body">
+              {filteredStudents?.map((student) => (
+                <div
+                  key={student.id}
+                  className="gr-student-list-item"
+                  onClick={() => {
+                    setSelectedStudent(student);
+                    setShowGrades(true); // Show grades when a student is clicked
+                  }}
+                >
+                  <div>{student.rollNo}</div>
+                  <div>{student.name}</div>
+                  <div>{student.branch}</div>
+                  <div className="gr-cgpa">{student.cgpa.toFixed(2)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 
   if (showGrades && !showActivities) {

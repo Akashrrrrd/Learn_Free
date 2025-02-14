@@ -9,12 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Enroll from "./pages/Enroll/Enroll";
-import VideoPage from "./pages/VideoPage/VideoPage";
-import AI from "./pages/AI/AI";
-import FAQ from "./pages/FAQ/FAQ";
 import Login from "./pages/Login/Login";
-import Quiz from "./pages/Quiz/Quiz";
 import Courses from "./components/Courses/Courses";
 import Profile from "./pages/Profile/Profile";
 import Loading from "./components/Loading/Loading";
@@ -49,6 +44,7 @@ const App = () => {
     <Router>
       <ScrollToTop />
       <Navbar />
+      <Chatbot />
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
@@ -77,10 +73,6 @@ const App = () => {
           element={isLoggedIn ? <Profile /> : <Navigate to="/login" replace />}
         />
         <Route
-          path="/enroll"
-          element={isLoggedIn ? <Enroll /> : <Navigate to="/login" replace />}
-        />
-        <Route
           path="/grades"
           element={isLoggedIn ? <Grades /> : <Navigate to="/login" replace />}
         />
@@ -97,31 +89,9 @@ const App = () => {
           element={isLoggedIn ? <Room /> : <Navigate to="/login" replace />}
         />
         <Route
-          path="/quiz"
-          element={isLoggedIn ? <Quiz /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/ai"
-          element={isLoggedIn ? <AI /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/faq"
-          element={isLoggedIn ? <FAQ /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/chatbot"
-          element={isLoggedIn ? <Chatbot /> : <Navigate to="/login" replace />}
-        />
-        <Route
           path="/attendance"
           element={
             isLoggedIn ? <Attendance /> : <Navigate to="/login" replace />
-          }
-        />
-        <Route
-          path="/video-page"
-          element={
-            isLoggedIn ? <VideoPage /> : <Navigate to="/login" replace />
           }
         />
         <Route

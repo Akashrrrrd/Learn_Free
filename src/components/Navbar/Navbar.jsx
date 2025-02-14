@@ -111,6 +111,9 @@ const Navbar = () => {
         <Link to="/schedule" key="schedule" className="navbar-links">
           Schedule
         </Link>,
+        <Link to="/room" key="room" className="navbar-links">
+          Doubts
+        </Link>,
         <Link to="/resume" key="resume" className="navbar-links">
           Resume
         </Link>,
@@ -133,7 +136,7 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">
           <img src={logo} alt="LearnFree Logo" className="navbar-logo-image" />
-          LearnFree
+          LearnTrack-CIT
         </div>
         <div className={`navbar-menu ${isOpen ? "active" : ""}`}>
           {renderNavLinks()}

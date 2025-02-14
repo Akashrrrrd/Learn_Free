@@ -37,9 +37,9 @@ const StudentDashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("semester");
   const [studentData, setStudentData] = useState({
     personalInfo: {
-      name: "Alex Rodriguez",
-      program: "Computer Science",
-      semester: 4,
+      name: "Akash Rajendran",
+      program: "Electronics & Communication",
+      semester: 6,
       email: "alex.rodriguez@university.edu",
     },
     performanceData: [

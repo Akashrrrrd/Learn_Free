@@ -6,7 +6,7 @@ import ece_image from "./../assets/ece_image.png";
 import eee_image from "./../assets/eee_image.png";
 import mech_image from "./../assets/mech_image.png";
 import civil_image from "./../assets/civil_image.png";
-import csbs_image from "./../assets/csbs_image.png";
+import Sem1_Unit1 from "./../assets/Sem1_Unit1.pdf";
 
 const image = {
   cse: cse_image,
@@ -17,7 +17,6 @@ const image = {
   eee: eee_image,
   mech: mech_image,
   civil: civil_image,
-  csbs: csbs_image,
 };
 
 export default image;
@@ -1059,7 +1058,7 @@ export const resourcesData = {
     ],
 
     lectureNotes: [
-      { title: "Unit 1 - Calculus", url: "/files/MA101/unit1.pdf" },
+      { title: "Unit 1 - Calculus", url: Sem1_Unit1 },
       { title: "Unit 2 - Linear Algebra", url: "/files/MA101/unit2.pdf" },
       {
         title: "Unit 3 - Differential Equations",
@@ -1302,7 +1301,7 @@ export const sampleStudents = {
       id: 1,
       rollNo: "CS20001",
       name: "John Doe",
-      branch: "CSE",  
+      branch: "CSE",
       cgpa: 3.85,
       grades: {
         semester1: {
@@ -1600,6 +1599,253 @@ export const sampleStudents = {
           { month: "May", percentage: 91 },
           { month: "Jun", percentage: 89 },
         ],
+      },
+    },
+  ],
+  ECE: [
+    {
+      id: 1,
+      rollNo: "ECE20001",
+      name: "John Doe",
+      branch: "ECE",
+      cgpa: 3.85,
+      grades: {
+        semester1: {
+          gpa: 3.8,
+          subjects: [
+            { name: "Mathematics", grade: "A", attendance: 92, credits: 4 },
+            { name: "Circuit Theory", grade: "A+", attendance: 95, credits: 4 },
+            {
+              name: "Electronics Devices",
+              grade: "A-",
+              attendance: 88,
+              credits: 3,
+            },
+            {
+              name: "Engineering Physics",
+              grade: "B+",
+              attendance: 90,
+              credits: 3,
+            },
+          ],
+        },
+        semester2: {
+          gpa: 3.9,
+          subjects: [
+            {
+              name: "Signals and Systems",
+              grade: "A",
+              attendance: 88,
+              credits: 4,
+            },
+            {
+              name: "Digital Electronics",
+              grade: "A+",
+              attendance: 94,
+              credits: 4,
+            },
+            {
+              name: "Network Analysis",
+              grade: "A",
+              attendance: 91,
+              credits: 3,
+            },
+            {
+              name: "Technical Writing",
+              grade: "A-",
+              attendance: 87,
+              credits: 2,
+            },
+          ],
+        },
+        semester3: {
+          gpa: 3.85,
+          subjects: [
+            {
+              name: "Analog Communication",
+              grade: "A",
+              attendance: 90,
+              credits: 4,
+            },
+            {
+              name: "Microprocessors",
+              grade: "A-",
+              attendance: 92,
+              credits: 4,
+            },
+            {
+              name: "Control Systems",
+              grade: "A+",
+              attendance: 94,
+              credits: 3,
+            },
+            {
+              name: "Electromagnetic Theory",
+              grade: "B+",
+              attendance: 89,
+              credits: 3,
+            },
+          ],
+        },
+        semester4: {
+          gpa: 3.87,
+          subjects: [
+            {
+              name: "Digital Communication",
+              grade: "A-",
+              attendance: 91,
+              credits: 4,
+            },
+            { name: "VLSI Design", grade: "A+", attendance: 95, credits: 4 },
+            {
+              name: "Antenna and Wave Propagation",
+              grade: "A",
+              attendance: 93,
+              credits: 3,
+            },
+            {
+              name: "Embedded Systems",
+              grade: "B+",
+              attendance: 88,
+              credits: 3,
+            },
+          ],
+        },
+        semester5: {
+          gpa: 3.9,
+          subjects: [
+            {
+              name: "Optical Communication",
+              grade: "A+",
+              attendance: 96,
+              credits: 4,
+            },
+            {
+              name: "Wireless Communication",
+              grade: "A",
+              attendance: 92,
+              credits: 3,
+            },
+            {
+              name: "Digital Signal Processing",
+              grade: "A-",
+              attendance: 89,
+              credits: 3,
+            },
+            {
+              name: "Internet of Things",
+              grade: "B+",
+              attendance: 90,
+              credits: 3,
+            },
+          ],
+        },
+        semester6: {
+          gpa: 3.95,
+          subjects: [
+            {
+              name: "Satellite Communication",
+              grade: "A+",
+              attendance: 97,
+              credits: 4,
+            },
+            {
+              name: "RF and Microwave Engineering",
+              grade: "A",
+              attendance: 94,
+              credits: 3,
+            },
+            {
+              name: "Advanced VLSI Design",
+              grade: "A-",
+              attendance: 91,
+              credits: 3,
+            },
+            {
+              name: "Project Management",
+              grade: "B+",
+              attendance: 89,
+              credits: 2,
+            },
+          ],
+        },
+      },
+      attendance: 92.5,
+      activities: {
+        academic: [
+          {
+            title: "Circuit Design Competition",
+            date: "2023-10-15",
+            position: "1st Place",
+            description:
+              "Won first place in the university-wide circuit design contest",
+          },
+          {
+            title: "IEEE Paper Presentation",
+            date: "2023-11-20",
+            description: "Presented research paper on 5G Communication Systems",
+          },
+          {
+            title: "Technical Workshop",
+            date: "2023-12-05",
+            description: "Conducted a workshop on Embedded Systems",
+          },
+        ],
+        certifications: [
+          {
+            name: "Certified IoT Specialist",
+            issuer: "Cisco",
+            date: "2023-09-01",
+            validUntil: "2026-09-01",
+          },
+          {
+            name: "RF and Microwave Engineering",
+            issuer: "IEEE",
+            date: "2023-08-15",
+          },
+        ],
+        attendance_history: [
+          { month: "Jan", percentage: 95 },
+          { month: "Feb", percentage: 92 },
+          { month: "Mar", percentage: 88 },
+          { month: "Apr", percentage: 94 },
+          { month: "May", percentage: 91 },
+          { month: "Jun", percentage: 89 },
+        ],
+      },
+    },
+    {
+      id: 2,
+      rollNo: "ECE20002",
+      name: "Alice Smith",
+      branch: "ECE",
+      cgpa: 3.75,
+      grades: {
+        semester1: {
+          gpa: 3.7,
+          subjects: [
+            { name: "Mathematics", grade: "A", attendance: 89, credits: 4 },
+            { name: "Circuit Theory", grade: "A-", attendance: 93, credits: 4 },
+            {
+              name: "Electronics Devices",
+              grade: "B+",
+              attendance: 87,
+              credits: 3,
+            },
+            {
+              name: "Engineering Physics",
+              grade: "A",
+              attendance: 90,
+              credits: 3,
+            },
+          ],
+        },
+      },
+      attendance: 91.2,
+      activities: {
+        academic: [],
+        certifications: [],
+        attendance_history: [],
       },
     },
   ],
