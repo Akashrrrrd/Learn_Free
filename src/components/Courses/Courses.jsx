@@ -127,7 +127,7 @@ const Courses = () => {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [showResources, setShowResources] = useState(false);
   const [userRole, setUserRole] = useState(
-    localStorage.getItem("userRole") || "Student"
+    localStorage.getItem("userRole") || "STUDENT"
   );
   const [userDepartment, setUserDepartment] = useState("Computer Science"); // Mock department
   const [modalType, setModalType] = useState(null);
@@ -140,10 +140,10 @@ const Courses = () => {
     const fetchUserData = () => {
       setTimeout(() => {
         const storedDept = localStorage.getItem("userDepartment");
-        if (userRole === "Principal" || userRole === "HOD") {
+        if (userRole === "PRINCIPAL" || userRole === "HOD") {
           setView("departments");
           setSelectedDepartment(null);
-        } else if (userRole === "STAFF" || userRole === "Student") {
+        } else if (userRole === "STAFF" || userRole === "STUDENT") {
           const deptData = departmentsData.find((d) => d.code === storedDept);
           if (deptData) {
             setSelectedDepartment(deptData);
@@ -176,7 +176,7 @@ const Courses = () => {
       setView("semesters");
       setSelectedSemester(null);
     } else if (view === "semesters") {
-      if (userRole === "Principal") {
+      if (userRole === "PRINCIPAL") {
         setView("departments");
         setSelectedDepartment(null);
       } else {
@@ -253,7 +253,7 @@ const Courses = () => {
           <p>Access study materials, assignments, and reference books</p>
         </div>
 
-        {(userRole === "Staff" || userRole === "HOD") && (
+        {(userRole === "STAFF" || userRole === "HOD") && (
           <ResourceUploadControls subject={selectedSubject} />
         )}
 
@@ -370,7 +370,7 @@ const Courses = () => {
     return <div className="crs-loading">Loading...</div>;
   }
 
-  if (userRole === "Principal" && view === "departments") {
+  if (userRole === "PRINCIPAL" && view === "departments") {
     return (
       <div className="crs-courses-container">
         <div className="crs-courses-header">
@@ -395,7 +395,7 @@ const Courses = () => {
           {departmentsData
             .filter(
               (dept) =>
-                userRole === "Principal" ||
+                userRole === "PRINCIPAL" ||
                 userRole === "HOD" ||
                 dept.code === localStorage.getItem("userDepartment")
             )

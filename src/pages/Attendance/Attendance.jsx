@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "./Attendance.css";
+import { Link } from "react-router-dom";
 
 const departments = [
   "CSE",
@@ -38,6 +39,7 @@ const getCurrentSemester = (academicYear) => {
 
 const Attendance = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [selectedSemester, setSelectedSemester] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [students, setStudents] = useState([]);
@@ -47,6 +49,11 @@ const Attendance = () => {
   const [showAlerts, setShowAlerts] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [stats, setStats] = useState({});
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userRole");
+    setUserRole(userData);
+  }, []);
 
   useEffect(() => {
     if (selectedYear) {
@@ -270,8 +277,17 @@ const Attendance = () => {
               />
             </div>
           </div>
+          {userRole === "STAFF" && (
+              <button onClick={() => handleMarkAll(true)} className="att-btn ">
+                <Link to="/addstudents" className="att-btn att-btn-add">
+                  Add Students
+                </Link>
+              </button>
+
+          )}
           {students.length > 0 && (
               <div className="att-actions">
+
                 <button onClick={() => handleMarkAll(true)} className="att-btn att-btn-present">
                   Mark All Present
                 </button>
