@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Grades.css";
 import {
   ChevronLeft,
@@ -16,10 +16,29 @@ import {
   Download,
   UserPlus,
   FileSpreadsheet,
+  Filter,
 } from "lucide-react";
 import { sampleStudents } from "../../assets/assets";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import StudentPDFDocument from "./../../components/StudentPDFDocument";
+import * as XLSX from "xlsx";
+
+const getGradeColor = (grade) => {
+  const gradeColors = {
+    "A+": "#22c55e",
+    A: "#16a34a",
+    "A-": "#15803d",
+    "B+": "#0284c7",
+    B: "#0369a1",
+    "B-": "#075985",
+    "C+": "#f59e0b",
+    C: "#d97706",
+    "C-": "#b45309",
+    D: "#dc2626",
+    F: "#991b1b",
+  };
+  return gradeColors[grade] || "#6b7280";
+};
 
 const Grades = () => {
   const [selectedBatch, setSelectedBatch] = useState(null);
@@ -39,6 +58,7 @@ const Grades = () => {
     email: "",
     cgpa: "",
   });
+  const [cgpaFilter, setCgpaFilter] = useState("all");
 
   const batches = ["First Year", "Second Year", "Third Year", "Fourth Year"];
 
@@ -75,32 +95,18 @@ const Grades = () => {
   }, []);
 
   const handleClose = () => {
-    if (showActivities) setShowActivities(false);
-    else if (showGrades) setShowGrades(false);
-    else if (showStudents) {
+    if (showActivities) {
+      setShowActivities(false);
+    } else if (showGrades) {
+      setShowGrades(false);
+      setSelectedStudent(null);
+    } else if (showStudents) {
       setShowStudents(false);
       setSearchQuery("");
     } else if (showDepts) {
       setShowDepts(false);
       setSelectedBatch(null);
     }
-  };
-
-  const getGradeColor = (grade) => {
-    const gradeColors = {
-      "A+": "#22c55e",
-      A: "#16a34a",
-      "A-": "#15803d",
-      "B+": "#0284c7",
-      B: "#0369a1",
-      "B-": "#075985",
-      "C+": "#f59e0b",
-      C: "#d97706",
-      "C-": "#b45309",
-      D: "#dc2626",
-      F: "#991b1b",
-    };
-    return gradeColors[grade] || "#6b7280";
   };
 
   const getBatchIcon = (index) => {
@@ -122,13 +128,12 @@ const Grades = () => {
   };
 
   const handleAddStudent = () => {
-    // Add the new student to the sampleStudents array
     const newStudentData = {
-      id: Date.now(), // Generate a unique ID
+      id: Date.now(),
       ...newStudent,
       branch: userDepartment,
-      attendance: 100, // Default attendance
-      grades: {}, // You may want to initialize this with some default data
+      attendance: 100,
+      grades: {},
       activities: {
         attendance_history: [],
         academic: [],
@@ -139,400 +144,60 @@ const Grades = () => {
       ...sampleStudents[userDepartment],
       newStudentData,
     ];
-
-    // Reset the form and close the modal
     setNewStudent({ name: "", rollNo: "", email: "", cgpa: "" });
     setShowAddStudentModal(false);
   };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    // Here you would typically process the Excel file
-    // For this example, we'll just show an alert
     alert(
       `File "${file.name}" uploaded successfully. Processing would happen here.`
     );
   };
 
-  if (userRole === "STUDENT" && showGrades) {
-    const student = selectedStudent;
-    return (
-      <div className="gr-grades-container">
-        <div className="gr-header">
-          <div className="gr-header-content">
-            <h1>{student.name}</h1>
-            <p className="gr-subtitle">
-              {student.rollNo} - {selectedDept}
-            </p>
-          </div>
-          <div className="gr-modal-actions">
-            <PDFDownloadLink
-              document={
-                <StudentPDFDocument
-                  student={student}
-                  department={selectedDept}
-                  batch={selectedBatch}
-                />
-              }
-              fileName={`${student.rollNo}_academic_record.pdf`}
-              className="gr-download-pdf-btn"
-            >
-              {({ loading }) =>
-                loading ? (
-                  "Generating PDF..."
-                ) : (
-                  <>
-                    <Download size={16} />
-                    Download PDF
-                  </>
-                )
-              }
-            </PDFDownloadLink>
-            <button
-              className="gr-view-activities-btn"
-              onClick={() => setShowActivities(true)}
-            >
-              View Activities
-            </button>
-          </div>
-        </div>
-        <div className="gr-grades-content">
-          <div className="gr-grades-summary">
-            <div className="gr-summary-item">
-              <h3>CGPA</h3>
-              <p className="gr-cgpa-large">{student.cgpa}</p>
-            </div>
-            <div className="gr-summary-item">
-              <h3>Attendance</h3>
-              <p className="gr-attendance">{student.attendance}%</p>
-            </div>
-          </div>
-          <div className="gr-semester-grades">
-            {Object.entries(student.grades).map(([sem, data]) => (
-              <div key={sem} className="gr-semester-card">
-                <div className="gr-semester-header">
-                  <h3>{sem.replace(/([A-Z])/g, " $1").trim()}</h3>
-                  <span className="gr-semester-gpa">GPA: {data.gpa}</span>
-                </div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Subject</th>
-                      <th>Credits</th>
-                      <th>Grade</th>
-                      <th>Attendance</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.subjects.map((subject, idx) => (
-                      <tr key={idx}>
-                        <td>{subject.name}</td>
-                        <td>{subject.credits}</td>
-                        <td>
-                          <span
-                            className="gr-grade-pill"
-                            style={{
-                              backgroundColor: getGradeColor(subject.grade),
-                            }}
-                          >
-                            {subject.grade}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="gr-attendance-bar">
-                            <div
-                              className="gr-attendance-fill"
-                              style={{ width: `${subject.attendance}%` }}
-                            />
-                            <span>{subject.attendance}%</span>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (userRole === "STAFF" || userRole === "HOD") {
-    if (!showStudents) {
-      return (
-        <div className="gr-batch-container">
-          <h1 className="gr-main-title">Academic Records</h1>
-          <p className="gr-subtitle">Select a batch to view student records</p>
-          <div className="gr-batch-grid">
-            {batches.map((batch, index) => (
-              <div
-                key={batch}
-                className="gr-batch-card"
-                onClick={() => {
-                  setSelectedBatch(batch);
-                  setSelectedDept(userDepartment); // Directly set the department for staff/HOD
-                  setShowStudents(true);
-                }}
-              >
-                <div className="gr-batch-icon">{getBatchIcon(index)}</div>
-                <h2>{batch}</h2>
-                <p className="gr-batch-description">
-                  View academic records for {batch.toLowerCase()} students
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    // Show students directly for the selected batch and staff's department
-    const filteredStudents = sampleStudents[userDepartment]?.filter(
-      (student) =>
+  const filterStudents = (students) => {
+    return students.filter((student) => {
+      const matchesSearch =
         student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.rollNo.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+        student.rollNo.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return (
-      <div className="gr-student-container">
-        <div className="gr-header">
-          <button className="gr-back-btn" onClick={handleClose}>
-            <ChevronLeft size={20} />
-            <span>Back</span>
-          </button>
-          <div className="gr-header-content">
-            <h1>{userDepartment}</h1>
-            <p className="gr-subtitle">{selectedBatch} Students</p>
-          </div>
-          <div className="gr-action-buttons">
-            <button
-              className="gr-add-student-btn"
-              onClick={() => setShowAddStudentModal(true)}
-            >
-              <UserPlus size={20} />
-              Add Student
-            </button>
-            <label className="gr-upload-xl-btn">
-              <FileSpreadsheet size={20} />
-              Upload XL Sheet
-              <input
-                type="file"
-                accept=".xlsx, .xls"
-                onChange={handleFileUpload}
-                style={{ display: "none" }}
-              />
-            </label>
-          </div>
-        </div>
-        <div className="gr-search-bar">
-          <Search size={20} />
-          <input
-            type="text"
-            placeholder="Search by name or roll number..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <div className="gr-student-list-container">
-          <div className="gr-student-list-header">
-            <div>Roll No</div>
-            <div>Name</div>
-            <div>Branch</div>
-            <div>CGPA</div>
-          </div>
-          <div className="gr-student-list-body">
-            {filteredStudents?.map((student) => (
-              <div
-                key={student.id}
-                className="gr-student-list-item"
-                onClick={() => {
-                  setSelectedStudent(student);
-                  setShowGrades(true); // Show grades when a student is clicked
-                }}
-              >
-                <div>{student.rollNo}</div>
-                <div>{student.name}</div>
-                <div>{student.branch}</div>
-                <div className="gr-cgpa">{student.cgpa.toFixed(2)}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-        {showAddStudentModal && (
-          <div className="gr-modal-overlay">
-            <div className="gr-add-student-modal">
-              <h2>Add New Student</h2>
-              <input
-                type="text"
-                placeholder="Name"
-                value={newStudent.name}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, name: e.target.value })
-                }
-              />
-              <input
-                type="text"
-                placeholder="Roll No"
-                value={newStudent.rollNo}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, rollNo: e.target.value })
-                }
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={newStudent.email}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, email: e.target.value })
-                }
-              />
-              <input
-                type="number"
-                placeholder="CGPA"
-                value={newStudent.cgpa}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, cgpa: e.target.value })
-                }
-              />
-              <div className="gr-modal-actions">
-                <button onClick={handleAddStudent}>Add Student</button>
-                <button onClick={() => setShowAddStudentModal(false)}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
+      let matchesCgpa = true;
+      switch (cgpaFilter) {
+        case "below3":
+          matchesCgpa = student.cgpa < 3;
+          break;
+        case "above3":
+          matchesCgpa = student.cgpa >= 3;
+          break;
+        case "below3.5":
+          matchesCgpa = student.cgpa < 3.5;
+          break;
+        case "above3.5":
+          matchesCgpa = student.cgpa >= 3.5;
+          break;
+        default:
+          matchesCgpa = true;
+      }
 
-  if (userRole === "PRINCIPAL") {
-    if (!showDepts) {
-      return (
-        <div className="gr-batch-container">
-          <h1 className="gr-main-title">Academic Records</h1>
-          <p className="gr-subtitle">
-            Select a batch to view departments and student records
-          </p>
-          <div className="gr-batch-grid">
-            {batches.map((batch, index) => (
-              <div
-                key={batch}
-                className="gr-batch-card"
-                onClick={() => {
-                  setSelectedBatch(batch);
-                  setShowDepts(true);
-                }}
-              >
-                <div className="gr-batch-icon">{getBatchIcon(index)}</div>
-                <h2>{batch}</h2>
-                <p className="gr-batch-description">
-                  View academic records for {batch.toLowerCase()} students
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
+      return matchesSearch && matchesCgpa;
+    });
+  };
 
-    if (showDepts && !showStudents) {
-      return (
-        <div className="gr-dept-container">
-          <div className="gr-header">
-            <button className="gr-back-btn" onClick={handleClose}>
-              <ChevronLeft size={20} />
-              <span>Back</span>
-            </button>
-            <div className="gr-header-content">
-              <h1>{selectedBatch}</h1>
-              <p className="gr-subtitle">
-                Select a department to view student records
-              </p>
-            </div>
-          </div>
-          <div className="gr-dept-grid">
-            {departments.map((dept) => (
-              <div
-                key={dept.name}
-                className="gr-dept-card"
-                onClick={() => {
-                  setSelectedDept(dept.name);
-                  setShowStudents(true);
-                }}
-              >
-                <div className="gr-dept-icon">{dept.icon}</div>
-                <h3>{dept.name}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
+  const downloadCGPAList = () => {
+    const filteredStudents = filterStudents(sampleStudents[selectedDept] || []);
+    const data = filteredStudents.map((student) => ({
+      "Roll No": student.rollNo,
+      Name: student.name,
+      CGPA: student.cgpa,
+    }));
 
-    if (showStudents && !showGrades && !showActivities) {
-      const filteredStudents = sampleStudents[selectedDept]?.filter(
-        (student) =>
-          student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          student.rollNo.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "CGPA List");
+    XLSX.writeFile(wb, "cgpa_list.xlsx");
+  };
 
-      return (
-        <div className="gr-student-container">
-          <div className="gr-header">
-            <button className="gr-back-btn" onClick={handleClose}>
-              <ChevronLeft size={20} />
-              <span>Back</span>
-            </button>
-            <div className="gr-header-content">
-              <h1>{selectedDept}</h1>
-              <p className="gr-subtitle">{selectedBatch} Students</p>
-            </div>
-          </div>
-          <div className="gr-search-bar">
-            <Search size={20} />
-            <input
-              type="text"
-              placeholder="Search by name or roll number..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="gr-student-list-container">
-            <div className="gr-student-list-header">
-              <div>Roll No</div>
-              <div>Name</div>
-              <div>Branch</div>
-              <div>CGPA</div>
-            </div>
-            <div className="gr-student-list-body">
-              {filteredStudents?.map((student) => (
-                <div
-                  key={student.id}
-                  className="gr-student-list-item"
-                  onClick={() => {
-                    setSelectedStudent(student);
-                    setShowGrades(true); // Show grades when a student is clicked
-                  }}
-                >
-                  <div>{student.rollNo}</div>
-                  <div>{student.name}</div>
-                  <div>{student.branch}</div>
-                  <div className="gr-cgpa">{student.cgpa.toFixed(2)}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
-
-  if (showGrades && !showActivities) {
-    const student = selectedStudent || sampleStudents[selectedDept][0];
+  const renderStudentGrades = (student) => {
     return (
       <div className="gr-grades-container">
         <div className="gr-header">
@@ -543,7 +208,7 @@ const Grades = () => {
           <div className="gr-header-content">
             <h1>{student.name}</h1>
             <p className="gr-subtitle">
-              {student.rollNo} - {selectedDept}
+              {student.rollNo} - {student.branch}
             </p>
           </div>
           <div className="gr-modal-actions">
@@ -551,7 +216,7 @@ const Grades = () => {
               document={
                 <StudentPDFDocument
                   student={student}
-                  department={selectedDept}
+                  department={student.branch}
                   batch={selectedBatch}
                 />
               }
@@ -569,12 +234,17 @@ const Grades = () => {
                 )
               }
             </PDFDownloadLink>
-            <button
-              className="gr-view-activities-btn"
-              onClick={() => setShowActivities(true)}
-            >
-              View Activities
-            </button>
+            {(userRole === "STUDENT" || userRole === "PRINCIPAL") && (
+              <button
+                className="gr-view-activities-btn"
+                onClick={() => {
+                  setShowActivities(true);
+                  setShowGrades(false); // Ensure grades view is hidden
+                }}
+              >
+                View Activities
+              </button>
+            )}
           </div>
         </div>
         <div className="gr-grades-content">
@@ -638,14 +308,19 @@ const Grades = () => {
         </div>
       </div>
     );
-  }
+  };
 
-  if (showActivities) {
-    const student = selectedStudent || sampleStudents[selectedDept][0];
+  const renderStudentActivities = (student) => {
     return (
       <div className="gr-activities-container">
         <div className="gr-header">
-          <button className="gr-back-btn" onClick={handleClose}>
+          <button
+            className="gr-back-btn"
+            onClick={() => {
+              setShowActivities(false);
+              setShowGrades(true); // Return to grades view
+            }}
+          >
             <ChevronLeft size={20} />
             <span>Back</span>
           </button>
@@ -660,7 +335,7 @@ const Grades = () => {
               document={
                 <StudentPDFDocument
                   student={student}
-                  department={selectedDept}
+                  department={student.branch}
                   batch={selectedBatch}
                   showActivities={true}
                 />
@@ -751,6 +426,330 @@ const Grades = () => {
         </div>
       </div>
     );
+  };
+
+  if (userRole === "STUDENT" && showGrades) {
+    const student = selectedStudent;
+    return renderStudentGrades(student);
+  }
+
+  if (userRole === "STAFF" || userRole === "HOD") {
+    if (!showStudents && !showGrades) {
+      return (
+        <div className="gr-batch-container">
+          <h1 className="gr-main-title">Academic Records</h1>
+          <p className="gr-subtitle">Select a batch to view student records</p>
+          <div className="gr-batch-grid">
+            {batches.map((batch, index) => (
+              <div
+                key={batch}
+                className="gr-batch-card"
+                onClick={() => {
+                  setSelectedBatch(batch);
+                  setSelectedDept(userDepartment);
+                  setShowStudents(true);
+                }}
+              >
+                <div className="gr-batch-icon">{getBatchIcon(index)}</div>
+                <h2>{batch}</h2>
+                <p className="gr-batch-description">
+                  View academic records for {batch.toLowerCase()} students
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (showStudents && !showGrades) {
+      const filteredStudents = filterStudents(
+        sampleStudents[userDepartment] || []
+      );
+
+      return (
+        <div className="gr-student-container">
+          <div className="gr-header">
+            <button className="gr-back-btn" onClick={handleClose}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <div className="gr-header-content">
+              <h1>{userDepartment}</h1>
+              <p className="gr-subtitle">{selectedBatch} Students</p>
+            </div>
+            <div className="gr-action-buttons">
+              <button
+                className="gr-add-student-btn"
+                onClick={() => setShowAddStudentModal(true)}
+              >
+                <UserPlus size={20} />
+                Add Student
+              </button>
+              <label className="gr-upload-xl-btn">
+                <FileSpreadsheet size={20} />
+                Upload XL Sheet
+                <input
+                  type="file"
+                  accept=".xlsx, .xls"
+                  onChange={handleFileUpload}
+                  style={{ display: "none" }}
+                />
+              </label>
+            </div>
+          </div>
+          <div className="gr-filter-section">
+            <div className="gr-search-bar">
+              <Search size={20} />
+              <input
+                type="text"
+                placeholder="Search by name or roll number..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="gr-filter-dropdown">
+              <Filter size={20} />
+              <select
+                value={cgpaFilter}
+                onChange={(e) => setCgpaFilter(e.target.value)}
+              >
+                <option value="all">All CGPA</option>
+                <option value="below3">Below 3 CGPA</option>
+                <option value="above3">Above 3 CGPA</option>
+                <option value="below3.5">Below 3.5 CGPA</option>
+                <option value="above3.5">Above 3.5 CGPA</option>
+              </select>
+            </div>
+            <button className="gr-download-cgpa-btn" onClick={downloadCGPAList}>
+              <Download size={20} />
+              Download CGPA List
+            </button>
+          </div>
+          <div className="gr-student-list-container">
+            <div className="gr-student-list-header">
+              <div>Roll No</div>
+              <div>Name</div>
+              <div>Branch</div>
+              <div>CGPA</div>
+            </div>
+            <div className="gr-student-list-body">
+              {filteredStudents?.map((student) => (
+                <div
+                  key={student.id}
+                  className="gr-student-list-item"
+                  onClick={() => {
+                    setSelectedStudent(student);
+                    setShowGrades(true);
+                  }}
+                >
+                  <div>{student.rollNo}</div>
+                  <div>{student.name}</div>
+                  <div>{student.branch}</div>
+                  <div className="gr-cgpa">{student.cgpa.toFixed(2)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {showAddStudentModal && (
+            <div className="gr-modal-overlay">
+              <div className="gr-add-student-modal">
+                <h2>Add New Student</h2>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={newStudent.name}
+                  onChange={(e) =>
+                    setNewStudent({ ...newStudent, name: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Roll No"
+                  value={newStudent.rollNo}
+                  onChange={(e) =>
+                    setNewStudent({ ...newStudent, rollNo: e.target.value })
+                  }
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={newStudent.email}
+                  onChange={(e) =>
+                    setNewStudent({ ...newStudent, email: e.target.value })
+                  }
+                />
+                <input
+                  type="number"
+                  placeholder="CGPA"
+                  value={newStudent.cgpa}
+                  onChange={(e) =>
+                    setNewStudent({ ...newStudent, cgpa: e.target.value })
+                  }
+                />
+                <div className="gr-modal-actions">
+                  <button onClick={handleAddStudent}>Add Student</button>
+                  <button onClick={() => setShowAddStudentModal(false)}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (showGrades) {
+      return renderStudentGrades(selectedStudent);
+    }
+  }
+
+  if (userRole === "PRINCIPAL") {
+    if (!showDepts) {
+      return (
+        <div className="gr-batch-container">
+          <h1 className="gr-main-title">Academic Records</h1>
+          <p className="gr-subtitle">
+            Select a batch to view departments and student records
+          </p>
+          <div className="gr-batch-grid">
+            {batches.map((batch, index) => (
+              <div
+                key={batch}
+                className="gr-batch-card"
+                onClick={() => {
+                  setSelectedBatch(batch);
+                  setShowDepts(true);
+                }}
+              >
+                <div className="gr-batch-icon">{getBatchIcon(index)}</div>
+                <h2>{batch}</h2>
+                <p className="gr-batch-description">
+                  View academic records for {batch.toLowerCase()} students
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (showDepts && !showStudents) {
+      return (
+        <div className="gr-dept-container">
+          <div className="gr-header">
+            <button className="gr-back-btn" onClick={handleClose}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <div className="gr-header-content">
+              <h1>{selectedBatch}</h1>
+              <p className="gr-subtitle">
+                Select a department to view student records
+              </p>
+            </div>
+          </div>
+          <div className="gr-dept-grid">
+            {departments.map((dept) => (
+              <div
+                key={dept.name}
+                className="gr-dept-card"
+                onClick={() => {
+                  setSelectedDept(dept.name);
+                  setShowStudents(true);
+                }}
+              >
+                <div className="gr-dept-icon">{dept.icon}</div>
+                <h3>{dept.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (showStudents && !showGrades && !showActivities) {
+      const filteredStudents = filterStudents(
+        sampleStudents[selectedDept] || []
+      );
+
+      return (
+        <div className="gr-student-container">
+          <div className="gr-header">
+            <button className="gr-back-btn" onClick={handleClose}>
+              <ChevronLeft size={20} />
+              <span>Back</span>
+            </button>
+            <div className="gr-header-content">
+              <h1>{selectedDept}</h1>
+              <p className="gr-subtitle">{selectedBatch} Students</p>
+            </div>
+          </div>
+          <div className="gr-filter-section">
+            <div className="gr-search-bar">
+              <Search size={20} />
+              <input
+                type="text"
+                placeholder="Search by name or roll number..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="gr-filter-dropdown">
+              <Filter size={20} />
+              <select
+                value={cgpaFilter}
+                onChange={(e) => setCgpaFilter(e.target.value)}
+              >
+                <option value="all">All CGPA</option>
+                <option value="below3">Below 3 CGPA</option>
+                <option value="above3">Above 3 CGPA</option>
+                <option value="below3.5">Below 3.5 CGPA</option>
+                <option value="above3.5">Above 3.5 CGPA</option>
+              </select>
+            </div>
+            <button className="gr-download-cgpa-btn" onClick={downloadCGPAList}>
+              <Download size={20} />
+              Download CGPA List
+            </button>
+          </div>
+          <div className="gr-student-list-container">
+            <div className="gr-student-list-header">
+              <div>Roll No</div>
+              <div>Name</div>
+              <div>Branch</div>
+              <div>CGPA</div>
+            </div>
+            <div className="gr-student-list-body">
+              {filteredStudents?.map((student) => (
+                <div
+                  key={student.id}
+                  className="gr-student-list-item"
+                  onClick={() => {
+                    setSelectedStudent(student);
+                    setShowGrades(true);
+                  }}
+                >
+                  <div>{student.rollNo}</div>
+                  <div>{student.name}</div>
+                  <div>{student.branch}</div>
+                  <div className="gr-cgpa">{student.cgpa.toFixed(2)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (showGrades) {
+      return renderStudentGrades(selectedStudent);
+    }
+  }
+
+  if (showActivities) {
+    return renderStudentActivities(selectedStudent);
   }
 
   return null;

@@ -180,7 +180,7 @@ const Login = () => {
           <div className="login-left">
             <div className="login-header">
               <img src={logo} alt="LearnFree Logo" className="login-logo" />
-              <h1>LearnFree</h1>
+              <h1>LearnTrack-CIT</h1>
               <p>
                 Breaking barriers, connecting minds—where students and teachers
                 collaborate effortlessly.
@@ -271,7 +271,7 @@ const Login = () => {
                             </div>
                           </>
                       )}
-                      <button type="submit" className="submit-btn" disabled={loading}>
+                      <button type="submit" className="login-submit-btn" disabled={loading}>
                         {loading
                             ? isSignUp
                                 ? emailSent

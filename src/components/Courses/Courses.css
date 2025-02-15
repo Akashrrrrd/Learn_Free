@@ -523,6 +523,7 @@
 .crs-upload-btn {
   background-color: #3949ab;
   color: white;
+  width: 60%;
   border: none;
   border-radius: 50px;
   padding: 12px 25px;

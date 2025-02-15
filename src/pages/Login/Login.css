@@ -47,7 +47,7 @@
   align-items: center;
   text-align: center;
   padding: 80px 160px;
-  margin-bottom: 200px;
+  margin-bottom: 50px;
   position: relative;
   overflow: hidden;
 }
@@ -136,7 +136,7 @@
 }
 
 /* Submit Button */
-.submit-btn {
+.login-submit-btn {
   width: 40%; /* Medium width */
   margin: 0 auto;
   padding: 14px;

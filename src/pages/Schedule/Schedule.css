@@ -23,7 +23,7 @@
 .gr-delete-btn,
 .gr-modal-submit,
 .gr-modal-cancel {
-  width: 140px;
+  width: 120px;
   border-radius: 50px;
 }
 
@@ -51,15 +51,16 @@
   gap: 1rem;
 }
 
-.gr-select {
+.sc-gr-select {
   padding: 0.75rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
+  width: 20%;
 }
 
-.gr-select {
+.sc-gr-select {
   background-color: white;
   color: var(--text-color);
 }

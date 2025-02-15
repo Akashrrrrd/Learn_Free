@@ -70,8 +70,10 @@ const App = () => {
           element={isLoggedIn ? <Courses /> : <Navigate to="/login" replace />}
         />
         <Route
-            path="/addstudents"
-            element={isLoggedIn ? <AddStudent /> : <Navigate to="/login" replace />}
+          path="/addstudents"
+          element={
+            isLoggedIn ? <AddStudent /> : <Navigate to="/login" replace />
+          }
         />
         <Route
           path="/profile"

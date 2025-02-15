@@ -1604,9 +1604,10 @@ export const sampleStudents = {
   ],
   ECE: [
     {
-      id: 1,
+      id: 3,
       rollNo: "ECE20001",
-      name: "John Doe",
+      name: "Lucas Thompson",
+      email: "lucasthompson.ece2022@citchennai.net",
       branch: "ECE",
       cgpa: 3.85,
       grades: {
@@ -1819,6 +1820,7 @@ export const sampleStudents = {
       rollNo: "ECE20002",
       name: "Alice Smith",
       branch: "ECE",
+      email: "aakashrajendran2004@gmail.com",
       cgpa: 3.75,
       grades: {
         semester1: {

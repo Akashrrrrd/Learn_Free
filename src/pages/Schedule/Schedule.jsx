@@ -145,7 +145,7 @@ const Schedule = () => {
         <div className="gr-filters">
           <select
               onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="gr-select"
+              className="sc-gr-select"
           >
             <option value="All">All Departments</option>
             <option value="CSE">CSE</option>
@@ -156,7 +156,7 @@ const Schedule = () => {
 
           <select
               onChange={(e) => setSelectedSemester(e.target.value)}
-              className="gr-select"
+              className="sc-gr-select"
           >
             <option value="All">All Semesters</option>
             <option value="1st">1st Semester</option>
