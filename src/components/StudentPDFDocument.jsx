@@ -80,6 +80,7 @@ const StudentPDFDocument = ({
             {department} - {batch}
           </Text>
           <Text style={styles.subtitle}>CGPA: {student.cgpa}</Text>
+          <Text style={styles.subtitle}>Overall Attendance: {student.attendance}</Text>
         </View>
 
         {!showActivities ? (

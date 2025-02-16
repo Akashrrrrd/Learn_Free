@@ -10,12 +10,17 @@ import {
   TrendingUp,
   User,
   Clock,
+  Bell,
+  CreditCard,
+  FileText,
 } from "lucide-react";
 import "./Detector.css";
 
 const Detector = ({ userRole, userId }) => {
   const [students, setStudents] = useState([]);
   const [alerts, setAlerts] = useState([]);
+  const [examAlerts, setExamAlerts] = useState([]);
+  const [feeAlerts, setFeeAlerts] = useState([]);
   const [currentStudent, setCurrentStudent] = useState(null);
   const [performanceHistory, setPerformanceHistory] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -73,48 +78,6 @@ const Detector = ({ userRole, userId }) => {
           lastActive: "2024-02-09",
           semester: 4,
         },
-        {
-          id: 3,
-          name: "Vikram Patel",
-          attendance: 72,
-          cgpa: 5.8,
-          assignmentCompletion: 60,
-          subjects: [
-            { name: "Mathematics", grade: "D+", trend: "declining" },
-            { name: "Physics", grade: "C", trend: "stable" },
-            { name: "Computer Science", grade: "B", trend: "improving" },
-          ],
-          lastActive: "2024-02-07",
-          semester: 3,
-        },
-        {
-          id: 4,
-          name: "Sneha Reddy",
-          attendance: 85,
-          cgpa: 7.2,
-          assignmentCompletion: 80,
-          subjects: [
-            { name: "Mathematics", grade: "B", trend: "stable" },
-            { name: "Physics", grade: "B+", trend: "improving" },
-            { name: "Computer Science", grade: "A", trend: "stable" },
-          ],
-          lastActive: "2024-02-10",
-          semester: 5,
-        },
-        {
-          id: 5,
-          name: "Arjun Verma",
-          attendance: 60,
-          cgpa: 5.5,
-          assignmentCompletion: 50,
-          subjects: [
-            { name: "Mathematics", grade: "D", trend: "declining" },
-            { name: "Physics", grade: "C-", trend: "declining" },
-            { name: "Computer Science", grade: "C+", trend: "stable" },
-          ],
-          lastActive: "2024-02-05",
-          semester: 2,
-        },
       ];
 
       setStudents(fetchedStudents);
@@ -158,6 +121,52 @@ const Detector = ({ userRole, userId }) => {
             });
           }
           setAlerts(studentAlerts);
+
+          // Manually added exam alerts
+          const examAlerts = [
+            {
+              id: 1,
+              type: "warning",
+              message: "GATE Mock Test on 25th February 2024.",
+              action: "Start preparing for the test.",
+            },
+            {
+              id: 2,
+              type: "info",
+              message: "NPTEL Week 1 submission deadline: 20th February 2024.",
+              action: "Complete and submit your assignments.",
+            },
+            {
+              id: 3,
+              type: "critical",
+              message: "Internal Assessment (IA) on Monday, 19th February 2024.",
+              action: "Revise the syllabus and prepare for the IA.",
+            },
+          ];
+          setExamAlerts(examAlerts);
+
+          // Manually added fee alerts
+          const feeAlerts = [
+            {
+              id: 1,
+              type: "warning",
+              message: "Uniform fee payment deadline: 22nd February 2024.",
+              action: "Pay the fee before the deadline.",
+            },
+            {
+              id: 2,
+              type: "critical",
+              message: "Exam fee payment deadline: 28th February 2024.",
+              action: "Pay the fee to avoid late charges.",
+            },
+            {
+              id: 3,
+              type: "info",
+              message: "Registration fee payment deadline: 15th March 2024.",
+              action: "Complete the payment process.",
+            },
+          ];
+          setFeeAlerts(feeAlerts);
         }
       } else {
         // For Staff/HOD: Comprehensive risk assessment
@@ -273,6 +282,7 @@ const Detector = ({ userRole, userId }) => {
       {userRole === "student" ? (
         currentStudent ? (
           <>
+            {/* Grades & Attendance Risk Alerts */}
             <AnimatePresence>
               {alerts.length > 0 && (
                 <motion.div
@@ -289,6 +299,60 @@ const Detector = ({ userRole, userId }) => {
                       className={`alert-card ${alert.type}`}
                     >
                       <AlertTriangle size={20} />
+                      <div className="alert-content">
+                        <p className="alert-message">{alert.message}</p>
+                        <p className="alert-action">{alert.action}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Upcoming Exam Alerts */}
+            <AnimatePresence>
+              {examAlerts.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="alerts-container"
+                >
+                  {examAlerts.map((alert) => (
+                    <motion.div
+                      key={alert.id}
+                      initial={{ x: -100, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      className={`alert-card ${alert.type}`}
+                    >
+                      <Bell size={20} />
+                      <div className="alert-content">
+                        <p className="alert-message">{alert.message}</p>
+                        <p className="alert-action">{alert.action}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Fee Payment Alerts */}
+            <AnimatePresence>
+              {feeAlerts.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="alerts-container"
+                >
+                  {feeAlerts.map((alert) => (
+                    <motion.div
+                      key={alert.id}
+                      initial={{ x: -100, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      className={`alert-card ${alert.type}`}
+                    >
+                      <CreditCard size={20} />
                       <div className="alert-content">
                         <p className="alert-message">{alert.message}</p>
                         <p className="alert-action">{alert.action}</p>
