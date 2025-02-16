@@ -95,7 +95,7 @@ const Navbar = () => {
           Attendance
         </Link>,
         <Link to="/detector" key="detector" className="navbar-links">
-          Detector
+          Alerts
         </Link>,
       ],
       student: [
@@ -116,6 +116,9 @@ const Navbar = () => {
         </Link>,
         <Link to="/resume" key="resume" className="navbar-links">
           Resume
+        </Link>,
+        <Link to="/detector" key="detector" className="navbar-links">
+          Alerts
         </Link>,
         <Link to="/profile" key="profile" className="navbar-links">
           Profile
